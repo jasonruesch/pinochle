@@ -10,7 +10,7 @@ export const APP = {
   promo:
     "Deal in. Meld your marriages, flush the trump, and race to 1,000 against a sharp AI or a live opponent over Game Center.",
   category: "Games · Card & Strategy",
-  price: "Free · No in-app purchases",
+  price: "Paid · No in-app purchases",
   age: "Rated 4+",
   copyright: "© 2026 Jason Ruesch",
   tagline: "One deck, two players, two hundred fifty points a deal.",
@@ -101,7 +101,7 @@ export const FEATURES: Feature[] = [
   },
   {
     title: "No ads, no tracking",
-    body: "Nothing sold, nothing collected — everything stays on your device. Just cards.",
+    body: "No in-app purchases, nothing collected — everything stays on your device. Just cards.",
     icon: "shield",
     tone: "from-lime-500 to-green-400",
   },
