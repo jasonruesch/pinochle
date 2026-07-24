@@ -1,0 +1,20 @@
+# Build output
+dist
+build
+
+# Dependencies & lockfile
+node_modules
+package-lock.json
+
+# Generated / virtual modules
+.react-router-next
+
+# Editor / OS
+.DS_Store
+.vscode
+.idea
+
+# Logs & caches
+*.log
+.cache
+.vite

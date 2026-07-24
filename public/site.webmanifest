@@ -1,0 +1,24 @@
+{
+  "name": "Pinochle: Two-Handed",
+  "short_name": "Pinochle",
+  "description": "The classic two-handed card duel for iPhone, iPad, Mac, and Apple TV.",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "theme_color": "#0b0b12",
+  "background_color": "#0b0b12",
+  "display": "standalone",
+  "start_url": "./",
+  "scope": "./"
+}

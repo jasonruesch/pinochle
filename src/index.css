@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-display:
+    "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+
+  --color-brand-50: oklch(0.97 0.03 300);
+  --color-brand-100: oklch(0.94 0.06 300);
+  --color-brand-200: oklch(0.88 0.1 300);
+  --color-brand-300: oklch(0.8 0.14 300);
+  --color-brand-400: oklch(0.72 0.18 300);
+  --color-brand-500: oklch(0.65 0.2 300);
+  --color-brand-600: oklch(0.58 0.22 300);
+  --color-brand-700: oklch(0.5 0.2 300);
+  --color-brand-800: oklch(0.4 0.16 300);
+  --color-brand-900: oklch(0.3 0.12 300);
+  --color-accent-400: oklch(0.84 0.14 200);
+  --color-accent-500: oklch(0.78 0.16 200);
+  --color-accent-600: oklch(0.7 0.16 200);
+}
+
+/* Safe-area insets for standalone PWA mode (viewport-fit=cover). Each utility
+   floors the inset at the design gutter so the layout is unchanged on devices
+   without notches/home indicators, then expands to clear them when present. */
+@utility px-safe {
+  padding-left: max(1rem, env(safe-area-inset-left));
+  padding-right: max(1rem, env(safe-area-inset-right));
+}
+@utility px-safe-lg {
+  padding-left: max(1.5rem, env(safe-area-inset-left));
+  padding-right: max(1.5rem, env(safe-area-inset-right));
+}
+@utility pt-safe {
+  padding-top: env(safe-area-inset-top);
+}
+@utility pb-safe {
+  padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  @apply bg-white text-zinc-900 antialiased;
+}
+
+.dark body {
+  @apply bg-zinc-950 text-zinc-100;
+}
+
+@layer base {
+  /* Pin the focus-ring color on interactive elements at rest so it never
+     animates from currentColor (white on solid buttons) to brand on first
+     focus. Tailwind's transition/transition-colors utilities include
+     outline-color, which would otherwise fade white -> brand for ~150ms. */
+  :where(a, button, input, textarea, select, summary, [tabindex]) {
+    outline-color: var(--color-brand-500);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-brand-500);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  html {
+    /* Clear the sticky header (incl. the safe-area inset on notched devices)
+       when scrolling anchors into view — WCAG 2.4.11 Focus Not Obscured. */
+    scroll-padding-top: calc(5rem + env(safe-area-inset-top));
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
