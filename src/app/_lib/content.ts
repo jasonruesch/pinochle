@@ -1,5 +1,5 @@
 // All marketing copy is sourced verbatim (or lightly condensed) from the app's
-// App Store listing kit — /Users/jason/code/pinoche/Docs/StoreListing.md — and
+// App Store listing kit — /Users/jason/code/pinochle/Docs/StoreListing.md — and
 // the in-app "How to Play" screen. Keep this the single source of truth for
 // site content.
 
@@ -173,7 +173,7 @@ export interface Shot {
   ratio: number;
 }
 
-// Optimized from /Users/jason/code/pinoche/Docs/store-shots/ by
+// Optimized from /Users/jason/code/pinochle/Docs/store-shots/ by
 // scripts/optimize-assets.mjs into public/img/shots/*.webp.
 export const SHOTS: Shot[] = [
   // iPhone 6.9" — 2868×1320
@@ -316,7 +316,7 @@ export const DEVICES: Device[] = ["iPhone", "iPad", "Mac", "Apple TV"];
 export const HERO_SHOT = "iphone69-2-melds";
 
 /* -- Game Center: achievements & leaderboards ----------------------------- */
-// Card artwork optimized from /Users/jason/code/pinoche/Docs/gc-assets/ into
+// Card artwork optimized from /Users/jason/code/pinochle/Docs/gc-assets/ into
 // public/img/gc/*.webp. Names are the app's achievement / leaderboard titles.
 export interface Badge {
   file: string;

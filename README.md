@@ -25,11 +25,11 @@ The site is served under the `/pinochle/` base in dev and prod (`vite.config.ts`
 ## Assets
 
 Screenshots, Game Center art, and the app icon are generated from the app repo
-(`/Users/jason/code/pinoche`) into `public/img/` and committed:
+(`/Users/jason/code/pinochle`) into `public/img/` and committed:
 
 ```bash
 # regenerate optimized assets (needs the app repo present)
-PINOCHE_DIR=/path/to/pinoche npm run optimize:assets
+PINOCHLE_DIR=/path/to/pinochle npm run optimize:assets
 ```
 
 Site copy lives in `src/app/_lib/content.ts`, sourced from the app's App Store

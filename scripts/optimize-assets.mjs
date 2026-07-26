@@ -8,8 +8,8 @@
 //       icon-192.png, icon-512.png                    (favicon + PWA icons)
 //
 // Source lives in the app repo (a Unity project), outside this site's repo:
-//   /Users/jason/code/pinoche
-// Override with PINOCHE_DIR=/path/to/pinoche if it lives elsewhere. The
+//   /Users/jason/code/pinochle
+// Override with PINOCHLE_DIR=/path/to/pinochle if it lives elsewhere. The
 // optimized outputs are committed to this repo, so CI never needs the source.
 //
 // Run with: npm run optimize:assets
@@ -21,7 +21,7 @@ import { fileURLToPath } from "node:url";
 import sharp from "sharp";
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
-const SRC = process.env.PINOCHE_DIR || join(repoRoot, "..", "..", "pinoche");
+const SRC = process.env.PINOCHLE_DIR || join(repoRoot, "..", "..", "pinochle");
 
 const shotsSrc = join(SRC, "Docs", "store-shots");
 const gcSrc = join(SRC, "Docs", "gc-assets");
@@ -34,8 +34,8 @@ const gcOut = join(pub, "img", "gc");
 if (!existsSync(SRC)) {
   console.error(
     `\nSource app project not found at:\n  ${SRC}\n\n` +
-      `Set PINOCHE_DIR to the Pinochle app repo, e.g.\n` +
-      `  PINOCHE_DIR=/path/to/pinoche npm run optimize:assets\n`,
+      `Set PINOCHLE_DIR to the Pinochle app repo, e.g.\n` +
+      `  PINOCHLE_DIR=/path/to/pinochle npm run optimize:assets\n`,
   );
   process.exit(1);
 }
