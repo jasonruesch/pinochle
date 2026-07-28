@@ -1,7 +1,7 @@
 # Pinochle: Two-Handed — marketing site
 
 Marketing site for **Pinochle: Two-Handed**, the classic two-handed card duel
-for iPhone, iPad, Mac, and Apple TV (in App Store review). Built to match
+for iPhone, iPad, Mac, and Apple TV, out now on the App Store. Built to match
 [jasonruesch.dev](https://jasonruesch.dev) and hosted as a GitHub Pages project
 site at **https://jasonruesch.dev/pinochle/** (the `jasonruesch.github.io`
 repo serves that custom domain; the bare `github.io` host 301s to it).
@@ -51,8 +51,10 @@ Push to `main` → GitHub Actions builds and deploys to GitHub Pages
 **One-time setup:** create the `jasonruesch/pinochle` repo on GitHub, push, then
 set **Settings → Pages → Source = GitHub Actions**.
 
-## When the app goes live
+## App Store listing
 
-Replace the "Coming soon" `AppStoreBadge`
-(`src/app/_components/app-store-badge.tsx`) with a real link to the App Store
-listing.
+The store facts live in one place — the `STORE` constant in
+`src/app/_lib/content.ts`. `STORE.appId` is the numeric id from the listing URL
+(`apps.apple.com/app/<slug>/id123456789`), and every store link on the site is
+built from it via `STORE_URL`. Update that one value and the header pill, the
+hero badge, and the closing CTA all follow.

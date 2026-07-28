@@ -3,6 +3,21 @@
 // the in-app "How to Play" screen. Keep this the single source of truth for
 // site content.
 
+/* -- App Store listing ---------------------------------------------------- */
+// TODO(release): these are placeholders — replace with the real values from the
+// live App Store Connect record before merging. `appId` is the only one the
+// links actually resolve on: it's the numeric id in the listing URL
+// (apps.apple.com/app/<slug>/id123456789). The slug is cosmetic.
+export const STORE = {
+  appId: "0000000000",
+  slug: "pinochle-two-handed",
+  /** Marketing version live on the store. */
+  version: "1.0",
+} as const;
+
+/** Canonical App Store listing URL. Every store link on the site uses this. */
+export const STORE_URL = `https://apps.apple.com/app/${STORE.slug}/id${STORE.appId}`;
+
 export const APP = {
   name: "Pinochle: Two-Handed",
   shortName: "Pinochle",
@@ -10,7 +25,9 @@ export const APP = {
   promo:
     "Deal in. Meld your marriages, flush the trump, and race to 1,000 against a sharp AI or a live opponent over Game Center.",
   category: "Games · Card & Strategy",
-  price: "No in-app purchases",
+  // TODO(release): confirm against the live listing. $4.99 is what
+  // Docs/StoreListing.md specifies.
+  price: "$4.99 · No in-app purchases",
   age: "Rated 4+",
   copyright: "© 2026 Jason Ruesch",
   tagline: "One deck, two players, two hundred fifty points a deal.",
