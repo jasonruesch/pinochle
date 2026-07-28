@@ -20,6 +20,7 @@ import {
   MELDS,
   PLATFORMS,
   RULES,
+  RULES_DISCLAIMER,
   SHOTS,
   type Badge,
   type PlatformIcon,
@@ -218,6 +219,10 @@ export default function Home() {
               <DeviceFrame shot={RULES_SHOT} />
             </div>
           </div>
+
+          <p className="mt-10 max-w-2xl text-xs text-zinc-500 dark:text-zinc-500">
+            {RULES_DISCLAIMER}
+          </p>
         </div>
       </section>
 

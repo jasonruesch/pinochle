@@ -18,7 +18,7 @@ export const APP = {
 } as const;
 
 export const DESCRIPTION: string[] = [
-  "Pinochle brings the classic two-handed card duel to your table — the official Bicycle rules, a beautiful minimal deck, and opponents that put up a real fight.",
+  "Pinochle brings the classic two-handed card duel to your table — the classic two-handed rules, a beautiful minimal deck, and opponents that put up a real fight.",
   "Play a quick single deal or the full race to 1,000 with declare-out. Draw from the stock, time your melds, and squeeze every counter out of phase two, where following suit is the law and every trick matters.",
 ];
 
@@ -58,8 +58,8 @@ export interface Feature {
 
 export const FEATURES: Feature[] = [
   {
-    title: "Official two-handed rules",
-    body: "The full Bicycle ruleset — flushes, marriages, pinochles, the dix, and declare-out. Nothing simplified away.",
+    title: "Classic two-handed rules",
+    body: "The full classic ruleset — flushes, marriages, pinochles, the dix, and declare-out. Nothing simplified away.",
     icon: "cards",
     tone: "from-brand-500 to-fuchsia-500",
   },
@@ -139,6 +139,14 @@ export const RULES: Rule[] = [
     body: "Win a single deal, or play the full match to 1,000 with escalating thresholds and the “Declare Out” finish. Two hundred fifty points are on the table each deal.",
   },
 ];
+
+// Nominative reference + non-affiliation disclaimer, mirroring the wording in
+// the app's own "How to Play" footer (MenuView.cs). The game and our rules
+// prose need no license, but naming the mark without this implies endorsement.
+export const RULES_DISCLAIMER =
+  "Follows the two-handed pinochle rules as published at bicyclecards.com. " +
+  "Bicycle® is a trademark of The United States Playing Card Company; this " +
+  "app is not affiliated with or endorsed by USPC.";
 
 export interface Meld {
   name: string;
