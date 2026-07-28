@@ -25,9 +25,10 @@ export const APP = {
   promo:
     "Deal in. Meld your marriages, flush the trump, and race to 1,000 against a sharp AI or a live opponent over Game Center.",
   category: "Games · Card & Strategy",
-  // TODO(release): confirm against the live listing. $4.99 is what
-  // Docs/StoreListing.md specifies.
-  price: "$4.99 · No in-app purchases",
+  // Deliberately no dollar amount — the App Store listing is the source of
+  // truth for price, and hardcoding it here would go stale on any sale or
+  // price change.
+  price: "No in-app purchases",
   age: "Rated 4+",
   copyright: "© 2026 Jason Ruesch",
   tagline: "One deck, two players, two hundred fifty points a deal.",
