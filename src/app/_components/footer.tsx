@@ -16,8 +16,8 @@ export function Footer() {
           </p>
         </div>
         <div className="flex items-center gap-4">
-          <AppLink href="https://jasonruesch.github.io" variant="external">
-            jasonruesch.github.io
+          <AppLink href="https://jasonruesch.dev" variant="external">
+            jasonruesch.dev
           </AppLink>
           <AppLink
             href="https://github.com/jasonruesch"

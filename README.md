@@ -2,8 +2,9 @@
 
 Marketing site for **Pinochle: Two-Handed**, the classic two-handed card duel
 for iPhone, iPad, Mac, and Apple TV (in App Store review). Built to match
-[jasonruesch.github.io](https://jasonruesch.github.io) and hosted as a GitHub
-Pages project site at **https://jasonruesch.github.io/pinochle/**.
+[jasonruesch.dev](https://jasonruesch.dev) and hosted as a GitHub Pages project
+site at **https://jasonruesch.dev/pinochle/** (the `jasonruesch.github.io`
+repo serves that custom domain; the bare `github.io` host 301s to it).
 
 ## Stack
 
