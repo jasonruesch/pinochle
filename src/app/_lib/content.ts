@@ -18,7 +18,7 @@ export const APP = {
 } as const;
 
 export const DESCRIPTION: string[] = [
-  "Pinochle brings the classic two-handed card duel to your table — the classic two-handed rules, a beautiful minimal deck, and opponents that put up a real fight.",
+  "Pinochle brings the classic two-handed card duel to your table — the classic rules, a beautiful minimal deck, and opponents that put up a real fight.",
   "Play a quick single deal or the full race to 1,000 with declare-out. Draw from the stock, time your melds, and squeeze every counter out of phase two, where following suit is the law and every trick matters.",
 ];
 
