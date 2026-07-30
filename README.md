@@ -36,6 +36,13 @@ PINOCHLE_DIR=/path/to/pinochle npm run optimize:assets
 Site copy lives in `src/app/_lib/content.ts`, sourced from the app's App Store
 listing kit (`Docs/StoreListing.md`).
 
+## Privacy policy
+
+App Store Connect requires a privacy policy URL; this site serves it at
+**https://jasonruesch.dev/pinochle/privacy** (`src/app/privacy/page.tsx`). The
+prose there is the published policy — when it changes, bump `PRIVACY.updated` in
+`src/app/_lib/content.ts` so the "Last updated" line stays honest.
+
 ## Deploy
 
 Push to `main` → GitHub Actions builds and deploys to GitHub Pages

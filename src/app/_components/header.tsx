@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { asset } from "../_lib/asset";
 import { useBodyScrollLock } from "../_lib/use-body-scroll-lock";
-import { NavLink } from "./nav-link";
+import { HashLink, NavLink } from "./nav-link";
 import { ThemeToggle } from "./theme-toggle";
 
 const NAV_ITEMS = [
@@ -61,8 +61,8 @@ export function Header() {
           {open ? <CloseIcon /> : <MenuIcon />}
         </button>
 
-        <a
-          href="#top"
+        <HashLink
+          hash="#top"
           className="flex items-center gap-2 text-base font-semibold tracking-tight"
         >
           <img
@@ -72,7 +72,7 @@ export function Header() {
             className="h-7 w-7 rounded-[0.4rem] ring-1 ring-black/5 dark:ring-white/10"
           />
           <span className="font-display font-bold">Pinochle</span>
-        </a>
+        </HashLink>
 
         <nav
           aria-label="Primary"

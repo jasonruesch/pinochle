@@ -356,3 +356,16 @@ export const LEADERBOARDS: Badge[] = [
   { file: "lb.deal.best", name: "Best Deal" },
   { file: "lb.meld.best", name: "Best Meld" },
 ];
+
+/* -- Privacy policy ------------------------------------------------------- */
+// The policy prose itself lives in src/app/privacy/page.tsx — it reads as one
+// legal document there. Only the facts that have to stay in sync (or that the
+// App Store listing points at) live here.
+export const PRIVACY = {
+  /** Rendered as "Last updated" on /privacy. Bump whenever the prose changes. */
+  updated: "July 28, 2026",
+  /** Apple governs Game Center and SharePlay data under its own policy. */
+  applePolicyUrl: "https://www.apple.com/legal/privacy/",
+  /** The support address given in the policy and the App Store listing. */
+  contactEmail: "privacy@jasonruesch.dev",
+} as const;
