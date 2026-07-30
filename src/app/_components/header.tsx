@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { asset } from "../_lib/asset";
+import { useActiveSection } from "../_lib/use-active-section";
 import { useBodyScrollLock } from "../_lib/use-body-scroll-lock";
 import { HashLink, NavLink } from "./nav-link";
 import { ThemeToggle } from "./theme-toggle";
@@ -11,9 +12,12 @@ const NAV_ITEMS = [
   { href: "#achievements", label: "Achievements" },
 ];
 
+const NAV_HASHES = NAV_ITEMS.map((item) => item.href);
+
 export function Header() {
   const [open, setOpen] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const active = useActiveSection(NAV_HASHES);
 
   useBodyScrollLock(open);
 
@@ -79,7 +83,11 @@ export function Header() {
           className="ml-auto hidden items-center gap-1 sm:flex"
         >
           {NAV_ITEMS.map((item) => (
-            <NavLink key={item.href} href={item.href}>
+            <NavLink
+              key={item.href}
+              href={item.href}
+              active={item.href === active}
+            >
               {item.label}
             </NavLink>
           ))}
@@ -102,7 +110,12 @@ export function Header() {
         <ul className="px-safe mx-auto flex max-w-6xl flex-col gap-1 pt-[max(0.75rem,env(safe-area-inset-top))] pb-3">
           {NAV_ITEMS.map((item) => (
             <li key={item.href}>
-              <NavLink href={item.href} block onClick={() => setOpen(false)}>
+              <NavLink
+                href={item.href}
+                block
+                active={item.href === active}
+                onClick={() => setOpen(false)}
+              >
                 {item.label}
               </NavLink>
             </li>
