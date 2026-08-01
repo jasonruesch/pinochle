@@ -9,7 +9,7 @@
 // links actually resolve on: it's the numeric id in the listing URL
 // (apps.apple.com/app/<slug>/id123456789). The slug is cosmetic.
 export const STORE = {
-  appId: "0000000000",
+  appId: "6759009060",
   slug: "pinochle-two-handed",
   /** Marketing version live on the store. */
   version: "1.0",
