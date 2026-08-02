@@ -377,6 +377,77 @@ export const LEADERBOARDS: Badge[] = [
   { file: "lb.meld.best", name: "Best Meld" },
 ];
 
+/* -- Support -------------------------------------------------------------- */
+// /support is the app's Support URL in App Store Connect, so it has to stay
+// reachable and answer what the listing can't. Anything factual here (Game
+// Center, SharePlay, on-device storage) must stay consistent with /privacy and
+// the app's own behavior.
+export const SUPPORT = {
+  /** The support address given on /support and in the App Store listing. */
+  email: "support@jasonruesch.dev",
+  /** Turnaround quoted on the page — keep it a promise that can be kept. */
+  responseTime: "within a few days",
+  /** Apple owns billing, so refunds and receipts go through them, not us. */
+  refundUrl: "https://reportaproblem.apple.com",
+} as const;
+
+/** Subject-line categories in the support form's topic picker. */
+export const SUPPORT_TOPICS = [
+  "Bug report",
+  "Online play / Game Center",
+  "SharePlay",
+  "Rules question",
+  "Feature request",
+  "Accessibility",
+  "Something else",
+] as const;
+
+export interface Faq {
+  question: string;
+  answer: string;
+  /** Optional follow-up link rendered after the answer. */
+  link?: { label: string; href: string };
+}
+
+export const SUPPORT_FAQS: Faq[] = [
+  {
+    question: "My online match won't start or won't find an opponent.",
+    answer:
+      "Online play runs on Apple's Game Center. Open Settings › Game Center and make sure you're signed in and that multiplayer isn't restricted under Screen Time, then try the match again. Quick match needs another player looking at the same time — if nobody turns up, invite a friend instead.",
+  },
+  {
+    question: "SharePlay isn't offered on my FaceTime call.",
+    answer:
+      "Start the FaceTime call first, then open Pinochle and start the match — SharePlay appears once the call is already active. Everyone on the call needs the app installed and up to date, on iPhone, iPad, or Mac. SharePlay isn't available on Apple TV.",
+  },
+  {
+    question: "My achievements or leaderboard scores are missing.",
+    answer:
+      "Achievements and leaderboards live in your Game Center profile, not in the app, and follow the Apple Account you're signed in with. If they look empty on a second device, check that it's signed into the same account.",
+  },
+  {
+    question: "Does my progress carry between devices?",
+    answer:
+      "Match progress and settings are stored on the device itself — nothing is collected or synced by the developer. Your Game Center record (wins, streaks, best deal and meld) does follow your Apple Account across devices.",
+  },
+  {
+    question: "The game wouldn't let me play a card.",
+    answer:
+      "Once the stock runs out, phase two begins: you must follow the suit led, and if you can beat the trick you have to. Cards you can't legally play are dimmed. The in-app How to Play screen walks through the full ruleset.",
+  },
+  {
+    question: "Can I play on Apple TV with a controller?",
+    answer:
+      "Yes — Apple TV uses a focus-based interface, and game controllers are supported there as well as on iPhone, iPad, and Mac.",
+  },
+  {
+    question: "I want a refund, or I was charged incorrectly.",
+    answer:
+      "Purchases and billing are handled entirely by Apple; the developer never sees a payment. Refunds and receipts go through Apple's own reporting page.",
+    link: { label: "reportaproblem.apple.com", href: SUPPORT.refundUrl },
+  },
+];
+
 /* -- Privacy policy ------------------------------------------------------- */
 // The policy prose itself lives in src/app/privacy/page.tsx — it reads as one
 // legal document there. Only the facts that have to stay in sync (or that the

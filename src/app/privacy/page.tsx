@@ -75,7 +75,8 @@ export default function Privacy() {
           <AppLink href={`mailto:${PRIVACY.contactEmail}`}>
             {PRIVACY.contactEmail}
           </AppLink>
-          .
+          . For help with the app itself, use the{" "}
+          <AppLink to="/support">support page</AppLink>.
         </p>
       </Clause>
     </div>

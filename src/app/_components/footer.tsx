@@ -16,6 +16,7 @@ export function Footer() {
           </p>
         </div>
         <div className="flex items-center gap-4">
+          <AppLink to="/support">Support</AppLink>
           <AppLink to="/privacy">Privacy</AppLink>
           <AppLink href="https://jasonruesch.dev" variant="external">
             jasonruesch.dev
