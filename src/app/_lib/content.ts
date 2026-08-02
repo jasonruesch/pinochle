@@ -199,40 +199,42 @@ export interface Shot {
   ratio: number;
 }
 
-// Optimized from /Users/jason/code/pinochle/Docs/store-shots/ by
-// scripts/optimize-assets.mjs into public/img/shots/*.webp.
+// Optimized from /Users/jason/code/pinochle/Builds/store-raw/ by
+// scripts/optimize-assets.mjs into public/img/shots/*.webp. Those are the bare
+// device captures; the App Store panels in Docs/store-shots bake in marketing
+// headlines, which would double up inside this site's own DeviceFrame.
 export const SHOTS: Shot[] = [
   // iPhone 6.9" — 2868×1320
   {
     device: "iPhone",
     platformIcon: "iphone",
     label: "Title",
-    file: "iphone69-4-title",
+    file: "iphone69-title",
     alt: "Pinochle title screen on iPhone",
     ratio: 2868 / 1320,
   },
   {
     device: "iPhone",
     platformIcon: "iphone",
-    label: "Melding",
-    file: "iphone69-2-melds",
-    alt: "Melds laid out on the table on iPhone",
+    label: "Classic play",
+    file: "iphone69-classic",
+    alt: "A deal against the computer with melds on the table, on iPhone",
     ratio: 2868 / 1320,
   },
   {
     device: "iPhone",
     platformIcon: "iphone",
-    label: "Trick play",
-    file: "iphone69-1-trick",
-    alt: "Playing a trick on iPhone",
+    label: "Online play",
+    file: "iphone69-online",
+    alt: "An online Game Center match in progress on iPhone",
     ratio: 2868 / 1320,
   },
   {
     device: "iPhone",
     platformIcon: "iphone",
-    label: "How to play",
-    file: "iphone69-3-rules",
-    alt: "The illustrated rules screen on iPhone",
+    label: "Hints",
+    file: "iphone69-hints",
+    alt: "Easy mode highlighting a suggested card on iPhone",
     ratio: 2868 / 1320,
   },
   // iPad 13" — 2752×2064
@@ -240,32 +242,32 @@ export const SHOTS: Shot[] = [
     device: "iPad",
     platformIcon: "ipad",
     label: "Title",
-    file: "ipad13-4-title",
+    file: "ipad13-title",
     alt: "Pinochle title screen on iPad",
     ratio: 2752 / 2064,
   },
   {
     device: "iPad",
     platformIcon: "ipad",
-    label: "Melding",
-    file: "ipad13-2-melds",
-    alt: "Melds laid out on the table on iPad",
+    label: "Classic play",
+    file: "ipad13-classic",
+    alt: "A deal against the computer with melds on the table, on iPad",
     ratio: 2752 / 2064,
   },
   {
     device: "iPad",
     platformIcon: "ipad",
-    label: "Trick play",
-    file: "ipad13-1-trick",
-    alt: "Playing a trick on iPad",
+    label: "Online play",
+    file: "ipad13-online",
+    alt: "An online Game Center match in progress on iPad",
     ratio: 2752 / 2064,
   },
   {
     device: "iPad",
     platformIcon: "ipad",
-    label: "How to play",
-    file: "ipad13-3-rules",
-    alt: "The illustrated rules screen on iPad",
+    label: "Hints",
+    file: "ipad13-hints",
+    alt: "Easy mode highlighting a suggested card on iPad",
     ratio: 2752 / 2064,
   },
   // Mac — 2880×1800
@@ -273,32 +275,32 @@ export const SHOTS: Shot[] = [
     device: "Mac",
     platformIcon: "mac",
     label: "Title",
-    file: "mac-4-title",
+    file: "mac-title",
     alt: "Pinochle title screen on Mac",
     ratio: 2880 / 1800,
   },
   {
     device: "Mac",
     platformIcon: "mac",
-    label: "Melding",
-    file: "mac-2-melds",
-    alt: "Melds laid out on the table on Mac",
+    label: "Classic play",
+    file: "mac-classic",
+    alt: "A deal against the computer with melds on the table, on Mac",
     ratio: 2880 / 1800,
   },
   {
     device: "Mac",
     platformIcon: "mac",
-    label: "Trick play",
-    file: "mac-1-trick",
-    alt: "Playing a trick on Mac",
+    label: "Online play",
+    file: "mac-online",
+    alt: "An online Game Center match in progress on Mac",
     ratio: 2880 / 1800,
   },
   {
     device: "Mac",
     platformIcon: "mac",
-    label: "How to play",
-    file: "mac-3-rules",
-    alt: "The illustrated rules screen on Mac",
+    label: "Hints",
+    file: "mac-hints",
+    alt: "Easy mode highlighting a suggested card on Mac",
     ratio: 2880 / 1800,
   },
   // Apple TV — 3840×2160
@@ -306,32 +308,32 @@ export const SHOTS: Shot[] = [
     device: "Apple TV",
     platformIcon: "appletv",
     label: "Title",
-    file: "appletv-4-title",
+    file: "appletv-title",
     alt: "Pinochle title screen on Apple TV",
     ratio: 3840 / 2160,
   },
   {
     device: "Apple TV",
     platformIcon: "appletv",
-    label: "Melding",
-    file: "appletv-2-melds",
-    alt: "Melds laid out on the table on Apple TV",
+    label: "Classic play",
+    file: "appletv-classic",
+    alt: "A deal against the computer with melds on the table, on Apple TV",
     ratio: 3840 / 2160,
   },
   {
     device: "Apple TV",
     platformIcon: "appletv",
-    label: "Trick play",
-    file: "appletv-1-trick",
-    alt: "Playing a trick on Apple TV",
+    label: "Online play",
+    file: "appletv-online",
+    alt: "An online Game Center match in progress on Apple TV",
     ratio: 3840 / 2160,
   },
   {
     device: "Apple TV",
     platformIcon: "appletv",
-    label: "How to play",
-    file: "appletv-3-rules",
-    alt: "The illustrated rules screen on Apple TV",
+    label: "Hints",
+    file: "appletv-hints",
+    alt: "Easy mode highlighting a suggested card on Apple TV",
     ratio: 3840 / 2160,
   },
 ];
@@ -339,7 +341,7 @@ export const SHOTS: Shot[] = [
 export const DEVICES: Device[] = ["iPhone", "iPad", "Mac", "Apple TV"];
 
 /** The single hero screenshot (iPhone melding — the most colorful shot). */
-export const HERO_SHOT = "iphone69-2-melds";
+export const HERO_SHOT = "iphone69-classic";
 
 /* -- Game Center: achievements & leaderboards ----------------------------- */
 // Card artwork optimized from /Users/jason/code/pinochle/Docs/gc-assets/ into

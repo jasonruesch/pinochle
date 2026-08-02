@@ -1,6 +1,6 @@
 // Optimizes the app's marketing assets into public/img/ for the web.
 //
-//   store-shots/*.png  ->  public/img/shots/*.webp   (device screenshots)
+//   store-raw/*.png    ->  public/img/shots/*.webp   (device screenshots)
 //   gc-assets/*.png    ->  public/img/gc/*.webp       (Game Center card art)
 //   Assets/Icons/icon-1024.png ->
 //       public/img/app-icon.webp                      (in-page app icon)
@@ -23,7 +23,9 @@ import sharp from "sharp";
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SRC = process.env.PINOCHLE_DIR || join(repoRoot, "..", "..", "pinochle");
 
-const shotsSrc = join(SRC, "Docs", "store-shots");
+// Raw device captures, not Docs/store-shots — those are App Store panels with
+// marketing headlines baked in, and this site frames the shots itself.
+const shotsSrc = join(SRC, "Builds", "store-raw");
 const gcSrc = join(SRC, "Docs", "gc-assets");
 const iconSrc = join(SRC, "Assets", "Icons", "icon-1024.png");
 

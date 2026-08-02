@@ -37,8 +37,8 @@ const PLATFORM_ICONS: Record<
   appletv: AppleTVIcon,
 };
 
-const HERO_SHOT = SHOTS.find((s) => s.file === "iphone69-2-melds")!;
-const RULES_SHOT = SHOTS.find((s) => s.file === "mac-3-rules")!;
+const HERO_SHOT = SHOTS.find((s) => s.file === "iphone69-classic")!;
+const HINTS_SHOT = SHOTS.find((s) => s.file === "mac-hints")!;
 
 export default function Home() {
   useDocumentTitle("Home");
@@ -103,7 +103,12 @@ export default function Home() {
           </div>
 
           <div className="lg:pl-6">
-            <DeviceFrame shot={HERO_SHOT} showLabel={false} loading="eager" />
+            <DeviceFrame
+              shot={HERO_SHOT}
+              showLabel={false}
+              onHero
+              loading="eager"
+            />
           </div>
         </div>
       </section>
@@ -216,7 +221,7 @@ export default function Home() {
                   ))}
                 </dl>
               </Card>
-              <DeviceFrame shot={RULES_SHOT} />
+              <DeviceFrame shot={HINTS_SHOT} />
             </div>
           </div>
 

@@ -5,6 +5,12 @@ interface DeviceFrameProps {
   shot: Shot;
   /** Show the small device/label chip above the frame. */
   showLabel?: boolean;
+  /**
+   * The frame sits on the brand-gradient hero rather than a page surface, so
+   * the ring keeps its dark variant in both themes — the light zinc-200 ring
+   * reads as a halo against the gradient.
+   */
+  onHero?: boolean;
   className?: string;
   /** Loading hint for the underlying <img>. Defaults to "lazy". */
   loading?: "lazy" | "eager";
@@ -19,6 +25,7 @@ interface DeviceFrameProps {
 export function DeviceFrame({
   shot,
   showLabel = true,
+  onHero = false,
   className,
   loading = "lazy",
 }: DeviceFrameProps) {
@@ -32,7 +39,12 @@ export function DeviceFrame({
           {shot.device} · {shot.label}
         </figcaption>
       )}
-      <div className="overflow-hidden rounded-2xl bg-zinc-900 p-1.5 shadow-lg ring-1 ring-zinc-200 dark:ring-zinc-800">
+      <div
+        className={[
+          "overflow-hidden rounded-2xl bg-zinc-900 p-1.5 shadow-lg ring-1",
+          onHero ? "ring-zinc-800" : "ring-zinc-200 dark:ring-zinc-800",
+        ].join(" ")}
+      >
         <img
           src={asset(`img/shots/${shot.file}.webp`)}
           alt={shot.alt}
