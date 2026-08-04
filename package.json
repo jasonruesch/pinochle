@@ -7,7 +7,7 @@
     "dev": "vite",
     "typegen": "react-router-next typegen",
     "prebuild": "npm run typegen",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && node scripts/build-routes.mjs",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",

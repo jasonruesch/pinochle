@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router";
 import { asset } from "../_lib/asset";
 import { APP, STORE_URL } from "../_lib/content";
 import { useActiveSection } from "../_lib/use-active-section";
@@ -6,19 +7,39 @@ import { useBodyScrollLock } from "../_lib/use-body-scroll-lock";
 import { HashLink, NavLink } from "./nav-link";
 import { ThemeToggle } from "./theme-toggle";
 
-const NAV_ITEMS = [
+// Mostly sections of the one marketing page, plus the full rules, which is a
+// route of its own: it's the page the site wants search traffic to land on, so
+// it gets a real URL and a link from every page rather than an anchor.
+const NAV_ITEMS: { href?: string; to?: string; label: string }[] = [
   { href: "#screenshots", label: "Screenshots" },
   { href: "#features", label: "Features" },
-  { href: "#how-to-play", label: "How to Play" },
+  { to: "/how-to-play", label: "How to Play" },
   { href: "#achievements", label: "Achievements" },
 ];
 
-const NAV_HASHES = NAV_ITEMS.map((item) => item.href);
+// Sections tracked for the in-view highlight. "#how-to-play" has no nav item of
+// its own — that nav slot points at the full rules page — but it stays in the
+// list so scrolling into the home page's rules band clears the highlight
+// instead of leaving "Features" lit all the way down.
+const TRACKED_HASHES = [
+  "#screenshots",
+  "#features",
+  "#how-to-play",
+  "#achievements",
+];
 
 export function Header() {
   const [open, setOpen] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const active = useActiveSection(NAV_HASHES);
+  const active = useActiveSection(TRACKED_HASHES);
+  const { pathname } = useLocation();
+  // GitHub Pages serves a route from its directory and redirects the bare path
+  // to the trailing-slash form, so "/how-to-play/" is what a visitor from
+  // search actually lands on — normalize before comparing.
+  const path = pathname.replace(/\/+$/, "") || "/";
+
+  const isActive = (item: (typeof NAV_ITEMS)[number]) =>
+    item.to ? path === item.to : item.href === active;
 
   useBodyScrollLock(open);
 
@@ -85,9 +106,10 @@ export function Header() {
         >
           {NAV_ITEMS.map((item) => (
             <NavLink
-              key={item.href}
+              key={item.label}
               href={item.href}
-              active={item.href === active}
+              to={item.to}
+              active={isActive(item)}
             >
               {item.label}
             </NavLink>
@@ -116,11 +138,12 @@ export function Header() {
       >
         <ul className="px-safe mx-auto flex max-w-6xl flex-col gap-1 pt-[max(0.75rem,env(safe-area-inset-top))] pb-3">
           {NAV_ITEMS.map((item) => (
-            <li key={item.href}>
+            <li key={item.label}>
               <NavLink
                 href={item.href}
+                to={item.to}
                 block
-                active={item.href === active}
+                active={isActive(item)}
                 onClick={() => setOpen(false)}
               >
                 {item.label}

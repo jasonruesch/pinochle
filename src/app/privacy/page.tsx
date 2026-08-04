@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { AppLink } from "../_components/app-link";
 import { Eyebrow } from "../_components/eyebrow";
 import { PRIVACY } from "../_lib/content";
-import { useDocumentTitle } from "../_lib/use-document-title";
+import { usePageMeta } from "../_lib/use-page-meta";
 
 /**
  * The privacy policy of record — this is the URL given to App Store Connect, so
@@ -10,7 +10,7 @@ import { useDocumentTitle } from "../_lib/use-document-title";
  * PRIVACY.updated in _lib/content.ts whenever the text changes.
  */
 export default function Privacy() {
-  useDocumentTitle("Privacy Policy");
+  usePageMeta("/privacy");
   return (
     <div className="px-safe-lg mx-auto max-w-3xl py-16 sm:py-20">
       <Eyebrow className="mb-3">Legal</Eyebrow>

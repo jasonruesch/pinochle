@@ -1,5 +1,5 @@
 // All marketing copy is sourced verbatim (or lightly condensed) from the app's
-// App Store listing kit — /Users/jason/code/pinochle/Docs/StoreListing.md — and
+// App Store listing kit — /Users/jason/code/jasonruesch/pinochle-app/Docs/StoreListing.md — and
 // the in-app "How to Play" screen. Keep this the single source of truth for
 // site content.
 
@@ -166,23 +166,194 @@ export const RULES_DISCLAIMER =
   "Bicycle® is a trademark of The United States Playing Card Company; this " +
   "app is not affiliated with or endorsed by USPC.";
 
+/**
+ * The three meld classes (MeldDefs.ClassOf in the app's Core). They only matter
+ * for the re-meld rule — a card already on the table can join a new meld in a
+ * different class, or a higher-scoring meld of the same class.
+ */
+export type MeldClass = "A" | "B" | "C";
+
+export const MELD_CLASSES: Record<MeldClass, string> = {
+  A: "Flushes & marriages",
+  B: "Arounds",
+  C: "Pinochles",
+};
+
 export interface Meld {
   name: string;
   detail: string;
   points: number;
+  cls: MeldClass;
+  /** Equally common alternate name, shown on the full rules page. */
+  also?: string;
 }
 
 export const MELDS: Meld[] = [
-  { name: "Flush", detail: "A 10 K Q J of trump", points: 150 },
-  { name: "Royal marriage", detail: "K + Q of trump", points: 40 },
-  { name: "Marriage", detail: "K + Q, any other suit", points: 20 },
-  { name: "Dix", detail: "9 of trump", points: 10 },
-  { name: "Hundred aces", detail: "A of every suit", points: 100 },
-  { name: "Eighty kings", detail: "K of every suit", points: 80 },
-  { name: "Sixty queens", detail: "Q of every suit", points: 60 },
-  { name: "Forty jacks", detail: "J of every suit", points: 40 },
-  { name: "Pinochle", detail: "Q of spades + J of diamonds", points: 40 },
-  { name: "Double pinochle", detail: "both pinochles at once", points: 300 },
+  { name: "Flush", detail: "A 10 K Q J of trump", points: 150, cls: "A" },
+  { name: "Royal marriage", detail: "K + Q of trump", points: 40, cls: "A" },
+  { name: "Marriage", detail: "K + Q, any other suit", points: 20, cls: "A" },
+  { name: "Dix", detail: "9 of trump", points: 10, cls: "A" },
+  {
+    name: "Hundred aces",
+    detail: "A of every suit",
+    points: 100,
+    cls: "B",
+    also: "Aces around",
+  },
+  {
+    name: "Eighty kings",
+    detail: "K of every suit",
+    points: 80,
+    cls: "B",
+    also: "Kings around",
+  },
+  {
+    name: "Sixty queens",
+    detail: "Q of every suit",
+    points: 60,
+    cls: "B",
+    also: "Queens around",
+  },
+  {
+    name: "Forty jacks",
+    detail: "J of every suit",
+    points: 40,
+    cls: "B",
+    also: "Jacks around",
+  },
+  {
+    name: "Pinochle",
+    detail: "Q of spades + J of diamonds",
+    points: 40,
+    cls: "C",
+  },
+  {
+    name: "Double pinochle",
+    detail: "both pinochles at once",
+    points: 300,
+    cls: "C",
+  },
+];
+
+/* -- Full rules page (/how-to-play) --------------------------------------- */
+// The prose lives in src/app/how-to-play/page.tsx — it reads as one document
+// there, the way the policy does on /privacy. Only the tabular parts live here.
+// Every value is the app's own behavior (Core/Rules/Scoring.cs, MeldDefs,
+// RulesConfig defaults), so the page can't drift from the game it teaches.
+
+/** Card values when captured in a trick — Cards.PointsOf in the app's Core. */
+export interface Counter {
+  rank: string;
+  points: number;
+  /** How many of that rank are in the 48-card deck. */
+  count: number;
+}
+
+export const COUNTERS: Counter[] = [
+  { rank: "Ace", points: 11, count: 8 },
+  { rank: "Ten", points: 10, count: 8 },
+  { rank: "King", points: 4, count: 8 },
+  { rank: "Queen", points: 3, count: 8 },
+  { rank: "Jack", points: 2, count: 8 },
+  { rank: "Nine", points: 0, count: 8 },
+];
+
+/** Counters in the deck (240) plus the last-trick bonus (10) — Scoring.cs. */
+export const DEAL_POINTS = {
+  counters: 240,
+  lastTrick: 10,
+  total: 250,
+} as const;
+
+/** Rank order, high to low. The ten sitting second is pinochle's odd note. */
+export const RANK_ORDER = ["A", "10", "K", "Q", "J", "9"] as const;
+
+/** The at-a-glance table at the top of /how-to-play. */
+export const RULES_FACTS: { term: string; value: string }[] = [
+  { term: "Players", value: "2" },
+  { term: "Deck", value: "48 cards — A 10 K Q J 9, twice in each suit" },
+  { term: "Dealt", value: "12 cards each; the next card turned for trump" },
+  {
+    term: "Points per deal",
+    value: "250 — 240 in counters, 10 for the last trick",
+  },
+  { term: "Game", value: "First to 1,000, or a single deal" },
+  { term: "A deal takes", value: "About ten minutes" },
+];
+
+export interface Tip {
+  heading: string;
+  body: string;
+}
+
+export const RULES_TIPS: Tip[] = [
+  {
+    heading: "Trump is currency, not treasure",
+    body: "There are only 12 trumps in the deck and you will see most of them. Spending a low trump to steal a trick in phase one buys you a meld and a draw; hoarding trump you never play wins nothing. The exception is the five cards of a flush — never break those up for a single trick.",
+  },
+  {
+    heading: "Respect the ten",
+    body: "The ten ranks second, above the king, and carries 10 counters. That makes it the most dangerous card in your hand: lead a bare ten and you are offering your opponent ten points and the lead. Save tens to capture with, or lead them only when you hold the ace.",
+  },
+  {
+    heading: "Melded cards are still your hand",
+    body: "A meld on the table is only borrowed — those cards come back for phase two, and in the meantime you may have to play one to a trick. Before you break up a marriage to win a trick, count what phase two will cost you.",
+  },
+  {
+    heading: "Meld small early, big late",
+    body: "Melds score the instant they hit the table, so there is no reward for waiting — except that laying down a marriage now may cost you the flush later. Take the cheap 20 early when your hand is unformed, and hold cards that are one draw from a flush or an around.",
+  },
+  {
+    heading: "Throw nines, not counters",
+    body: "In phase one you never have to follow suit, so a trick you do not want costs you nothing but the card you throw. Nines are worth zero — feed them to your opponent's aces and keep every counter for the tricks you intend to win.",
+  },
+  {
+    heading: "Play the last tricks of phase one for phase two",
+    body: "Once the stock is gone, following suit becomes law and a void in a plain suit turns your small trump into a winner. Late in phase one, stop collecting and start shaping: shed a whole suit, keep your trump length, and take the last trick's draw with the lead in hand.",
+  },
+];
+
+export const RULES_FAQS: Faq[] = [
+  {
+    question: "Can you play pinochle with only 2 players?",
+    answer:
+      "Yes — two-handed pinochle is the original form of the game, and it is a genuine duel rather than a cut-down version of the four-player partnership game. One 48-card pinochle deck, 12 cards each, and a stock you draw from until it runs out.",
+  },
+  {
+    question: "How many cards are in a pinochle deck?",
+    answer:
+      "48. Two copies each of the ace, ten, king, queen, jack and nine in all four suits. You can build one from two standard 52-card decks by pulling those six ranks from each and shuffling them together.",
+  },
+  {
+    question: "What beats what in pinochle?",
+    answer:
+      "Ace, ten, king, queen, jack, nine — high to low. The ten is the surprise: it outranks the king and is beaten only by the ace. Any trump beats any plain-suit card, and when two identical cards meet, the one played first wins the trick.",
+  },
+  {
+    question: "Do you have to follow suit in two-handed pinochle?",
+    answer:
+      "Not while the stock lasts — in phase one you may play any card in your hand. Once the stock is exhausted the rules tighten: you must follow suit, you must trump when you cannot follow, and when trump is led you must beat it if you can.",
+  },
+  {
+    question: "What is a pinochle?",
+    answer:
+      "The meld that gives the game its name: the queen of spades together with the jack of diamonds, worth 40. Holding both queens of spades and both jacks of diamonds is a double pinochle — 300 points, and the biggest meld in the game.",
+  },
+  {
+    question: "What is the dix in pinochle?",
+    answer:
+      "The dix (say “deece”) is the nine of trump, worth 10. If the card turned for trump is the dix, the dealer scores 10 at once. Otherwise, after winning a trick you may swap a dix from your hand for the turned-up trump card and score its 10.",
+  },
+  {
+    question: "How many points do you need to win at pinochle?",
+    answer:
+      "The standard game is a race to 1,000 across as many deals as it takes, with 250 points on the table each deal. A single deal on its own is a perfectly good short game — the higher total after one deal wins.",
+  },
+  {
+    question: "How long does a game of two-handed pinochle take?",
+    answer:
+      "A single deal is about ten minutes. A full race to 1,000 usually runs four to six deals, so roughly three quarters of an hour — less when the melds fall your way.",
+  },
 ];
 
 /* -- Screenshots ---------------------------------------------------------- */
@@ -199,7 +370,7 @@ export interface Shot {
   ratio: number;
 }
 
-// Optimized from /Users/jason/code/pinochle/Builds/store-raw/ by
+// Optimized from /Users/jason/code/jasonruesch/pinochle-app/Builds/store-raw/ by
 // scripts/optimize-assets.mjs into public/img/shots/*.webp. Those are the bare
 // device captures; the App Store panels in Docs/store-shots bake in marketing
 // headlines, which would double up inside this site's own DeviceFrame.
@@ -344,7 +515,7 @@ export const DEVICES: Device[] = ["iPhone", "iPad", "Mac", "Apple TV"];
 export const HERO_SHOT = "iphone69-classic";
 
 /* -- Game Center: achievements & leaderboards ----------------------------- */
-// Card artwork optimized from /Users/jason/code/pinochle/Docs/gc-assets/ into
+// Card artwork optimized from /Users/jason/code/jasonruesch/pinochle-app/Docs/gc-assets/ into
 // public/img/gc/*.webp. Names are the app's achievement / leaderboard titles.
 export interface Badge {
   file: string;

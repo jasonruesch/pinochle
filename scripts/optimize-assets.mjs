@@ -7,9 +7,9 @@
 //       public/favicon-32.png, apple-touch-icon.png,
 //       icon-192.png, icon-512.png                    (favicon + PWA icons)
 //
-// Source lives in the app repo (a Unity project), outside this site's repo:
-//   /Users/jason/code/pinochle
-// Override with PINOCHLE_DIR=/path/to/pinochle if it lives elsewhere. The
+// Source lives in the app repo (a Unity project), a sibling of this one:
+//   /Users/jason/code/jasonruesch/pinochle-app
+// Override with PINOCHLE_DIR=/path/to/pinochle-app if it lives elsewhere. The
 // optimized outputs are committed to this repo, so CI never needs the source.
 //
 // Run with: npm run optimize:assets
@@ -21,7 +21,7 @@ import { fileURLToPath } from "node:url";
 import sharp from "sharp";
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
-const SRC = process.env.PINOCHLE_DIR || join(repoRoot, "..", "..", "pinochle");
+const SRC = process.env.PINOCHLE_DIR || join(repoRoot, "..", "pinochle-app");
 
 // Raw device captures, not Docs/store-shots — those are App Store panels with
 // marketing headlines baked in, and this site frames the shots itself.
@@ -37,7 +37,7 @@ if (!existsSync(SRC)) {
   console.error(
     `\nSource app project not found at:\n  ${SRC}\n\n` +
       `Set PINOCHLE_DIR to the Pinochle app repo, e.g.\n` +
-      `  PINOCHLE_DIR=/path/to/pinochle npm run optimize:assets\n`,
+      `  PINOCHLE_DIR=/path/to/pinochle-app npm run optimize:assets\n`,
   );
   process.exit(1);
 }

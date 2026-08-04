@@ -15,7 +15,8 @@ export function Footer() {
             Pinochle is a trick-taking card game — no wagering, no stakes.
           </p>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-4">
+          <AppLink to="/how-to-play">How to Play</AppLink>
           <AppLink to="/support">Support</AppLink>
           <AppLink to="/privacy">Privacy</AppLink>
           <AppLink href="https://jasonruesch.dev" variant="external">

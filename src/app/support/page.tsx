@@ -14,7 +14,7 @@ import {
   SUPPORT_FAQS,
   SUPPORT_TOPICS,
 } from "../_lib/content";
-import { useDocumentTitle } from "../_lib/use-document-title";
+import { usePageMeta } from "../_lib/use-page-meta";
 
 /**
  * The support page of record — this is the URL given to App Store Connect, so
@@ -29,7 +29,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const DEVICE_OPTIONS = [...DEVICES, "Something else"];
 
 export default function Support() {
-  useDocumentTitle("Support");
+  usePageMeta("/support");
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<"idle" | "sent">("idle");
   const formRef = useRef<HTMLFormElement>(null);

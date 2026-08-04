@@ -55,18 +55,24 @@ export function HashLink({
 
 interface NavLinkProps {
   /** Home-page anchor target, e.g. "#features". */
-  href: string;
+  href?: string;
+  /** Route target, e.g. "/how-to-play". Mutually exclusive with `href`. */
+  to?: string;
   onClick?: () => void;
   /** Larger block style for the mobile menu. */
   block?: boolean;
-  /** Highlighted because its section is the one currently in view. */
+  /**
+   * Highlighted because its section is in view, or — for a `to` item — because
+   * it is the route being viewed.
+   */
   active?: boolean;
   children: ReactNode;
 }
 
-/** A HashLink styled as one of the portfolio's nav pills. */
+/** A nav pill: a HashLink to a home-page section, or a Link to another route. */
 export function NavLink({
   href,
+  to,
   onClick,
   block = false,
   active = false,
@@ -82,12 +88,27 @@ export function NavLink({
     : block
       ? "text-zinc-700 hover:bg-zinc-100 hover:text-brand-700 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-brand-300"
       : "text-zinc-600 hover:text-brand-700 dark:text-zinc-400 dark:hover:text-brand-300";
+  const className = `${base} ${state}`;
+  // Communicates the highlight to assistive tech, which can't see it. A route
+  // item is "page" rather than "true": it's the location, not a section of it.
+  if (to) {
+    return (
+      <Link
+        to={to}
+        viewTransition
+        onClick={onClick}
+        className={className}
+        aria-current={active ? "page" : undefined}
+      >
+        {children}
+      </Link>
+    );
+  }
   return (
     <HashLink
-      hash={href}
+      hash={href!}
       onClick={onClick}
-      className={`${base} ${state}`}
-      // Communicates the highlight to assistive tech, which can't see it.
+      className={className}
       ariaCurrent={active ? "true" : undefined}
     >
       {children}

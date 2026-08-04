@@ -1,4 +1,6 @@
+import { AppLink } from "./_components/app-link";
 import { AppStoreBadge } from "./_components/app-store-badge";
+import { Button } from "./_components/button";
 import { Card } from "./_components/card";
 import { DeviceFrame } from "./_components/device-frame";
 import { Eyebrow } from "./_components/eyebrow";
@@ -22,10 +24,12 @@ import {
   RULES,
   RULES_DISCLAIMER,
   SHOTS,
+  STORE,
+  STORE_URL,
   type Badge,
   type PlatformIcon,
 } from "./_lib/content";
-import { useDocumentTitle } from "./_lib/use-document-title";
+import { usePageMeta } from "./_lib/use-page-meta";
 
 const PLATFORM_ICONS: Record<
   PlatformIcon,
@@ -40,8 +44,26 @@ const PLATFORM_ICONS: Record<
 const HERO_SHOT = SHOTS.find((s) => s.file === "iphone69-classic")!;
 const HINTS_SHOT = SHOTS.find((s) => s.file === "mac-hints")!;
 
+// Tells a crawler what the site is about in its own vocabulary: an app, on
+// these platforms, at that store URL. The price is deliberately absent — the
+// App Store listing is the source of truth for it (see APP.price).
+const SCHEMA = [
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: APP.name,
+    description: APP.subtitle,
+    applicationCategory: "GameApplication",
+    applicationSubCategory: "Card Game",
+    operatingSystem: "iOS, iPadOS, macOS, tvOS",
+    softwareVersion: STORE.version,
+    installUrl: STORE_URL,
+    author: { "@type": "Person", name: "Jason Ruesch" },
+  },
+];
+
 export default function Home() {
-  useDocumentTitle("Home");
+  usePageMeta("/", { jsonLd: SCHEMA });
   return (
     <>
       {/* Hero — bespoke brand-gradient surface (pill CTAs diverge from Button
@@ -172,8 +194,12 @@ export default function Home() {
             Learn it in a deal
           </h2>
           <p className="mt-4 max-w-2xl text-lg text-zinc-600 dark:text-zinc-400">
-            Two-handed pinochle plays in two phases. Here&apos;s the whole game,
-            start to 1,000 — the app teaches the rest as you go.
+            Two-handed pinochle plays in two phases. Here&apos;s the shape of
+            it, start to 1,000 — the app teaches the rest as you go, and the{" "}
+            <AppLink to="/how-to-play">
+              complete two-handed pinochle rules
+            </AppLink>{" "}
+            are written out in full.
           </p>
 
           <div className="mt-10 grid gap-8 lg:grid-cols-2">
@@ -223,6 +249,10 @@ export default function Home() {
               </Card>
               <DeviceFrame shot={HINTS_SHOT} />
             </div>
+          </div>
+
+          <div className="mt-10">
+            <Button to="/how-to-play">Read the complete rules</Button>
           </div>
 
           <p className="mt-10 max-w-2xl text-xs text-zinc-500 dark:text-zinc-500">
