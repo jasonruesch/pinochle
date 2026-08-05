@@ -9,24 +9,20 @@ import { ThemeToggle } from "./theme-toggle";
 
 // Mostly sections of the one marketing page, plus the full rules, which is a
 // route of its own: it's the page the site wants search traffic to land on, so
-// it gets a real URL and a link from every page rather than an anchor.
+// it gets a real URL and a link from every page rather than an anchor. "How to
+// Play" carries both — the link goes to the rules route, while the `href` ties
+// it to the home page's rules band so scrolling past that band highlights it too.
 const NAV_ITEMS: { href?: string; to?: string; label: string }[] = [
   { href: "#screenshots", label: "Screenshots" },
   { href: "#features", label: "Features" },
-  { to: "/how-to-play", label: "How to Play" },
+  { href: "#how-to-play", to: "/how-to-play", label: "How to Play" },
   { href: "#achievements", label: "Achievements" },
 ];
 
-// Sections tracked for the in-view highlight. "#how-to-play" has no nav item of
-// its own — that nav slot points at the full rules page — but it stays in the
-// list so scrolling into the home page's rules band clears the highlight
-// instead of leaving "Features" lit all the way down.
-const TRACKED_HASHES = [
-  "#screenshots",
-  "#features",
-  "#how-to-play",
-  "#achievements",
-];
+// Sections tracked for the in-view highlight, in document order.
+const TRACKED_HASHES = NAV_ITEMS.map((item) => item.href).filter(
+  (href): href is string => href !== undefined,
+);
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -38,8 +34,14 @@ export function Header() {
   // search actually lands on — normalize before comparing.
   const path = pathname.replace(/\/+$/, "") || "/";
 
-  const isActive = (item: (typeof NAV_ITEMS)[number]) =>
-    item.to ? path === item.to : item.href === active;
+  // "page" when the item's own route is the one being viewed; otherwise "true"
+  // when its section is the one in view. An item with both — "How to Play" — is
+  // lit either way: on its route, and while scrolling its band of the home page.
+  const currentFor = (item: (typeof NAV_ITEMS)[number]) => {
+    if (item.to && path === item.to) return "page" as const;
+    if (item.href && item.href === active) return "true" as const;
+    return undefined;
+  };
 
   useBodyScrollLock(open);
 
@@ -109,7 +111,7 @@ export function Header() {
               key={item.label}
               href={item.href}
               to={item.to}
-              active={isActive(item)}
+              current={currentFor(item)}
             >
               {item.label}
             </NavLink>
@@ -143,7 +145,7 @@ export function Header() {
                 href={item.href}
                 to={item.to}
                 block
-                active={isActive(item)}
+                current={currentFor(item)}
                 onClick={() => setOpen(false)}
               >
                 {item.label}

@@ -62,22 +62,30 @@ interface NavLinkProps {
   /** Larger block style for the mobile menu. */
   block?: boolean;
   /**
-   * Highlighted because its section is in view, or — for a `to` item — because
-   * it is the route being viewed.
+   * Set when this item is the current one, and how: "page" when its own route is
+   * the one being viewed, "true" when its matching section is in view. Both
+   * highlight the pill; the distinction is what assistive tech is told, since a
+   * section of the current page isn't the same claim as being on that page.
    */
-  active?: boolean;
+  current?: "page" | "true";
   children: ReactNode;
 }
 
-/** A nav pill: a HashLink to a home-page section, or a Link to another route. */
+/**
+ * A nav pill: a HashLink to a home-page section, or a Link to another route.
+ * An item may carry both — "How to Play" links to the full rules route while
+ * also tracking the home page's rules section — in which case the route wins as
+ * the link target.
+ */
 export function NavLink({
   href,
   to,
   onClick,
   block = false,
-  active = false,
+  current,
   children,
 }: NavLinkProps) {
+  const active = current !== undefined;
   const base = block
     ? "block rounded-lg px-3 py-2 text-base font-medium transition-colors"
     : "rounded-full px-3 py-1.5 text-sm font-medium transition-colors";
@@ -89,8 +97,8 @@ export function NavLink({
       ? "text-zinc-700 hover:bg-zinc-100 hover:text-brand-700 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-brand-300"
       : "text-zinc-600 hover:text-brand-700 dark:text-zinc-400 dark:hover:text-brand-300";
   const className = `${base} ${state}`;
-  // Communicates the highlight to assistive tech, which can't see it. A route
-  // item is "page" rather than "true": it's the location, not a section of it.
+  // aria-current communicates the highlight to assistive tech, which can't see
+  // it; the caller decides which flavor applies.
   if (to) {
     return (
       <Link
@@ -98,7 +106,7 @@ export function NavLink({
         viewTransition
         onClick={onClick}
         className={className}
-        aria-current={active ? "page" : undefined}
+        aria-current={current}
       >
         {children}
       </Link>
@@ -109,7 +117,7 @@ export function NavLink({
       hash={href!}
       onClick={onClick}
       className={className}
-      ariaCurrent={active ? "true" : undefined}
+      ariaCurrent={current === "true" ? "true" : undefined}
     >
       {children}
     </HashLink>
