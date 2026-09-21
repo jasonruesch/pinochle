@@ -12,6 +12,7 @@ import {
   MacIcon,
 } from "./_components/icons";
 import { ScreenshotGallery } from "./_components/screenshot-gallery";
+import { VideoFrame } from "./_components/video-frame";
 import { asset } from "./_lib/asset";
 import {
   ACHIEVEMENTS,
@@ -142,6 +143,26 @@ export default function Home() {
             <p key={p.slice(0, 24)}>{p}</p>
           ))}
         </div>
+      </section>
+
+      {/* Gameplay video — the version 1.1 press-kit clip, straight after the
+          pitch so the first thing below the fold is the game moving. Shares
+          the intro's surface, so it drops its own top padding. */}
+      <section className="px-safe-lg mx-auto max-w-5xl pb-16 sm:pb-20">
+        <Eyebrow className="mb-3">See it in action</Eyebrow>
+        <h2 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-zinc-50">
+          Deal, meld, play
+        </h2>
+        <p className="mt-4 max-w-2xl text-lg text-zinc-600 dark:text-zinc-400">
+          Twenty seconds of a real hand: the deal, the first tricks, and a meld
+          laid down for points.
+        </p>
+        <VideoFrame
+          src={asset("video/deal-and-meld.mp4")}
+          poster={asset("video/deal-and-meld-poster.webp")}
+          label="Gameplay video: a hand of two-handed pinochle being dealt, played, and melded against the computer"
+          className="mt-10"
+        />
       </section>
 
       {/* Screenshots */}

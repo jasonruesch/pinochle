@@ -33,6 +33,12 @@ Screenshots, Game Center art, and the app icon are generated from the app repo
 PINOCHLE_DIR=/path/to/pinochle-app npm run optimize:assets
 ```
 
+The home page's gameplay clip (`public/video/deal-and-meld.mp4`) is the app
+repo's press-kit video `Docs/press/pinochle-1.1-deal-and-meld.mp4`, copied
+as-is (it's already H.264 with the index up front for streaming). Its poster,
+`deal-and-meld-poster.webp`, is the frame at 0:10. Neither is produced by
+`optimize:assets`, so re-copy both by hand if the press video changes.
+
 Site copy lives in `src/app/_lib/content.ts`, sourced from the app's App Store
 listing kit (`Docs/StoreListing.md`).
 
