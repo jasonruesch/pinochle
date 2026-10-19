@@ -12,7 +12,7 @@ export const STORE = {
   appId: "6759009060",
   slug: "pinochle-two-handed",
   /** Marketing version live on the store. */
-  version: "1.0",
+  version: "2.0",
 } as const;
 
 /** Canonical App Store listing URL. Every store link on the site uses this. */
@@ -24,11 +24,14 @@ export const APP = {
   subtitle: "The classic two-handed duel",
   promo:
     "Deal in. Meld your marriages, flush the trump, and race to 1,000 against a sharp AI or a live opponent over Game Center.",
+  /** The listing's promotional text, condensed — what's new in this version. */
+  whatsNew:
+    "New in 2.0: a guided first game, a Daily Deal with streaks, table themes, and a whole new look.",
   category: "Games · Card & Strategy",
   // Deliberately no dollar amount — the App Store listing is the source of
   // truth for price, and hardcoding it here would go stale on any sale or
   // price change.
-  price: "No in-app purchases",
+  price: "Free to try for 14 days",
   age: "Rated 4+",
   copyright: "© 2026 Jason Ruesch",
   tagline: "One deck, two players, two hundred fifty points a deal.",
@@ -37,7 +40,20 @@ export const APP = {
 
 export const DESCRIPTION: string[] = [
   "Pinochle brings the classic two-handed card duel to your table — the classic rules, a beautiful minimal deck, and opponents that put up a real fight.",
-  "Play a quick single deal or the full race to 1,000 with declare-out. Draw from the stock, time your melds, and squeeze every counter out of phase two, where following suit is the law and every trick matters.",
+  "Try the whole game free for 14 days. After that, one purchase unlocks it for good — on your iPhone, iPad, Mac, and Apple TV. No subscription.",
+  "Play a quick single deal or the full race to 1,000 with declare-out. Draw from the stock, time your melds, and squeeze every counter out of the playoff, where following suit is the law and every trick matters.",
+  "New to Pinochle? A guided first game walks you through a real deal — the trump, your first trick, your first meld, the playoff — one short tip at a time.",
+];
+
+/* -- What's new in 2.0 ---------------------------------------------------- */
+// The listing's "What's New (version 2.0.0)" notes, lightly condensed.
+export const WHATS_NEW: string[] = [
+  "A new look — a redesigned home screen, menus, and table, and cameo court cards: kings, queens, and jacks in gold-framed profile.",
+  "A guided first game that teaches you as you play.",
+  "The Daily Deal: one deal a day, the same for everyone. Keep your streak going.",
+  "Five table themes, three game speeds, and haptics on iPhone.",
+  "A scorecard after every deal that adds up melds, counters, and the last trick.",
+  "Smoother dealing, sorting, and card play, and settings you can change mid-game.",
 ];
 
 /* -- Platforms ------------------------------------------------------------ */
@@ -58,6 +74,8 @@ export const PLATFORMS: Platform[] = [
 /* -- Features ------------------------------------------------------------- */
 export type FeatureIcon =
   | "cards"
+  | "calendar"
+  | "palette"
   | "cpu"
   | "globe"
   | "facetime"
@@ -82,22 +100,34 @@ export const FEATURES: Feature[] = [
     tone: "from-brand-500 to-fuchsia-500",
   },
   {
+    title: "A guided first game",
+    body: "New to Pinochle? Play a real deal with a short tip at each step. After that, legal-move highlighting and suggested plays are there when you want them.",
+    icon: "book",
+    tone: "from-emerald-500 to-teal-400",
+  },
+  {
+    title: "The Daily Deal",
+    body: "The same cards for everyone, every day. Play today's deal and build a streak.",
+    icon: "calendar",
+    tone: "from-amber-500 to-yellow-400",
+  },
+  {
     title: "Three AI opponents",
     body: "From an easygoing teacher to a card-counting shark that tracks the deck, weighs meld potential, and manages its trump.",
     icon: "cpu",
     tone: "from-fuchsia-500 to-accent-500",
   },
   {
-    title: "Online over Game Center",
-    body: "Quick match against a stranger or invite a friend, with leaderboards and achievements built in.",
+    title: "Online, and on FaceTime",
+    body: "Quick match or invite a friend over Game Center, or deal in on a FaceTime call with SharePlay on iPhone, iPad, and Mac.",
     icon: "globe",
     tone: "from-cyan-500 to-teal-400",
   },
   {
-    title: "SharePlay on FaceTime",
-    body: "Deal in over a FaceTime call and play the same match together — on iPhone, iPad, and Mac.",
-    icon: "facetime",
-    tone: "from-sky-500 to-blue-400",
+    title: "Make it yours",
+    body: "Cameo court cards on five table themes and six card backs, three game speeds, and haptics on iPhone.",
+    icon: "palette",
+    tone: "from-rose-500 to-pink-400",
   },
   {
     title: "Made for the living room",
@@ -106,20 +136,8 @@ export const FEATURES: Feature[] = [
     tone: "from-indigo-500 to-blue-400",
   },
   {
-    title: "Leaderboards & achievements",
-    body: "Fifteen achievements and Game Center leaderboards for wins, streaks, and your best deal and meld.",
-    icon: "trophy",
-    tone: "from-amber-500 to-orange-400",
-  },
-  {
-    title: "Learn as you play",
-    body: "Built-in illustrated rules, legal-move highlighting, and meld suggestions help the game teach itself.",
-    icon: "book",
-    tone: "from-emerald-500 to-teal-400",
-  },
-  {
     title: "No ads, no tracking",
-    body: "No in-app purchases, nothing collected — everything stays on your device. Just cards.",
+    body: "No subscription and nothing collected — one purchase unlocks every device. Just cards.",
     icon: "shield",
     tone: "from-lime-500 to-green-400",
   },
@@ -374,139 +392,75 @@ export interface Shot {
 // scripts/optimize-assets.mjs into public/img/shots/*.webp. Those are the bare
 // device captures; the App Store panels in Docs/store-shots bake in marketing
 // headlines, which would double up inside this site's own DeviceFrame.
+//
+// Scenes run in the App Store upload order (Docs/StoreListing.md). Apple TV
+// skips the tutorial — its tips talk about tapping — so it has five.
+type Scene = "classic" | "daily" | "tutorial" | "online" | "tables" | "hints";
+
+const SCENES: Record<Scene, { label: string; alt: string }> = {
+  classic: {
+    label: "Classic play",
+    alt: "A deal against the computer with cameo court cards in hand",
+  },
+  daily: {
+    label: "Daily Deal",
+    alt: "The home screen with today's Daily Deal, a five-day streak, and your record",
+  },
+  tutorial: {
+    label: "Guided first game",
+    alt: "A guided-first-game tip explaining how to answer the lead",
+  },
+  online: {
+    label: "Online play",
+    alt: "An online Game Center match in progress",
+  },
+  tables: {
+    label: "Table themes",
+    alt: "The pause menu with game speed, card back, and table theme choices",
+  },
+  hints: {
+    label: "Hints",
+    alt: "Easy mode highlighting a suggested card",
+  },
+};
+
+const ALL_SCENES: Scene[] = [
+  "classic",
+  "daily",
+  "tutorial",
+  "online",
+  "tables",
+  "hints",
+];
+
+function shotsFor(
+  device: Device,
+  platformIcon: PlatformIcon,
+  prefix: string,
+  ratio: number,
+  scenes: Scene[] = ALL_SCENES,
+): Shot[] {
+  return scenes.map((scene) => ({
+    device,
+    platformIcon,
+    label: SCENES[scene].label,
+    file: `${prefix}-${scene}`,
+    alt: `${SCENES[scene].alt}, on ${device}`,
+    ratio,
+  }));
+}
+
 export const SHOTS: Shot[] = [
-  // iPhone 6.9" — 2868×1320
-  {
-    device: "iPhone",
-    platformIcon: "iphone",
-    label: "Title",
-    file: "iphone69-title",
-    alt: "Pinochle title screen on iPhone",
-    ratio: 2868 / 1320,
-  },
-  {
-    device: "iPhone",
-    platformIcon: "iphone",
-    label: "Classic play",
-    file: "iphone69-classic",
-    alt: "A deal against the computer with melds on the table, on iPhone",
-    ratio: 2868 / 1320,
-  },
-  {
-    device: "iPhone",
-    platformIcon: "iphone",
-    label: "Online play",
-    file: "iphone69-online",
-    alt: "An online Game Center match in progress on iPhone",
-    ratio: 2868 / 1320,
-  },
-  {
-    device: "iPhone",
-    platformIcon: "iphone",
-    label: "Hints",
-    file: "iphone69-hints",
-    alt: "Easy mode highlighting a suggested card on iPhone",
-    ratio: 2868 / 1320,
-  },
-  // iPad 13" — 2752×2064
-  {
-    device: "iPad",
-    platformIcon: "ipad",
-    label: "Title",
-    file: "ipad13-title",
-    alt: "Pinochle title screen on iPad",
-    ratio: 2752 / 2064,
-  },
-  {
-    device: "iPad",
-    platformIcon: "ipad",
-    label: "Classic play",
-    file: "ipad13-classic",
-    alt: "A deal against the computer with melds on the table, on iPad",
-    ratio: 2752 / 2064,
-  },
-  {
-    device: "iPad",
-    platformIcon: "ipad",
-    label: "Online play",
-    file: "ipad13-online",
-    alt: "An online Game Center match in progress on iPad",
-    ratio: 2752 / 2064,
-  },
-  {
-    device: "iPad",
-    platformIcon: "ipad",
-    label: "Hints",
-    file: "ipad13-hints",
-    alt: "Easy mode highlighting a suggested card on iPad",
-    ratio: 2752 / 2064,
-  },
-  // Mac — 2880×1800
-  {
-    device: "Mac",
-    platformIcon: "mac",
-    label: "Title",
-    file: "mac-title",
-    alt: "Pinochle title screen on Mac",
-    ratio: 2880 / 1800,
-  },
-  {
-    device: "Mac",
-    platformIcon: "mac",
-    label: "Classic play",
-    file: "mac-classic",
-    alt: "A deal against the computer with melds on the table, on Mac",
-    ratio: 2880 / 1800,
-  },
-  {
-    device: "Mac",
-    platformIcon: "mac",
-    label: "Online play",
-    file: "mac-online",
-    alt: "An online Game Center match in progress on Mac",
-    ratio: 2880 / 1800,
-  },
-  {
-    device: "Mac",
-    platformIcon: "mac",
-    label: "Hints",
-    file: "mac-hints",
-    alt: "Easy mode highlighting a suggested card on Mac",
-    ratio: 2880 / 1800,
-  },
-  // Apple TV — 3840×2160
-  {
-    device: "Apple TV",
-    platformIcon: "appletv",
-    label: "Title",
-    file: "appletv-title",
-    alt: "Pinochle title screen on Apple TV",
-    ratio: 3840 / 2160,
-  },
-  {
-    device: "Apple TV",
-    platformIcon: "appletv",
-    label: "Classic play",
-    file: "appletv-classic",
-    alt: "A deal against the computer with melds on the table, on Apple TV",
-    ratio: 3840 / 2160,
-  },
-  {
-    device: "Apple TV",
-    platformIcon: "appletv",
-    label: "Online play",
-    file: "appletv-online",
-    alt: "An online Game Center match in progress on Apple TV",
-    ratio: 3840 / 2160,
-  },
-  {
-    device: "Apple TV",
-    platformIcon: "appletv",
-    label: "Hints",
-    file: "appletv-hints",
-    alt: "Easy mode highlighting a suggested card on Apple TV",
-    ratio: 3840 / 2160,
-  },
+  ...shotsFor("iPhone", "iphone", "iphone69", 2868 / 1320), // iPhone 6.9"
+  ...shotsFor("iPad", "ipad", "ipad13", 2752 / 2064), // iPad 13"
+  ...shotsFor("Mac", "mac", "mac", 2880 / 1800),
+  ...shotsFor(
+    "Apple TV",
+    "appletv",
+    "appletv",
+    3840 / 2160,
+    ALL_SCENES.filter((s) => s !== "tutorial"),
+  ),
 ];
 
 export const DEVICES: Device[] = ["iPhone", "iPad", "Mac", "Apple TV"];

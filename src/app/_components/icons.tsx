@@ -113,6 +113,25 @@ export function CardsIcon({ className }: IconProps) {
   );
 }
 
+export function CalendarIcon({ className }: IconProps) {
+  return (
+    <Line className={className}>
+      <rect x="3" y="5" width="18" height="16" rx="2" />
+      <path d="M3 10h18M8 3v4M16 3v4" />
+      <path d="m9.5 15 2 2 3.5-3.5" />
+    </Line>
+  );
+}
+
+export function PaletteIcon({ className }: IconProps) {
+  return (
+    <Line className={className}>
+      <path d="M12 3a9 9 0 0 0 0 18c1.1 0 1.8-.9 1.8-1.8 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-1 .8-1.8 1.8-1.8H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8Z" />
+      <path d="M7.5 11.5h.01M10 7.5h.01M14.5 7.5h.01M17 11h.01" />
+    </Line>
+  );
+}
+
 export function CpuIcon({ className }: IconProps) {
   return (
     <Line className={className}>

@@ -27,6 +27,7 @@ import {
   SHOTS,
   STORE,
   STORE_URL,
+  WHATS_NEW,
   type Badge,
   type PlatformIcon,
 } from "./_lib/content";
@@ -99,6 +100,9 @@ export default function Home() {
             <p className="mt-4 max-w-xl text-lg text-white/90 sm:text-xl">
               {APP.subtitle}. {APP.promo}
             </p>
+            <p className="mt-4 max-w-xl text-sm font-medium text-white/90">
+              {APP.whatsNew}
+            </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <AppStoreBadge />
@@ -143,11 +147,24 @@ export default function Home() {
             <p key={p.slice(0, 24)}>{p}</p>
           ))}
         </div>
+        <Card accent="from-brand-500 to-fuchsia-500" className="mt-10">
+          <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">
+            New in {STORE.version}
+          </h2>
+          <ul className="mt-4 list-disc space-y-2 pl-5 text-zinc-600 marker:text-brand-500 dark:text-zinc-400">
+            {WHATS_NEW.map((item) => (
+              <li key={item.slice(0, 24)}>{item}</li>
+            ))}
+          </ul>
+        </Card>
       </section>
 
       {/* Gameplay video — the version 1.1 press-kit clip, straight after the
           pitch so the first thing below the fold is the game moving. Shares
-          the intro's surface, so it drops its own top padding. */}
+          the intro's surface, so it drops its own top padding.
+          TODO(2.0): the clip still shows the 1.x court cards — re-record it
+          with the cameo courts (pinochle-app Docs/PressKit.md) and re-copy
+          the mp4 and poster. */}
       <section className="px-safe-lg mx-auto max-w-5xl pb-16 sm:pb-20">
         <Eyebrow className="mb-3">See it in action</Eyebrow>
         <h2 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-zinc-50">
@@ -176,7 +193,7 @@ export default function Home() {
             One deck, every screen
           </h2>
           <p className="mt-4 max-w-2xl text-lg text-zinc-600 dark:text-zinc-400">
-            The same beautiful minimal deck on iPhone, iPad, Mac, and the big
+            The new look and cameo court cards on iPhone, iPad, Mac, and the big
             screen. Pick a device to take a look.
           </p>
           <div className="mt-10">

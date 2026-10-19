@@ -39,6 +39,12 @@ as-is (it's already H.264 with the index up front for streaming). Its poster,
 `deal-and-meld-poster.webp`, is the frame at 0:10. Neither is produced by
 `optimize:assets`, so re-copy both by hand if the press video changes.
 
+**To do for 2.0:** the clip is still the 1.1 recording, so it shows the 1.x
+court cards rather than 2.0's cameo courts. Re-record it with a 2.0 build
+(steps in the app repo's `Docs/PressKit.md`), re-copy the mp4 and the 0:10
+poster, and re-upload the hosted copy so it stays byte-identical to
+`Docs/press/`.
+
 Site copy lives in `src/app/_lib/content.ts`, sourced from the app's App Store
 listing kit (`Docs/StoreListing.md`).
 
