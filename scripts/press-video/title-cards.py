@@ -82,7 +82,7 @@ def burst(im, t, t0, cx, cy, n=22, seed=3, reach=260, color=AMBER):
 
 # -- cards -------------------------------------------------------------------
 CARDS = {n: Image.open(f"{S}/cards/{n}.png").convert("RGBA")
-         for n in ["As", "Ks", "Qs", "Jd", "Kd", "Ad"]}
+         for n in ["As", "10s", "Ks", "Qs", "Js", "Jd", "Kd"]}
 
 def shadow_of(img, blur=14, alpha=150):
     pad = blur * 3
@@ -256,27 +256,39 @@ ICON_IMG = icon
 
 CHIPS = ["Guided first game", "Daily Deal", "Five table themes", "Online with Game Center"]
 
+FLUSH = ["As", "10s", "Ks", "Qs", "Js"]  # the spade flush — 150, the closing hand
+F_CTA_ROW = font(44, "Bold")
+ICON_SMALL = ICON_IMG.resize((92, 92), Image.LANCZOS)
+
 def outro_frame(t):
     im = background(t + 10)
     dust(im, t + 10)
     layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    icy = 290
-    # the pinochle pair tucks in behind the icon
-    for n, side in (("Qs", -1), ("Jd", 1)):
-        p = prog(t, 0.45, 0.6)
-        if p > 0:
-            e = out_back(p, 1.6)
-            x = lerp(W / 2 + side * 1100, W / 2 + side * 205, e)
-            place(layer, CARDS[n], x, icy + 30, side * lerp(40, 14, e), 0.58)
-    p = prog(t, 0.2, 0.6)
-    if p > 0:
-        place(layer, ICON_IMG, W / 2, icy, 0, out_back(p, 2.0), alpha=clamp(p * 3))
-    layer = shine(layer, t, 1.2, 0.7, region=(760, 120, 1160, 480))
+    pivot, R = (W / 2, 900), 600
+    # The flush deals in from the left on an arc, one card at a time...
+    sq = prog(t, 1.0, 0.35)          # ...then squares up and glows as a meld
+    settle = prog(t, 2.4, 0.6)
+    lift = 26 * out_back(sq, 2.2) * (1 - 0.6 * out_cubic(settle))
+    glow = sq * (1 - 0.5 * settle) * (0.8 + 0.2 * math.sin(t * 9))
+    for i, n in enumerate(FLUSH):
+        a_end = (i - 2) * 12
+        p = prog(t, 0.1 + 0.1 * i, 0.55)
+        if p <= 0: continue
+        e = out_back(p, 1.2)
+        ex = pivot[0] + R * math.sin(math.radians(a_end))
+        ey = pivot[1] - R * math.cos(math.radians(a_end)) - lift
+        sx, sy = -260, 760 - 40 * i
+        mx, my = (sx + ex) / 2, min(sy, ey) - 260      # arc's control point
+        x = (1 - e) ** 2 * sx + 2 * (1 - e) * e * mx + e * e * ex
+        y = (1 - e) ** 2 * sy + 2 * (1 - e) * e * my + e * e * ey
+        ang = lerp(-120 + i * 8, a_end, e)
+        place(layer, CARDS[n], x, y, ang, 0.6, glow=glow)
+    layer = shine(layer, t, 1.35, 0.75, region=(520, 120, 1400, 560))
     im.alpha_composite(layer)
-    burst(im, t, 0.35, W / 2, icy, n=30, reach=330, seed=11)
+    burst(im, t, 1.05, W / 2, 330, n=30, reach=420, seed=11)
 
-    p = prog(t, 0.85, 0.5)
-    draw_text(im, "Pinochle: Two-Handed", F_NAME, W / 2, 530, TEXT,
+    p = prog(t, 1.2, 0.5)
+    draw_text(im, "Pinochle: Two-Handed", F_NAME, W / 2, 560, TEXT,
               alpha=out_cubic(p), dy=30 * (1 - out_cubic(p)))
 
     # chips row
@@ -284,20 +296,33 @@ def outro_frame(t):
     gap = 18
     x = W / 2 - (sum(widths) + gap * (len(CHIPS) - 1)) / 2
     for i, (c, w) in enumerate(zip(CHIPS, widths)):
-        p = prog(t, 1.3 + 0.12 * i, 0.4)
+        p = prog(t, 1.55 + 0.12 * i, 0.4)
         if p > 0:
-            pill(im, c, F_CHIP, x + w / 2, 700, ACCENT, TILE, LINE,
+            pill(im, c, F_CHIP, x + w / 2, 712, ACCENT, TILE, LINE,
                  scale=out_back(p, 2.2), alpha=clamp(p * 3), padx=28, pady=14)
         x += w + gap
 
-    p = prog(t, 2.1, 0.5)
-    draw_text(im, "Free to try on the App Store", F_CTA, W / 2, 782, AMBER,
-              alpha=out_cubic(p), dy=24 * (1 - out_cubic(p)))
-    p = prog(t, 2.35, 0.5)
-    draw_text(im, "iPhone  ·  iPad  ·  Mac  ·  Apple TV", F_PLAT, W / 2, 856, MUTED,
+    # the store row: a small icon beside the call to action, as in a listing
+    p = prog(t, 2.3, 0.5)
+    if p > 0:
+        e = out_cubic(p)
+        cta = "Free to try on the App Store"
+        tw = F_CTA_ROW.getlength(cta)
+        row = ICON_SMALL.width + 24 + tw
+        x0 = W / 2 - row / 2
+        place(im, ICON_SMALL, x0 + ICON_SMALL.width / 2, 822 + 18 * (1 - e), 0,
+              out_back(p, 2.0), alpha=clamp(p * 3))
+        layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        b = F_CTA_ROW.getbbox(cta)
+        ImageDraw.Draw(layer).text((x0 + ICON_SMALL.width + 24, 822 - (b[1] + b[3]) / 2 + 18 * (1 - e)),
+                                   cta, font=F_CTA_ROW, fill=hexc(AMBER))
+        layer.putalpha(layer.getchannel("A").point(lambda v: int(v * e)))
+        im.alpha_composite(layer)
+    p = prog(t, 2.55, 0.5)
+    draw_text(im, "iPhone  ·  iPad  ·  Mac  ·  Apple TV", F_PLAT, W / 2, 896, MUTED,
               alpha=out_cubic(p), dy=20 * (1 - out_cubic(p)))
-    p = prog(t, 2.9, 0.6)
-    draw_text(im, "SEE YOU AT 1,000", F_CLOSE, W / 2, 960, EYEBROW, alpha=out_cubic(p), tracking=8)
+    p = prog(t, 3.0, 0.6)
+    draw_text(im, "SEE YOU AT 1,000", F_CLOSE, W / 2, 985, EYEBROW, alpha=out_cubic(p), tracking=8)
     return im
 
 def render(name, fn, seconds):
@@ -315,5 +340,5 @@ if __name__ == "__main__":
     if which == "preview":
         for t in (0.5, 1.2, 1.6, 2.6, 3.0, 4.0):
             intro_frame(t).convert("RGB").save(f"{S}/pv_in_{t}.png")
-        for t in (0.5, 1.0, 1.6, 2.5, 5.0):
+        for t in (0.35, 0.8, 1.5, 5.0):
             outro_frame(t).convert("RGB").save(f"{S}/pv_out_{t}.png")

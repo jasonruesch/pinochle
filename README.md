@@ -51,8 +51,8 @@ To rebuild it (frames are ~1 GB — keep them in a scratch dir, `$T` below):
 3. Render the cards: `python3 scripts/press-video/title-cards.py $T <pinochle-app>/Assets/Icons/icon-1024.png`
    (needs Pillow; `preview` renders stills first).
 4. Mix the game's own sounds — the deal slide (audio.wav 0.355s, 0.36s long)
-   under each card in the fan and the meld chime (8.13s, 0.66s) on the
-   pinochle pair and the icon — with the gameplay audio delayed 3.7s, then
+   under each card in both fans and the meld chime (8.13s, 0.66s) on the
+   pinochle pair and the closing flush — with the gameplay audio delayed 3.7s, then
    encode: intro (4.2s) → 0.5s fade → gameplay frames 0–719 → 0.6s fade at
    27.1s → outro (5.5s), fading out over the last 0.6s.
 
