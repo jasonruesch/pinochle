@@ -33,17 +33,31 @@ Screenshots, Game Center art, and the app icon are generated from the app repo
 PINOCHLE_DIR=/path/to/pinochle-app npm run optimize:assets
 ```
 
-The home page's gameplay clip (`public/video/deal-and-meld.mp4`) is the app
-repo's press-kit video `Docs/press/pinochle-1.1-deal-and-meld.mp4`, copied
-as-is (it's already H.264 with the index up front for streaming). Its poster,
-`deal-and-meld-poster.webp`, is the frame at 0:10. Neither is produced by
-`optimize:assets`, so re-copy both by hand if the press video changes.
+The home page's gameplay clip (`public/video/deal-and-meld.mp4`, 32.6s,
+1920x1080, 30fps H.264 + AAC, faststart) is the 2.0 press clip: an animated
+title card, 24s of a real hand recorded by the app's harness (seed 42, cameo
+courts), and an animated closing card. Its poster, `deal-and-meld-poster.webp`,
+is the finished title card (intro frame 110). Neither is produced by
+`optimize:assets`.
 
-**To do for 2.0:** the clip is still the 1.1 recording, so it shows the 1.x
-court cards rather than 2.0's cameo courts. Re-record it with a 2.0 build
-(steps in the app repo's `Docs/PressKit.md`), re-copy the mp4 and the 0:10
-poster, and re-upload the hosted copy so it stays byte-identical to
-`Docs/press/`.
+To rebuild it (frames are ~1 GB — keep them in a scratch dir, `$T` below):
+
+1. Record gameplay with the app's capture build, per the app repo's
+   `Docs/PressKit.md`:
+   `"Builds/dev-macos-mobile/Pinochle Capture.app/Contents/MacOS/Pinochle" -pinochle-autoplay -pinochle-cleanshot -pinochle-seed 42 -pinochle-table 0 -screen-width 1920 -screen-height 1080 -pinochle-record $T/frames -pinochle-recordfps 30 -pinochle-recordseconds 50`
+2. Card faces for the title cards come from the How to Play screen at 8K
+   (`-pinochle-menuscreen rules -pinochle-rulestab 0|3 -screen-width 7680 -screen-height 4320 -pinochle-screenshot …`),
+   cut to `$T/cards/{As,Ks,Qs,Jd,Kd}.png` (368x522, rounded alpha).
+3. Render the cards: `python3 scripts/press-video/title-cards.py $T <pinochle-app>/Assets/Icons/icon-1024.png`
+   (needs Pillow; `preview` renders stills first).
+4. Mix the game's own sounds — the deal slide (audio.wav 0.355s, 0.36s long)
+   under each card in the fan and the meld chime (8.13s, 0.66s) on the
+   pinochle pair and the icon — with the gameplay audio delayed 3.7s, then
+   encode: intro (4.2s) → 0.5s fade → gameplay frames 0–719 → 0.6s fade at
+   27.1s → outro (5.5s), fading out over the last 0.6s.
+
+The app repo's `Docs/press/` still holds the 1.1 clip, and the hosted copy
+the featuring nomination links to is this file — re-upload it when 2.0 ships.
 
 Site copy lives in `src/app/_lib/content.ts`, sourced from the app's App Store
 listing kit (`Docs/StoreListing.md`).
