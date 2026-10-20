@@ -59,13 +59,9 @@ To rebuild it (frames are ~1 GB — keep them in a scratch dir, `$T` below):
    under each card in both fans and the meld chime (8.13s, 0.66s) on the
    pinochle pair and the closing flush — with the gameplay audio delayed 3.7s, then
    encode: intro (4.2s) → 0.5s fade → gameplay frames 0–719 → 0.6s fade at
-   27.1s → outro (5.5s), fading out over the last 0.6s. Append a fixed grain
-   pattern to the filter chain (`noise=c0s=3:c0f=p`) and encode with x264 at
-   `-crf 18 -tune grain -x264-params aq-mode=3:aq-strength=1.2:deblock=-2,-2`.
-   x264 smooths a sub-level dither away in dark, flat areas whatever the CRF,
-   and the felt and the title cards' ground band back into rings. The static
-   grain survives, can't be seen at normal contrast, and is cheap because it
-   doesn't move (see the app repo's `Docs/PressKit.md`).
+   27.1s → outro (5.5s), fading out over the last 0.6s. Encode with x264's
+   `-tune grain`, so compression keeps the felt's dither (without it the felt's
+   glow bands back into rings).
 
 The app repo's `Docs/press/pinochle-2.0-deal-and-meld.mp4` is this file, byte
 for byte. The featuring nomination links to the hosted copy, so deploy only
