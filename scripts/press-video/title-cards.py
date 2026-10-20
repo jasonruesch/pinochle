@@ -1,4 +1,4 @@
-"""Renders the animated opening and closing cards for the 2.0 press clip.
+"""Renders the animated opening and closing cards for the press clip (2.1).
 
 python3 title-cards.py SCRATCH ICON [intro|outro|both|preview]  ->  SCRATCH/intro/f_%04d.png, SCRATCH/outro/f_%04d.png
 Card faces are cut from the game's own How to Play screen (cards/*.png).
@@ -253,7 +253,7 @@ def intro_frame(t):
 
     p = prog(t, 2.35, 0.45)
     if p > 0:
-        pill(im, "NEW IN 2.0", F_PILL, W / 2, 910, AMBER, AMBER_GROUND, AMBER_LINE,
+        pill(im, "NEW IN 2.1", F_PILL, W / 2, 910, AMBER, AMBER_GROUND, AMBER_LINE,
              scale=out_back(p, 2.6), alpha=clamp(p * 3))
         burst(im, t, 2.4, W / 2, 910, n=26, reach=240)
     return im
@@ -272,7 +272,7 @@ ImageDraw.Draw(m).rounded_rectangle((0, 0, 1199, 1199), int(1200 * 0.2237), fill
 icon.putalpha(m.resize((300, 300), Image.LANCZOS))
 ICON_IMG = icon
 
-CHIPS = ["Guided first game", "Daily Deal", "Five table themes", "Online with Game Center"]
+CHIPS = ["Guided first game", "Daily Deal", "New card backs", "Online with Game Center"]
 
 FLUSH = ["As", "10s", "Ks", "Qs", "Js"]  # the spade flush — 150, the closing hand
 F_CTA_ROW = font(44, "Bold")

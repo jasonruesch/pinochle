@@ -28,6 +28,7 @@ import {
   STORE,
   STORE_URL,
   WHATS_NEW,
+  EARLIER_RELEASE,
   type Badge,
   type PlatformIcon,
 } from "./_lib/content";
@@ -156,10 +157,18 @@ export default function Home() {
               <li key={item.slice(0, 24)}>{item}</li>
             ))}
           </ul>
+          <h3 className="mt-6 text-sm font-semibold text-zinc-900 dark:text-zinc-50">
+            And in {EARLIER_RELEASE.version}
+          </h3>
+          <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-zinc-600 marker:text-brand-500 dark:text-zinc-400">
+            {EARLIER_RELEASE.items.map((item) => (
+              <li key={item.slice(0, 24)}>{item}</li>
+            ))}
+          </ul>
         </Card>
       </section>
 
-      {/* Gameplay video — the 2.0 press clip, straight after the pitch so the
+      {/* Gameplay video — the 2.1 press clip, straight after the pitch so the
           first thing below the fold is the game moving. Shares the intro's
           surface, so it drops its own top padding. */}
       <section className="px-safe-lg mx-auto max-w-5xl pb-16 sm:pb-20">
@@ -168,8 +177,8 @@ export default function Home() {
           Deal, meld, play
         </h2>
         <p className="mt-4 max-w-2xl text-lg text-zinc-600 dark:text-zinc-400">
-          A real hand with the new cameo court cards: the deal, the first
-          tricks, and a meld laid down for points.
+          A real hand with the cameo court cards and the new Medallion card
+          back: the deal, the first tricks, and a meld laid down for points.
         </p>
         <VideoFrame
           src={asset("video/deal-and-meld.mp4")}

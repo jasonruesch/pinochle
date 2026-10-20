@@ -12,7 +12,7 @@ export const STORE = {
   appId: "6759009060",
   slug: "pinochle-two-handed",
   /** Marketing version live on the store. */
-  version: "2.0",
+  version: "2.1",
 } as const;
 
 /** Canonical App Store listing URL. Every store link on the site uses this. */
@@ -26,7 +26,7 @@ export const APP = {
     "Deal in. Meld your marriages, flush the trump, and race to 1,000 against a sharp AI or a live opponent over Game Center.",
   /** The listing's promotional text, condensed — what's new in this version. */
   whatsNew:
-    "New in 2.0: a guided first game, a Daily Deal with streaks, table themes, and a whole new look.",
+    "New in 2.1: new card backs. Pick Lattice, Medallion or Sunburst in any of six colours.",
   category: "Games · Card & Strategy",
   // Deliberately no dollar amount — the App Store listing is the source of
   // truth for price, and hardcoding it here would go stale on any sale or
@@ -45,16 +45,24 @@ export const DESCRIPTION: string[] = [
   "New to Pinochle? A guided first game walks you through a real deal — the trump, your first trick, your first meld, the playoff — one short tip at a time.",
 ];
 
-/* -- What's new in 2.0 ---------------------------------------------------- */
-// The listing's "What's New (version 2.0.0)" notes, lightly condensed.
+/* -- What's new ----------------------------------------------------------- */
+// The listing's "What's New" notes, lightly condensed: this version first,
+// then the release before it — most visitors haven't seen that one either.
 export const WHATS_NEW: string[] = [
-  "A new look — a redesigned home screen, menus, and table, and cameo court cards: kings, queens, and jacks in gold-framed profile.",
-  "A guided first game that teaches you as you play.",
-  "The Daily Deal: one deal a day, the same for everyone. Keep your streak going.",
-  "Five table themes, three game speeds, and haptics on iPhone.",
-  "A scorecard after every deal that adds up melds, counters, and the last trick.",
-  "Smoother dealing, sorting, and card play, and settings you can change mid-game.",
+  "New card backs: alongside the classic Lattice, the Medallion — the court cards' gold cameo with all four suits — and an art-deco Sunburst, each in any of six colours.",
 ];
+
+export const EARLIER_RELEASE = {
+  version: "2.0",
+  items: [
+    "A new look — a redesigned home screen, menus, and table, and cameo court cards: kings, queens, and jacks in gold-framed profile.",
+    "A guided first game that teaches you as you play.",
+    "The Daily Deal: one deal a day, the same for everyone. Keep your streak going.",
+    "Five table themes, three game speeds, and haptics on iPhone.",
+    "A scorecard after every deal that adds up melds, counters, and the last trick.",
+    "Smoother dealing, sorting, and card play, and settings you can change mid-game.",
+  ],
+};
 
 /* -- Platforms ------------------------------------------------------------ */
 export type PlatformIcon = "iphone" | "ipad" | "mac" | "appletv";
@@ -125,7 +133,7 @@ export const FEATURES: Feature[] = [
   },
   {
     title: "Make it yours",
-    body: "Cameo court cards on five table themes and six card backs, three game speeds, and haptics on iPhone.",
+    body: "Cameo court cards on five table themes, card backs in three patterns and six colours, three game speeds, and haptics on iPhone.",
     icon: "palette",
     tone: "from-rose-500 to-pink-400",
   },

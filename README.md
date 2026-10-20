@@ -39,18 +39,17 @@ shallow gradient the game dithers so it doesn't band into concentric rings, and
 both an 8-bit resize and lossy WebP would undo that.
 
 The home page's gameplay clip (`public/video/deal-and-meld.mp4`, 32.6s,
-1920x1080, 30fps H.264 + AAC, faststart, ~19 MB, loaded only on play) is the 2.0 press clip: an animated
-title card, 24s of a real hand recorded by the app's harness (seed 42, cameo
-courts), and an animated closing card. Its poster, `deal-and-meld-poster.webp`,
-is the finished title card (intro frame 110), dithered and saved near-lossless
-like the screenshots so it doesn't band either. Neither is produced by
+1920x1080, 30fps H.264 + AAC, faststart) is the 2.1 press clip: an animated
+title card ("New in 2.1"), 24s of a real hand recorded by the app's harness
+(seed 42, cameo courts, the Medallion back), and an animated closing card. Its poster, `deal-and-meld-poster.webp`,
+is the finished title card (intro frame 110). Neither is produced by
 `optimize:assets`.
 
 To rebuild it (frames are ~1 GB — keep them in a scratch dir, `$T` below):
 
 1. Record gameplay with the app's capture build, per the app repo's
    `Docs/PressKit.md`:
-   `"Builds/dev-macos-mobile/Pinochle Capture.app/Contents/MacOS/Pinochle" -pinochle-autoplay -pinochle-cleanshot -pinochle-seed 42 -pinochle-table 0 -screen-width 1920 -screen-height 1080 -pinochle-record $T/frames -pinochle-recordfps 30 -pinochle-recordseconds 50`
+   `"Builds/dev-macos-mobile/Pinochle Capture.app/Contents/MacOS/Pinochle" -pinochle-autoplay -pinochle-cleanshot -pinochle-seed 42 -pinochle-table 0 -pinochle-backpattern 1 -pinochle-cardback 0 -screen-width 1920 -screen-height 1080 -pinochle-record $T/frames -pinochle-recordfps 30 -pinochle-recordseconds 50`
 2. Card faces for the title cards come from the How to Play screen at 8K
    (`-pinochle-menuscreen rules -pinochle-rulestab 0|3 -screen-width 7680 -screen-height 4320 -pinochle-screenshot …`),
    cut to `$T/cards/{As,Ks,Qs,Jd,Kd}.png` (368x522, rounded alpha).
