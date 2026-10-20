@@ -5,7 +5,7 @@ Card faces are cut from the game's own How to Play screen (cards/*.png).
 Palette is the app's "Midnight" UiKit.
 """
 import math, os, random, sys
-from PIL import Image, ImageDraw, ImageFilter, ImageFont, ImageChops
+from PIL import Image, ImageChops, ImageDraw, ImageFilter, ImageFont, ImageMath
 
 S, ICON = sys.argv[1], sys.argv[2]
 W, H, FPS = 1920, 1080, 30
@@ -34,25 +34,43 @@ def out_back(p, s=1.7):
 def lerp(a, b, p): return a + (b - a) * p
 
 # -- background ----------------------------------------------------------------
-def make_bg():
-    g = Image.radial_gradient("L").resize((W * 2, int(H * 2.4)))
-    g = g.crop((W // 2, int(H * 0.7), W // 2 + W, int(H * 0.7) + H))  # centre a bit high
-    base = Image.new("RGBA", (W, H), hexc(0x183842))
-    edge = Image.new("RGBA", (W, H), hexc(GROUND))
-    return Image.composite(edge, base, g)
+# A dark radial ground with a pulsing teal glow — both gradients so shallow that
+# 8-bit rounding steps them into concentric rings (and video compression makes it
+# worse). So the layers are float images, mixed per frame in float, with the
+# game's own interleaved-gradient noise added just before the one rounding.
+def _float_plane(fn):
+    im = Image.new("F", (W, H))
+    im.putdata([fn(x, y) for y in range(H) for x in range(W)])
+    return im
 
-BG = make_bg()
-GLOW = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-ImageDraw.Draw(GLOW).ellipse((W / 2 - 520, 120, W / 2 + 520, 760), fill=hexc(TEAL_DEEP, 120))
-GLOW = GLOW.filter(ImageFilter.GaussianBlur(160))
+def _ign(x, y):
+    f = 52.9829189 * ((0.06711056 * x + 0.00583715 * y) % 1)
+    return f - math.floor(f) - 0.5
+
+# PIL's radial gradient (0 centre → 255 rim), scaled up as a float image so the
+# resize interpolates between levels instead of repeating them.
+_M = Image.radial_gradient("L").convert("F").resize((W * 2, int(H * 2.4)), Image.BICUBIC)
+_M = _M.crop((W // 2, int(H * 0.7), W // 2 + W, int(H * 0.7) + H))
+_M = ImageMath.lambda_eval(lambda e: e["min"](e["max"](e["m"] / 255.0, 0.0), 1.0), m=_M)
+_NOISE = _float_plane(_ign)
+_base, _edge, _glow = hexc(0x183842), hexc(GROUND), hexc(TEAL_DEEP)
+_glow_mask = Image.new("L", (W, H), 0)
+ImageDraw.Draw(_glow_mask).ellipse((W / 2 - 520, 120, W / 2 + 520, 760), fill=120)
+_glow_mask = _glow_mask.filter(ImageFilter.GaussianBlur(160)).convert("F")
+# Per channel: the ground, and how far the glow pulls it at full strength.
+_BG, _PULL = [], []
+for c in range(3):
+    bg = ImageMath.lambda_eval(lambda e: e["b"] + (e["d"]) * e["m"],
+                               b=float(_base[c]), d=float(_edge[c] - _base[c]), m=_M)
+    _BG.append(bg)
+    _PULL.append(ImageMath.lambda_eval(lambda e: (e["g"] - e["bg"]) * e["a"] / 255.0,
+                                       g=float(_glow[c]), bg=bg, a=_glow_mask))
 
 def background(t, glow=1.0):
-    im = BG.copy()
-    pulse = 0.75 + 0.25 * math.sin(t * 2.2)
-    g = GLOW.copy()
-    g.putalpha(g.getchannel("A").point(lambda v: int(v * glow * pulse)))
-    im.alpha_composite(g)
-    return im
+    k = glow * (0.75 + 0.25 * math.sin(t * 2.2))
+    chans = [ImageMath.lambda_eval(lambda e: e["convert"](e["bg"] + e["pull"] * e["k"] + e["n"] + 0.5, "L"),
+                                   bg=_BG[c], pull=_PULL[c], k=k, n=_NOISE) for c in range(3)]
+    return Image.merge("RGB", chans).convert("RGBA")
 
 # Gold dust drifting up — deterministic so every render matches.
 rng = random.Random(7)

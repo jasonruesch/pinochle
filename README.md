@@ -33,11 +33,17 @@ Screenshots, Game Center art, and the app icon are generated from the app repo
 PINOCHLE_DIR=/path/to/pinochle-app npm run optimize:assets
 ```
 
+Screenshots are resized in 16 bits, dithered back to 8 bits with the game's own
+noise and saved as near-lossless WebP at 1200 px (~150–500 KB each). The felt is a
+shallow gradient the game dithers so it doesn't band into concentric rings, and
+both an 8-bit resize and lossy WebP would undo that.
+
 The home page's gameplay clip (`public/video/deal-and-meld.mp4`, 32.6s,
-1920x1080, 30fps H.264 + AAC, faststart) is the 2.0 press clip: an animated
+1920x1080, 30fps H.264 + AAC, faststart, ~19 MB, loaded only on play) is the 2.0 press clip: an animated
 title card, 24s of a real hand recorded by the app's harness (seed 42, cameo
 courts), and an animated closing card. Its poster, `deal-and-meld-poster.webp`,
-is the finished title card (intro frame 110). Neither is produced by
+is the finished title card (intro frame 110), dithered and saved near-lossless
+like the screenshots so it doesn't band either. Neither is produced by
 `optimize:assets`.
 
 To rebuild it (frames are ~1 GB — keep them in a scratch dir, `$T` below):
@@ -54,10 +60,17 @@ To rebuild it (frames are ~1 GB — keep them in a scratch dir, `$T` below):
    under each card in both fans and the meld chime (8.13s, 0.66s) on the
    pinochle pair and the closing flush — with the gameplay audio delayed 3.7s, then
    encode: intro (4.2s) → 0.5s fade → gameplay frames 0–719 → 0.6s fade at
-   27.1s → outro (5.5s), fading out over the last 0.6s.
+   27.1s → outro (5.5s), fading out over the last 0.6s. Append a fixed grain
+   pattern to the filter chain (`noise=c0s=3:c0f=p`) and encode with x264 at
+   `-crf 18 -tune grain -x264-params aq-mode=3:aq-strength=1.2:deblock=-2,-2`.
+   x264 smooths a sub-level dither away in dark, flat areas whatever the CRF,
+   and the felt and the title cards' ground band back into rings. The static
+   grain survives, can't be seen at normal contrast, and is cheap because it
+   doesn't move (see the app repo's `Docs/PressKit.md`).
 
-The app repo's `Docs/press/` still holds the 1.1 clip, and the hosted copy
-the featuring nomination links to is this file — re-upload it when 2.0 ships.
+The app repo's `Docs/press/pinochle-2.0-deal-and-meld.mp4` is this file, byte
+for byte. The featuring nomination links to the hosted copy, so deploy only
+once 2.0 is live.
 
 Site copy lives in `src/app/_lib/content.ts`, sourced from the app's App Store
 listing kit (`Docs/StoreListing.md`).
