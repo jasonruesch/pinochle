@@ -25,6 +25,7 @@ import {
   RULES,
   RULES_DISCLAIMER,
   SHOTS,
+  HERO_SHOT,
   STORE,
   STORE_URL,
   WHATS_NEW,
@@ -44,7 +45,6 @@ const PLATFORM_ICONS: Record<
   appletv: AppleTVIcon,
 };
 
-const HERO_SHOT = SHOTS.find((s) => s.file === "iphone69-classic")!;
 const HINTS_SHOT = SHOTS.find((s) => s.file === "mac-hints")!;
 
 // Tells a crawler what the site is about in its own vocabulary: an app, on

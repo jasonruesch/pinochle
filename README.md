@@ -63,8 +63,14 @@ To rebuild it (frames are ~1 GB — keep them in a scratch dir, `$T` below):
 
 The app repo's `Docs/press/` keeps each version's clip; this file is
 `pinochle-2.1-deal-and-meld.mp4` there, byte for byte. The featuring nomination
-links to the hosted copy, so deploy this branch only once 2.3 is live (2.2
-and 2.3 changed nothing the clip shows, so it is still the 2.1 one).
+links to the hosted copy, so deploy this branch only once 3.0 is live. The
+home page still plays the 2.1 clip (landscape); 3.0's vertical cut for social
+posts, `pinochle-3.0-vertical.mp4` (1080x1920), lives only in the app repo's
+`Docs/press/` — render its "NEW IN 3.0" title cards with
+`PINOCHLE_PILL="NEW IN 3.0" python3 scripts/press-video/title-cards.py …`.
+
+The gallery's iPhone tab shows the upright (3.0) captures, `iphone69p-*`, three
+across; the hero keeps the sideways `iphone69-classic`.
 
 Site copy lives in `src/app/_lib/content.ts`, sourced from the app's App Store
 listing kit (`Docs/StoreListing.md`).

@@ -12,7 +12,7 @@ export const STORE = {
   appId: "6759009060",
   slug: "pinochle-two-handed",
   /** Marketing version live on the store. */
-  version: "2.3",
+  version: "3.0",
 } as const;
 
 /** Canonical App Store listing URL. Every store link on the site uses this. */
@@ -26,7 +26,7 @@ export const APP = {
     "Deal in. Meld your marriages, flush the trump, and race to 1,000 against a sharp AI or a live opponent over Game Center.",
   /** The listing's promotional text, condensed — what's new in this version. */
   whatsNew:
-    "New in 2.3: a coach after every deal, a target score on the Daily Deal, your stats, and an opponent ladder that earns new card backs and a table.",
+    "New in 3.0: play upright on iPhone — your whole hand in one easy arc, under your thumb. Turn the phone any time, and it's ready for iPhone Duo.",
   category: "Games · Card & Strategy",
   // Deliberately no dollar amount — the App Store listing is the source of
   // truth for price, and hardcoding it here would go stale on any sale or
@@ -39,7 +39,7 @@ export const APP = {
 } as const;
 
 export const DESCRIPTION: string[] = [
-  "Pinochle brings the classic two-handed card duel to your table — the classic rules, a beautiful minimal deck, and opponents that put up a real fight.",
+  "Pinochle brings the classic two-handed card duel to your table — the classic rules, a beautiful minimal deck, and opponents that put up a real fight. Play it upright on iPhone, your hand right under your thumb, or turn it sideways.",
   "Try the whole game free for 14 days. After that, one purchase unlocks it for good — on your iPhone, iPad, Mac, and Apple TV. No subscription. And the Daily Deal stays free, every day, either way.",
   "Play a quick single deal or the full race to 1,000 with declare-out. Draw from the stock, time your melds, and squeeze every counter out of the playoff, where following suit is the law and every trick matters.",
   "New to Pinochle? A guided first game walks you through a real deal — the trump, your first trick, your first meld, the playoff — one short tip at a time.",
@@ -49,19 +49,18 @@ export const DESCRIPTION: string[] = [
 // The listing's "What's New" notes, lightly condensed: this version first,
 // then the release before it — most visitors haven't seen that one either.
 export const WHATS_NEW: string[] = [
-  "A coach after every deal: one line on your costliest slip — a meld you never showed, or a counter you gave away.",
-  "A target score on the Daily Deal: see what the Hard computer scored on the same cards, and earn gold, silver, or bronze.",
-  "Your stats: wins against each opponent, average meld, big melds, and medals.",
-  "The ladder: beat each computer three times to earn a new card-back colour, the Walnut table, and the Crown card back.",
-  "Against Easy: a card tracker in the playoff, and undo for your last card. And hints in your first three games, whoever you play.",
+  "Pinochle plays upright on iPhone: the table stacks top to bottom and your hand sits in one arc, right under your thumb.",
+  "Touch a card to lift it and see it up close; let go to play it, or slide to another card first.",
+  "Turn the phone any time — mid-deal included — and the table follows.",
+  "Made for iPhone Duo: the folded screen and the big inner one, upright or sideways, switching as you fold and unfold.",
 ];
 
 export const EARLIER_RELEASE = {
-  version: "2.2",
+  version: "2.3",
   items: [
-    "The Daily Deal is now free, every day, for good — before, during, and after your free trial.",
-    "Streak freezes: every 7 days in a row earns one, and a freeze covers a missed day.",
-    "An optional daily reminder at the time you usually play.",
+    "A coach after every deal, and a target score on the Daily Deal: beat the Hard computer's score for gold.",
+    "Your stats, and a ladder: beat each computer three times to earn a new card-back colour, the Walnut table, and the Crown card back.",
+    "Against Easy: a card tracker in the playoff, and undo for your last card.",
   ],
 };
 
@@ -460,7 +459,8 @@ function shotsFor(
 }
 
 export const SHOTS: Shot[] = [
-  ...shotsFor("iPhone", "iphone", "iphone69", 2868 / 1320), // iPhone 6.9"
+  // iPhone 6.9", upright (3.0 plays upright; the sideways set stays for the hero).
+  ...shotsFor("iPhone", "iphone", "iphone69p", 1320 / 2868),
   ...shotsFor("iPad", "ipad", "ipad13", 2752 / 2064), // iPad 13"
   ...shotsFor("Mac", "mac", "mac", 2880 / 1800),
   ...shotsFor(
@@ -474,8 +474,16 @@ export const SHOTS: Shot[] = [
 
 export const DEVICES: Device[] = ["iPhone", "iPad", "Mac", "Apple TV"];
 
-/** The single hero screenshot (iPhone melding — the most colorful shot). */
-export const HERO_SHOT = "iphone69-classic";
+/** The single hero screenshot (iPhone melding — the most colorful shot). It
+ * stays the sideways capture: the hero frame is laid out landscape. */
+export const HERO_SHOT: Shot = {
+  device: "iPhone",
+  platformIcon: "iphone",
+  label: SCENES.classic.label,
+  file: "iphone69-classic",
+  alt: `${SCENES.classic.alt}, on iPhone`,
+  ratio: 2868 / 1320,
+};
 
 /* -- Game Center: achievements & leaderboards ----------------------------- */
 // Card artwork optimized from /Users/jason/code/jasonruesch/pinochle-app/Docs/gc-assets/ into

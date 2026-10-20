@@ -1,6 +1,8 @@
 """Renders the animated opening and closing cards for the press clip (2.1).
 
 python3 title-cards.py SCRATCH ICON [intro|outro|both|preview]  ->  SCRATCH/intro/f_%04d.png, SCRATCH/outro/f_%04d.png
+The opening card's pill reads PINOCHLE_PILL (default "NEW IN 2.1"); the 3.0
+vertical clip renders it as "NEW IN 3.0".
 Card faces are cut from the game's own How to Play screen (cards/*.png).
 Palette is the app's "Midnight" UiKit.
 """
@@ -8,6 +10,7 @@ import math, os, random, sys
 from PIL import Image, ImageChops, ImageDraw, ImageFilter, ImageFont, ImageMath
 
 S, ICON = sys.argv[1], sys.argv[2]
+PILL = os.environ.get("PINOCHLE_PILL", "NEW IN 2.1")
 W, H, FPS = 1920, 1080, 30
 
 def hexc(h, a=255):
@@ -253,7 +256,7 @@ def intro_frame(t):
 
     p = prog(t, 2.35, 0.45)
     if p > 0:
-        pill(im, "NEW IN 2.1", F_PILL, W / 2, 910, AMBER, AMBER_GROUND, AMBER_LINE,
+        pill(im, PILL, F_PILL, W / 2, 910, AMBER, AMBER_GROUND, AMBER_LINE,
              scale=out_back(p, 2.6), alpha=clamp(p * 3))
         burst(im, t, 2.4, W / 2, 910, n=26, reach=240)
     return im
