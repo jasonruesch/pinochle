@@ -12,7 +12,7 @@ export const STORE = {
   appId: "6759009060",
   slug: "pinochle-two-handed",
   /** Marketing version live on the store. */
-  version: "2.2",
+  version: "2.3",
 } as const;
 
 /** Canonical App Store listing URL. Every store link on the site uses this. */
@@ -26,7 +26,7 @@ export const APP = {
     "Deal in. Meld your marriages, flush the trump, and race to 1,000 against a sharp AI or a live opponent over Game Center.",
   /** The listing's promotional text, condensed — what's new in this version. */
   whatsNew:
-    "New in 2.2: the Daily Deal is free every day, for good — and streak freezes save your streak on a missed day.",
+    "New in 2.3: a coach after every deal, a target score on the Daily Deal, your stats, and an opponent ladder that earns new card backs and a table.",
   category: "Games · Card & Strategy",
   // Deliberately no dollar amount — the App Store listing is the source of
   // truth for price, and hardcoding it here would go stale on any sale or
@@ -49,16 +49,19 @@ export const DESCRIPTION: string[] = [
 // The listing's "What's New" notes, lightly condensed: this version first,
 // then the release before it — most visitors haven't seen that one either.
 export const WHATS_NEW: string[] = [
-  "The Daily Deal is now free, every day, for good — before, during, and after your free trial.",
-  "Streak freezes: every 7 days in a row earns one (hold up to two), and a freeze covers a missed day so your streak carries on.",
-  "An optional daily reminder at the time you usually play — it stops on its own if you take a break.",
-  "The guided first game is free too, and doesn't start your trial.",
+  "A coach after every deal: one line on your costliest slip — a meld you never showed, or a counter you gave away.",
+  "A target score on the Daily Deal: see what the Hard computer scored on the same cards, and earn gold, silver, or bronze.",
+  "Your stats: wins against each opponent, average meld, big melds, and medals.",
+  "The ladder: beat each computer three times to earn a new card-back colour, the Walnut table, and the Crown card back.",
+  "Against Easy: a card tracker in the playoff, and undo for your last card. And hints in your first three games, whoever you play.",
 ];
 
 export const EARLIER_RELEASE = {
-  version: "2.1",
+  version: "2.2",
   items: [
-    "New card backs: alongside the classic Lattice, the Medallion — the court cards' gold cameo with all four suits — and an art-deco Sunburst, each in any of six colours.",
+    "The Daily Deal is now free, every day, for good — before, during, and after your free trial.",
+    "Streak freezes: every 7 days in a row earns one, and a freeze covers a missed day.",
+    "An optional daily reminder at the time you usually play.",
   ],
 };
 
@@ -113,13 +116,13 @@ export const FEATURES: Feature[] = [
   },
   {
     title: "The Daily Deal",
-    body: "The same cards for everyone, every day — and free for good. Build a streak, with streak freezes for the days life gets in the way and an optional reminder.",
+    body: "The same cards for everyone, every day — and free for good. Beat the Hard computer's score for gold, and build a streak, with streak freezes for the days life gets in the way.",
     icon: "calendar",
     tone: "from-amber-500 to-yellow-400",
   },
   {
-    title: "Three AI opponents",
-    body: "From an easygoing teacher to a card-counting shark that tracks the deck, weighs meld potential, and manages its trump.",
+    title: "Three AI opponents, and a ladder",
+    body: "From an easygoing teacher to a card-counting shark that tracks the deck. Beat each three times to earn a new card back or table — and a coach after every deal shows you where the points went.",
     icon: "cpu",
     tone: "from-fuchsia-500 to-accent-500",
   },
@@ -131,7 +134,7 @@ export const FEATURES: Feature[] = [
   },
   {
     title: "Make it yours",
-    body: "Cameo court cards on five table themes, card backs in three patterns and six colours, three game speeds, and haptics on iPhone.",
+    body: "Cameo court cards on five table themes, card backs in three patterns and six colours — plus three more to earn — three game speeds, and haptics on iPhone.",
     icon: "palette",
     tone: "from-rose-500 to-pink-400",
   },
@@ -410,7 +413,7 @@ const SCENES: Record<Scene, { label: string; alt: string }> = {
   },
   daily: {
     label: "Daily Deal",
-    alt: "The home screen with today's Daily Deal, an eight-day streak with one day saved by a streak freeze, and your record",
+    alt: "The home screen with today's Daily Deal and the Hard computer's score to beat, an eight-day streak with one day saved by a streak freeze, and your record",
   },
   tutorial: {
     label: "Guided first game",
@@ -585,6 +588,16 @@ export const SUPPORT_FAQS: Faq[] = [
     question: "How do I turn the daily reminder on or off?",
     answer:
       "In Settings, under Play, switch Daily reminder on or off. It comes once a day around the time you usually play and stops by itself if you haven't opened the app for three days. If it won't switch on, notifications for Pinochle are off in your device's Settings › Notifications. It's a local notification — nothing is sent anywhere. (Not on Apple TV.)",
+  },
+  {
+    question: "How do I get the Plum, Walnut, and Crown designs?",
+    answer:
+      "Win. Three wins against the Easy computer earn the Plum card-back colour, three against Medium the Walnut table, and three against Hard the Crown card back. Tap Your Record on the home screen to see the ladder and how close you are. They can't be bought, and the Daily Deal and practice matches (where you used undo) don't count.",
+  },
+  {
+    question: "Where does the Daily Deal's target score come from?",
+    answer:
+      "It's what the Hard computer scores playing your seat on the same cards, worked out on your device — so everyone gets the same target. Match it for gold; within 85% is silver, within 70% bronze.",
   },
   {
     question: "I want a refund, or I was charged incorrectly.",
