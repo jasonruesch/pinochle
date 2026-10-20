@@ -39,10 +39,10 @@ shallow gradient the game dithers so it doesn't band into concentric rings, and
 both an 8-bit resize and lossy WebP would undo that.
 
 The home page's gameplay clip (`public/video/deal-and-meld.mp4`, 32.6s,
-1920x1080, 30fps H.264 + AAC, faststart, ~12.6 MB, loaded only on play) is the 2.1 press clip: an animated
+1920x1080, 30fps H.264 + AAC, faststart, ~19.7 MB, loaded only on play) is the 2.1 press clip: an animated
 title card ("New in 2.1"), 24s of a real hand recorded by the app's harness
 (seed 42, cameo courts, the Medallion back), and an animated closing card. Its poster, `deal-and-meld-poster.webp`,
-is the finished title card (intro frame 110). Neither is produced by
+is the finished title card (intro frame 110), dithered and saved near-lossless like the screenshots so it doesn't band either. Neither is produced by
 `optimize:assets`.
 
 To rebuild it (frames are ~1 GB — keep them in a scratch dir, `$T` below):
@@ -59,7 +59,7 @@ To rebuild it (frames are ~1 GB — keep them in a scratch dir, `$T` below):
    under each card in both fans and the meld chime (8.13s, 0.66s) on the
    pinochle pair and the closing flush — with the gameplay audio delayed 3.7s, then
    encode: intro (4.2s) → 0.5s fade → gameplay frames 0–719 → 0.6s fade at
-   27.1s → outro (5.5s), fading out over the last 0.6s. Encode with x264 at `-crf 16 -tune grain` and `-x264-params aq-mode=3:aq-strength=1.2:deblock=-2,-2`, so compression keeps the felt's dither. At CRF 18, even with grain tuning, the glow bands back into rings.
+   27.1s → outro (5.5s), fading out over the last 0.6s. Encode with a fixed grain pattern appended to the filter chain (`noise=c0s=3:c0f=p`) and x264 at `-crf 18 -tune grain -x264-params aq-mode=3:aq-strength=1.2:deblock=-2,-2`: x264 smooths a sub-level dither away in dark, flat areas whatever the CRF, and the felt and the title cards' ground band back into rings. The static grain survives, can't be seen at normal contrast, and is cheap because it doesn't move (see the app repo's `Docs/PressKit.md`).
 
 The app repo's `Docs/press/` keeps each version's clip; this file is
 `pinochle-2.1-deal-and-meld.mp4` there, byte for byte. The featuring nomination
