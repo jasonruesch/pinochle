@@ -12,7 +12,7 @@ export const STORE = {
   appId: "6759009060",
   slug: "pinochle-two-handed",
   /** Marketing version live on the store. */
-  version: "2.1",
+  version: "2.2",
 } as const;
 
 /** Canonical App Store listing URL. Every store link on the site uses this. */
@@ -26,7 +26,7 @@ export const APP = {
     "Deal in. Meld your marriages, flush the trump, and race to 1,000 against a sharp AI or a live opponent over Game Center.",
   /** The listing's promotional text, condensed — what's new in this version. */
   whatsNew:
-    "New in 2.1: new card backs. Pick Lattice, Medallion or Sunburst in any of six colours.",
+    "New in 2.2: the Daily Deal is free every day, for good — and streak freezes save your streak on a missed day.",
   category: "Games · Card & Strategy",
   // Deliberately no dollar amount — the App Store listing is the source of
   // truth for price, and hardcoding it here would go stale on any sale or
@@ -40,7 +40,7 @@ export const APP = {
 
 export const DESCRIPTION: string[] = [
   "Pinochle brings the classic two-handed card duel to your table — the classic rules, a beautiful minimal deck, and opponents that put up a real fight.",
-  "Try the whole game free for 14 days. After that, one purchase unlocks it for good — on your iPhone, iPad, Mac, and Apple TV. No subscription.",
+  "Try the whole game free for 14 days. After that, one purchase unlocks it for good — on your iPhone, iPad, Mac, and Apple TV. No subscription. And the Daily Deal stays free, every day, either way.",
   "Play a quick single deal or the full race to 1,000 with declare-out. Draw from the stock, time your melds, and squeeze every counter out of the playoff, where following suit is the law and every trick matters.",
   "New to Pinochle? A guided first game walks you through a real deal — the trump, your first trick, your first meld, the playoff — one short tip at a time.",
 ];
@@ -49,18 +49,16 @@ export const DESCRIPTION: string[] = [
 // The listing's "What's New" notes, lightly condensed: this version first,
 // then the release before it — most visitors haven't seen that one either.
 export const WHATS_NEW: string[] = [
-  "New card backs: alongside the classic Lattice, the Medallion — the court cards' gold cameo with all four suits — and an art-deco Sunburst, each in any of six colours.",
+  "The Daily Deal is now free, every day, for good — before, during, and after your free trial.",
+  "Streak freezes: every 7 days in a row earns one (hold up to two), and a freeze covers a missed day so your streak carries on.",
+  "An optional daily reminder at the time you usually play — it stops on its own if you take a break.",
+  "The guided first game is free too, and doesn't start your trial.",
 ];
 
 export const EARLIER_RELEASE = {
-  version: "2.0",
+  version: "2.1",
   items: [
-    "A new look — a redesigned home screen, menus, and table, and cameo court cards: kings, queens, and jacks in gold-framed profile.",
-    "A guided first game that teaches you as you play.",
-    "The Daily Deal: one deal a day, the same for everyone. Keep your streak going.",
-    "Five table themes, three game speeds, and haptics on iPhone.",
-    "A scorecard after every deal that adds up melds, counters, and the last trick.",
-    "Smoother dealing, sorting, and card play, and settings you can change mid-game.",
+    "New card backs: alongside the classic Lattice, the Medallion — the court cards' gold cameo with all four suits — and an art-deco Sunburst, each in any of six colours.",
   ],
 };
 
@@ -115,7 +113,7 @@ export const FEATURES: Feature[] = [
   },
   {
     title: "The Daily Deal",
-    body: "The same cards for everyone, every day. Play today's deal and build a streak.",
+    body: "The same cards for everyone, every day — and free for good. Build a streak, with streak freezes for the days life gets in the way and an optional reminder.",
     icon: "calendar",
     tone: "from-amber-500 to-yellow-400",
   },
@@ -412,7 +410,7 @@ const SCENES: Record<Scene, { label: string; alt: string }> = {
   },
   daily: {
     label: "Daily Deal",
-    alt: "The home screen with today's Daily Deal, a five-day streak, and your record",
+    alt: "The home screen with today's Daily Deal, an eight-day streak with one day saved by a streak freeze, and your record",
   },
   tutorial: {
     label: "Guided first game",
@@ -574,6 +572,21 @@ export const SUPPORT_FAQS: Faq[] = [
       "Yes — Apple TV uses a focus-based interface, and game controllers are supported there as well as on iPhone, iPad, and Mac.",
   },
   {
+    question: "What happens when my free trial ends?",
+    answer:
+      "The Daily Deal and the guided first game stay free, every day, for good — and a match you'd already started can always be finished. Single deals and Race to 1,000 against the computer, and online play, need the one-time unlock. Bought it on another device? Restore Purchases, on the unlock screen and in Settings, brings it back.",
+  },
+  {
+    question: "How do streak freezes work?",
+    answer:
+      "Every 7 days in a row of the Daily Deal earns a streak freeze, and you can hold two. Miss a day and a freeze covers it the next time you play, so the streak carries on (the frozen day shows in ice blue on the home screen). Miss more days than you have freezes and the streak starts over — but you keep the freezes.",
+  },
+  {
+    question: "How do I turn the daily reminder on or off?",
+    answer:
+      "In Settings, under Play, switch Daily reminder on or off. It comes once a day around the time you usually play and stops by itself if you haven't opened the app for three days. If it won't switch on, notifications for Pinochle are off in your device's Settings › Notifications. It's a local notification — nothing is sent anywhere. (Not on Apple TV.)",
+  },
+  {
     question: "I want a refund, or I was charged incorrectly.",
     answer:
       "Purchases and billing are handled entirely by Apple; the developer never sees a payment. Refunds and receipts go through Apple's own reporting page.",
@@ -587,7 +600,7 @@ export const SUPPORT_FAQS: Faq[] = [
 // App Store listing points at) live here.
 export const PRIVACY = {
   /** Rendered as "Last updated" on /privacy. Bump whenever the prose changes. */
-  updated: "July 28, 2026",
+  updated: "October 20, 2026",
   /** Apple governs Game Center and SharePlay data under its own policy. */
   applePolicyUrl: "https://www.apple.com/legal/privacy/",
   /** The support address given in the policy and the App Store listing. */

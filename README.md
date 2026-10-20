@@ -63,7 +63,8 @@ To rebuild it (frames are ~1 GB — keep them in a scratch dir, `$T` below):
 
 The app repo's `Docs/press/` keeps each version's clip; this file is
 `pinochle-2.1-deal-and-meld.mp4` there, byte for byte. The featuring nomination
-links to the hosted copy, so deploy this branch only once 2.1 is live.
+links to the hosted copy, so deploy this branch only once 2.2 is live (2.2
+changed no gameplay on screen, so it ships the 2.1 clip).
 
 Site copy lives in `src/app/_lib/content.ts`, sourced from the app's App Store
 listing kit (`Docs/StoreListing.md`).
