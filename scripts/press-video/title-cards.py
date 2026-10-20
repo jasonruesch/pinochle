@@ -1,8 +1,10 @@
 """Renders the animated opening and closing cards for the press clip (2.1).
 
 python3 title-cards.py SCRATCH ICON [intro|outro|both|preview]  ->  SCRATCH/intro/f_%04d.png, SCRATCH/outro/f_%04d.png
-The opening card's pill reads PINOCHLE_PILL (default "NEW IN 2.1"); the 3.0
-vertical clip renders it as "NEW IN 3.0".
+The opening card's pill reads PINOCHLE_PILL (default "NEW IN 2.1") and the
+closing card's chips PINOCHLE_CHIPS (comma-separated). PINOCHLE_FORMAT=portrait
+renders natively at 1080x1920 for the vertical cut (3.0): the same cards and
+timings, laid out for 9:16 — larger fan, narrower wordmark, chips on two rows.
 Card faces are cut from the game's own How to Play screen (cards/*.png).
 Palette is the app's "Midnight" UiKit.
 """
@@ -11,7 +13,29 @@ from PIL import Image, ImageChops, ImageDraw, ImageFilter, ImageFont, ImageMath
 
 S, ICON = sys.argv[1], sys.argv[2]
 PILL = os.environ.get("PINOCHLE_PILL", "NEW IN 2.1")
-W, H, FPS = 1920, 1080, 30
+PORTRAIT = os.environ.get("PINOCHLE_FORMAT", "landscape") == "portrait"
+W, H, FPS = (1080, 1920, 30) if PORTRAIT else (1920, 1080, 30)
+
+# Every hand-placed position, per format. Landscape is the original 2.1 layout,
+# unchanged; portrait centres the same beats in a 9:16 frame.
+LAY = dict(
+    glow=(W / 2 - 480, 440, W / 2 + 480, 1340) if PORTRAIT else (W / 2 - 520, 120, W / 2 + 520, 760),
+    fan_pivot=(W / 2, 1360) if PORTRAIT else (W / 2, 900), fan_r=600 if PORTRAIT else 560,
+    fan_scale=0.8 if PORTRAIT else 0.62,
+    fan_spread=190 if PORTRAIT else 260,
+    fan_shine=(160, 480, 920, 1000) if PORTRAIT else (560, 120, 1360, 560),
+    title_size=118 if PORTRAIT else 150, title_track=(44, 24) if PORTRAIT else (60, 34),
+    title_y=1115 if PORTRAIT else 560, rule_y=1290 if PORTRAIT else 762, rule_half=260 if PORTRAIT else 300,
+    sub_size=44 if PORTRAIT else 46, sub_y=1320 if PORTRAIT else 795, pill_y=1450 if PORTRAIT else 910,
+    flush_pivot=(W / 2, 1300) if PORTRAIT else (W / 2, 900), flush_r=600, flush_scale=0.76 if PORTRAIT else 0.6,
+    flush_start_y=960 if PORTRAIT else 760,
+    flush_shine=(140, 470, 940, 960) if PORTRAIT else (520, 120, 1400, 560),
+    flush_burst=(W / 2, 660, 340) if PORTRAIT else (W / 2, 330, 420),
+    name_size=72 if PORTRAIT else 84, name_y=985 if PORTRAIT else 560,
+    chip_rows=([0, 1], [2, 3]) if PORTRAIT else ([0, 1, 2, 3],), chip_y=(1130, 1200) if PORTRAIT else (712,),
+    chip_size=30 if PORTRAIT else 28,
+    store_y=1310 if PORTRAIT else 822, plat_y=1390 if PORTRAIT else 896, close_y=1485 if PORTRAIT else 985,
+)
 
 def hexc(h, a=255):
     return ((h >> 16) & 255, (h >> 8) & 255, h & 255, a)
@@ -58,7 +82,7 @@ _M = ImageMath.lambda_eval(lambda e: e["min"](e["max"](e["m"] / 255.0, 0.0), 1.0
 _NOISE = _float_plane(_ign)
 _base, _edge, _glow = hexc(0x183842), hexc(GROUND), hexc(TEAL_DEEP)
 _glow_mask = Image.new("L", (W, H), 0)
-ImageDraw.Draw(_glow_mask).ellipse((W / 2 - 520, 120, W / 2 + 520, 760), fill=120)
+ImageDraw.Draw(_glow_mask).ellipse(LAY["glow"], fill=120)
 _glow_mask = _glow_mask.filter(ImageFilter.GaussianBlur(160)).convert("F")
 # Per channel: the ground, and how far the glow pulls it at full strength.
 _BG, _PULL = [], []
@@ -191,16 +215,16 @@ def pill(im, s, f, cx, cy, fg, bg, line, scale=1.0, alpha=1.0, padx=34, pady=16)
 # -- opening -------------------------------------------------------------------
 INTRO_SECONDS = 4.2
 FAN = ["As", "Ks", "Qs", "Jd", "Kd"]
-F_TITLE = font(150, "Heavy")
-F_SUB = font(46, "Medium")
+F_TITLE = font(LAY["title_size"], "Heavy")
+F_SUB = font(LAY["sub_size"], "Medium")
 F_PILL = font(38, "Bold")
 
 def intro_frame(t):
     im = background(t)
     dust(im, t, amount=clamp(t / 0.8))
     cards = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    pivot = (W / 2, 900)
-    R = 560
+    pivot = LAY["fan_pivot"]
+    R = LAY["fan_r"]
     for i, n in enumerate(FAN):
         a_end = (i - 2) * 11
         t0 = 0.12 + 0.11 * i
@@ -209,7 +233,7 @@ def intro_frame(t):
         e = out_back(p, 1.3)
         ex = pivot[0] + R * math.sin(math.radians(a_end))
         ey = pivot[1] - R * math.cos(math.radians(a_end))
-        sx, sy = W / 2 + (i - 2) * 260, H + 360
+        sx, sy = W / 2 + (i - 2) * LAY["fan_spread"], H + 360
         x, y = lerp(sx, ex, e), lerp(sy, ey, e)
         ang = lerp(a_end - 40 + i * 14, a_end, e)
         # the pinochle pair (Q♠ + J♦) lifts and glows
@@ -221,13 +245,13 @@ def intro_frame(t):
             glow = q * (1 - back * 0.5) * (0.8 + 0.2 * math.sin(t * 9))
         x += math.sin(math.radians(a_end)) * -lift * 0.3
         y -= lift
-        place(cards, CARDS[n], x, y, ang, 0.62, glow=glow)
-    cards = shine(cards, t, 2.85, 0.75, region=(560, 120, 1360, 560))
+        place(cards, CARDS[n], x, y, ang, LAY["fan_scale"], glow=glow)
+    cards = shine(cards, t, 2.85, 0.75, region=LAY["fan_shine"])
     im.alpha_composite(cards)
 
     # title, letter by letter
     title = "PINOCHLE"
-    track = lerp(60, 34, out_cubic(prog(t, 1.15, 1.0)))
+    track = lerp(*LAY["title_track"], out_cubic(prog(t, 1.15, 1.0)))
     total = sum(F_TITLE.getlength(c) for c in title) + track * (len(title) - 1)
     x = W / 2 - total / 2
     layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
@@ -237,7 +261,7 @@ def intro_frame(t):
         if p > 0:
             e = out_back(p, 2.0)
             letter = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-            ImageDraw.Draw(letter).text((x, 560 + 60 * (1 - e)), c, font=F_TITLE, fill=hexc(TEXT))
+            ImageDraw.Draw(letter).text((x, LAY["title_y"] + 60 * (1 - e)), c, font=F_TITLE, fill=hexc(TEXT))
             letter.putalpha(letter.getchannel("A").point(lambda v, p=p: int(v * clamp(p * 2.2))))
             layer.alpha_composite(letter)
         x += F_TITLE.getlength(c) + track
@@ -247,24 +271,25 @@ def intro_frame(t):
     p = out_cubic(prog(t, 1.75, 0.55))
     if p > 0:
         d = ImageDraw.Draw(im)
-        half = 300 * p
-        d.rounded_rectangle((W / 2 - half, 762, W / 2 + half, 767), 3, fill=hexc(AMBER))
+        half = LAY["rule_half"] * p
+        ry = LAY["rule_y"]
+        d.rounded_rectangle((W / 2 - half, ry, W / 2 + half, ry + 5), 3, fill=hexc(AMBER))
 
     p = prog(t, 1.9, 0.5)
-    draw_text(im, "The classic two-handed duel", F_SUB, W / 2, 795, MUTED,
+    draw_text(im, "The classic two-handed duel", F_SUB, W / 2, LAY["sub_y"], MUTED,
               alpha=out_cubic(p), dy=24 * (1 - out_cubic(p)))
 
     p = prog(t, 2.35, 0.45)
     if p > 0:
-        pill(im, PILL, F_PILL, W / 2, 910, AMBER, AMBER_GROUND, AMBER_LINE,
+        pill(im, PILL, F_PILL, W / 2, LAY["pill_y"], AMBER, AMBER_GROUND, AMBER_LINE,
              scale=out_back(p, 2.6), alpha=clamp(p * 3))
-        burst(im, t, 2.4, W / 2, 910, n=26, reach=240)
+        burst(im, t, 2.4, W / 2, LAY["pill_y"], n=26, reach=240)
     return im
 
 # -- closing -------------------------------------------------------------------
 OUTRO_SECONDS = 5.5
-F_NAME = font(84, "Heavy")
-F_CHIP = font(28, "Semibold")
+F_NAME = font(LAY["name_size"], "Heavy")
+F_CHIP = font(LAY["chip_size"], "Semibold")
 F_CTA = font(44, "Bold")
 F_PLAT = font(30, "Medium")
 F_CLOSE = font(28, "Semibold")
@@ -275,7 +300,8 @@ ImageDraw.Draw(m).rounded_rectangle((0, 0, 1199, 1199), int(1200 * 0.2237), fill
 icon.putalpha(m.resize((300, 300), Image.LANCZOS))
 ICON_IMG = icon
 
-CHIPS = ["Guided first game", "Daily Deal", "New card backs", "Online with Game Center"]
+CHIPS = [c.strip() for c in os.environ.get(
+    "PINOCHLE_CHIPS", "Guided first game,Daily Deal,New card backs,Online with Game Center").split(",")]
 
 FLUSH = ["As", "10s", "Ks", "Qs", "Js"]  # the spade flush — 150, the closing hand
 F_CTA_ROW = font(44, "Bold")
@@ -285,7 +311,7 @@ def outro_frame(t):
     im = background(t + 10)
     dust(im, t + 10)
     layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    pivot, R = (W / 2, 900), 600
+    pivot, R = LAY["flush_pivot"], LAY["flush_r"]
     # The flush deals in from the left on an arc, one card at a time...
     sq = prog(t, 1.0, 0.35)          # ...then squares up and glows as a meld
     settle = prog(t, 2.4, 0.6)
@@ -298,30 +324,33 @@ def outro_frame(t):
         e = out_back(p, 1.2)
         ex = pivot[0] + R * math.sin(math.radians(a_end))
         ey = pivot[1] - R * math.cos(math.radians(a_end)) - lift
-        sx, sy = -260, 760 - 40 * i
+        sx, sy = -260, LAY["flush_start_y"] - 40 * i
         mx, my = (sx + ex) / 2, min(sy, ey) - 260      # arc's control point
         x = (1 - e) ** 2 * sx + 2 * (1 - e) * e * mx + e * e * ex
         y = (1 - e) ** 2 * sy + 2 * (1 - e) * e * my + e * e * ey
         ang = lerp(-120 + i * 8, a_end, e)
-        place(layer, CARDS[n], x, y, ang, 0.6, glow=glow)
-    layer = shine(layer, t, 1.35, 0.75, region=(520, 120, 1400, 560))
+        place(layer, CARDS[n], x, y, ang, LAY["flush_scale"], glow=glow)
+    layer = shine(layer, t, 1.35, 0.75, region=LAY["flush_shine"])
     im.alpha_composite(layer)
-    burst(im, t, 1.05, W / 2, 330, n=30, reach=420, seed=11)
+    bx, by, reach = LAY["flush_burst"]
+    burst(im, t, 1.05, bx, by, n=30, reach=reach, seed=11)
 
     p = prog(t, 1.2, 0.5)
-    draw_text(im, "Pinochle: Two-Handed", F_NAME, W / 2, 560, TEXT,
+    draw_text(im, "Pinochle: Two-Handed", F_NAME, W / 2, LAY["name_y"], TEXT,
               alpha=out_cubic(p), dy=30 * (1 - out_cubic(p)))
 
-    # chips row
-    widths = [F_CHIP.getlength(c) + 56 for c in CHIPS]
+    # chips: one row, or two on a portrait frame
     gap = 18
-    x = W / 2 - (sum(widths) + gap * (len(CHIPS) - 1)) / 2
-    for i, (c, w) in enumerate(zip(CHIPS, widths)):
-        p = prog(t, 1.55 + 0.12 * i, 0.4)
-        if p > 0:
-            pill(im, c, F_CHIP, x + w / 2, 712, ACCENT, TILE, LINE,
-                 scale=out_back(p, 2.2), alpha=clamp(p * 3), padx=28, pady=14)
-        x += w + gap
+    for row, cy in zip(LAY["chip_rows"], LAY["chip_y"]):
+        chips = [CHIPS[k] for k in row if k < len(CHIPS)]
+        widths = [F_CHIP.getlength(c) + 56 for c in chips]
+        x = W / 2 - (sum(widths) + gap * (len(chips) - 1)) / 2
+        for k, c, w in zip(row, chips, widths):
+            p = prog(t, 1.55 + 0.12 * k, 0.4)
+            if p > 0:
+                pill(im, c, F_CHIP, x + w / 2, cy, ACCENT, TILE, LINE,
+                     scale=out_back(p, 2.2), alpha=clamp(p * 3), padx=28, pady=14)
+            x += w + gap
 
     # the store row: a small icon beside the call to action, as in a listing
     p = prog(t, 2.3, 0.5)
@@ -331,19 +360,20 @@ def outro_frame(t):
         tw = F_CTA_ROW.getlength(cta)
         row = ICON_SMALL.width + 24 + tw
         x0 = W / 2 - row / 2
-        place(im, ICON_SMALL, x0 + ICON_SMALL.width / 2, 822 + 18 * (1 - e), 0,
+        sy = LAY["store_y"]
+        place(im, ICON_SMALL, x0 + ICON_SMALL.width / 2, sy + 18 * (1 - e), 0,
               out_back(p, 2.0), alpha=clamp(p * 3))
         layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
         b = F_CTA_ROW.getbbox(cta)
-        ImageDraw.Draw(layer).text((x0 + ICON_SMALL.width + 24, 822 - (b[1] + b[3]) / 2 + 18 * (1 - e)),
+        ImageDraw.Draw(layer).text((x0 + ICON_SMALL.width + 24, sy - (b[1] + b[3]) / 2 + 18 * (1 - e)),
                                    cta, font=F_CTA_ROW, fill=hexc(AMBER))
         layer.putalpha(layer.getchannel("A").point(lambda v: int(v * e)))
         im.alpha_composite(layer)
     p = prog(t, 2.55, 0.5)
-    draw_text(im, "iPhone  ·  iPad  ·  Mac  ·  Apple TV", F_PLAT, W / 2, 896, MUTED,
+    draw_text(im, "iPhone  ·  iPad  ·  Mac  ·  Apple TV", F_PLAT, W / 2, LAY["plat_y"], MUTED,
               alpha=out_cubic(p), dy=20 * (1 - out_cubic(p)))
     p = prog(t, 3.0, 0.6)
-    draw_text(im, "SEE YOU AT 1,000", F_CLOSE, W / 2, 985, EYEBROW, alpha=out_cubic(p), tracking=8)
+    draw_text(im, "SEE YOU AT 1,000", F_CLOSE, W / 2, LAY["close_y"], EYEBROW, alpha=out_cubic(p), tracking=8)
     return im
 
 def render(name, fn, seconds):
