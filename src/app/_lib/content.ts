@@ -26,7 +26,7 @@ export const APP = {
     "Deal in. Meld your marriages, flush the trump, and race to 1,000 against a sharp AI or a live opponent over Game Center.",
   /** The listing's promotional text, condensed — what's new in this version. */
   whatsNew:
-    "New in 2.3: a coach after every deal, a target score on the Daily Deal, your stats, and an opponent ladder that earns new card backs and a table.",
+    "All-new Pinochle: a fresh look, a guided first game, and a free Daily Deal every day with streaks and medals. Try every opponent free for 14 days.",
   category: "Games · Card & Strategy",
   // Deliberately no dollar amount — the App Store listing is the source of
   // truth for price, and hardcoding it here would go stale on any sale or
@@ -48,20 +48,24 @@ export const DESCRIPTION: string[] = [
 /* -- What's new ----------------------------------------------------------- */
 // The listing's "What's New" notes, lightly condensed: this version first,
 // then the release before it — most visitors haven't seen that one either.
+// 2.3 is the first 2.x release in the store (straight after 1.1), so its list
+// covers all of 2.0–2.3.
 export const WHATS_NEW: string[] = [
-  "A coach after every deal: one line on your costliest slip — a meld you never showed, or a counter you gave away.",
-  "A target score on the Daily Deal: see what the Hard computer scored on the same cards, and earn gold, silver, or bronze.",
-  "Your stats: wins against each opponent, average meld, big melds, and medals.",
-  "The ladder: beat each computer three times to earn a new card-back colour, the Walnut table, and the Crown card back.",
-  "Against Easy: a card tracker in the playoff, and undo for your last card. And hints in your first three games, whoever you play.",
+  "A new look: a redesigned home screen, menus, and table, and cameo court cards — kings, queens, and jacks in gold-framed profile.",
+  "The Daily Deal: the same cards for everyone, every day, free for good. Build a streak, with streak freezes for the days you miss, and beat the Hard computer's score for gold, silver, or bronze.",
+  "A guided first game that teaches you as you play — free, and it doesn't start your trial.",
+  "A scorecard after every deal, with a coach's tip on your costliest slip.",
+  "Your stats, and an opponent ladder: beat each computer three times to earn a new card-back colour, the Walnut table, and the Crown card back.",
+  "Make it yours: five table themes, card backs in three patterns and six colours, three game speeds, and haptics on iPhone.",
+  "Help while you learn: hints in your first three games, plus a card tracker and undo against the Easy computer.",
 ];
 
 export const EARLIER_RELEASE = {
-  version: "2.2",
+  version: "1.1",
   items: [
-    "The Daily Deal is now free, every day, for good — before, during, and after your free trial.",
-    "Streak freezes: every 7 days in a row earns one, and a freeze covers a missed day.",
-    "An optional daily reminder at the time you usually play.",
+    "Free to try: play everything for 14 days, then unlock the full game once for all your devices. Bought it before? It stays yours.",
+    "VoiceOver support throughout.",
+    "Race to 1,000 online, and rejoining a match after a dropped connection.",
   ],
 };
 
