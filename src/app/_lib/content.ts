@@ -48,6 +48,8 @@ export const DESCRIPTION: string[] = [
 /* -- What's new ----------------------------------------------------------- */
 // The listing's "What's New" notes, lightly condensed: this version first,
 // then the release before it — most visitors haven't seen that one either.
+// 2.3, the release before, was the first 2.x in the store (straight after 1.1),
+// so its highlights cover all of 2.x.
 export const WHATS_NEW: string[] = [
   "Pinochle plays upright on iPhone: the table stacks top to bottom and your hand sits in one arc, right under your thumb.",
   "Touch a card to lift it and see it up close; let go to play it, or slide to another card first.",
@@ -58,9 +60,10 @@ export const WHATS_NEW: string[] = [
 export const EARLIER_RELEASE = {
   version: "2.3",
   items: [
-    "A coach after every deal, and a target score on the Daily Deal: beat the Hard computer's score for gold.",
+    "A whole new look, with cameo court cards: kings, queens, and jacks in gold-framed profile.",
+    "The Daily Deal, free for good: build a streak, with streak freezes, and beat the Hard computer's score for gold.",
+    "A guided first game, and a coach after every deal.",
     "Your stats, and a ladder: beat each computer three times to earn a new card-back colour, the Walnut table, and the Crown card back.",
-    "Against Easy: a card tracker in the playoff, and undo for your last card.",
   ],
 };
 
