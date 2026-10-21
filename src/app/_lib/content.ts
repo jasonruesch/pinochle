@@ -47,7 +47,7 @@ export const DESCRIPTION: string[] = [
 
 /* -- What's new ----------------------------------------------------------- */
 // The listing's "What's New" notes, lightly condensed: this version first,
-// then the release before it — most visitors haven't seen that one either.
+// then the release before it when there is one worth repeating (EARLIER_RELEASE).
 // 2.3 is the first 2.x release in the store (straight after 1.1), so its list
 // covers all of 2.0–2.3.
 export const WHATS_NEW: string[] = [
@@ -60,14 +60,11 @@ export const WHATS_NEW: string[] = [
   "Help while you learn: hints in your first three games, plus a card tracker and undo against the Easy computer.",
 ];
 
-export const EARLIER_RELEASE = {
-  version: "1.1",
-  items: [
-    "Free to try: play everything for 14 days, then unlock the full game once for all your devices. Bought it before? It stays yours.",
-    "VoiceOver support throughout.",
-    "Race to 1,000 online, and rejoining a match after a dropped connection.",
-  ],
-};
+/** The release before this one, listed under the new one, or null when the
+ * listing has nothing earlier worth repeating: 1.1 went live just before 2.3
+ * and has its own page history, and 2.3's list already covers all of 2.x. */
+export const EARLIER_RELEASE: { version: string; items: string[] } | null =
+  null;
 
 /* -- Platforms ------------------------------------------------------------ */
 export type PlatformIcon = "iphone" | "ipad" | "mac" | "appletv";
