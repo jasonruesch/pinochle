@@ -65,7 +65,7 @@ export const EARLIER_RELEASE: { version: string; items: string[] } | null = {
     "A whole new look, with cameo court cards: kings, queens, and jacks in gold-framed profile.",
     "The Daily Deal, free for good: build a streak, with streak freezes, and beat the Hard computer's score for gold.",
     "A guided first game, and a coach after every deal.",
-    "Your stats, and a ladder: beat each computer three times to earn a new card-back colour, the Walnut table, and the Crown card back.",
+    "Your stats, and a ladder: beat each computer three times to earn a new card-back color, the Walnut table, and the Crown card back.",
   ],
 };
 
@@ -138,7 +138,7 @@ export const FEATURES: Feature[] = [
   },
   {
     title: "Make it yours",
-    body: "Cameo court cards on five table themes, card backs in three patterns and six colours — plus three more to earn — three game speeds, and haptics on iPhone.",
+    body: "Cameo court cards on five table themes, card backs in three patterns and six colors — plus three more to earn — three game speeds, and haptics on iPhone.",
     icon: "palette",
     tone: "from-rose-500 to-pink-400",
   },
@@ -605,7 +605,7 @@ export const SUPPORT_FAQS: Faq[] = [
   {
     question: "How do I get the Plum, Walnut, and Crown designs?",
     answer:
-      "Win. Three wins against the Easy computer earn the Plum card-back colour, three against Medium the Walnut table, and three against Hard the Crown card back. Tap Your Record on the home screen to see the ladder and how close you are. They can't be bought, and the Daily Deal and practice matches (where you used undo) don't count.",
+      "Win. Three wins against the Easy computer earn the Plum card-back color, three against Medium the Walnut table, and three against Hard the Crown card back. Tap Your Record on the home screen to see the ladder and how close you are. They can't be bought, and the Daily Deal and practice matches (where you used undo) don't count.",
   },
   {
     question: "Where does the Daily Deal's target score come from?",
