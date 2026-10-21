@@ -55,8 +55,8 @@ export const WHATS_NEW: string[] = [
   "The Daily Deal: the same cards for everyone, every day, free for good. Build a streak, with streak freezes for the days you miss, and beat the Hard computer's score for gold, silver, or bronze.",
   "A guided first game that teaches you as you play — free, and it doesn't start your trial.",
   "A scorecard after every deal, with a coach's tip on your costliest slip.",
-  "Your stats, and an opponent ladder: beat each computer three times to earn a new card-back colour, the Walnut table, and the Crown card back.",
-  "Make it yours: five table themes, card backs in three patterns and six colours, three game speeds, and haptics on iPhone.",
+  "Your stats, and an opponent ladder: beat each computer three times to earn a new card-back color, the Walnut table, and the Crown card back.",
+  "Make it yours: five table themes, card backs in three patterns and six colors, three game speeds, and haptics on iPhone.",
   "Help while you learn: hints in your first three games, plus a card tracker and undo against the Easy computer.",
 ];
 
@@ -135,7 +135,7 @@ export const FEATURES: Feature[] = [
   },
   {
     title: "Make it yours",
-    body: "Cameo court cards on five table themes, card backs in three patterns and six colours — plus three more to earn — three game speeds, and haptics on iPhone.",
+    body: "Cameo court cards on five table themes, card backs in three patterns and six colors — plus three more to earn — three game speeds, and haptics on iPhone.",
     icon: "palette",
     tone: "from-rose-500 to-pink-400",
   },
@@ -593,7 +593,7 @@ export const SUPPORT_FAQS: Faq[] = [
   {
     question: "How do I get the Plum, Walnut, and Crown designs?",
     answer:
-      "Win. Three wins against the Easy computer earn the Plum card-back colour, three against Medium the Walnut table, and three against Hard the Crown card back. Tap Your Record on the home screen to see the ladder and how close you are. They can't be bought, and the Daily Deal and practice matches (where you used undo) don't count.",
+      "Win. Three wins against the Easy computer earn the Plum card-back color, three against Medium the Walnut table, and three against Hard the Crown card back. Tap Your Record on the home screen to see the ladder and how close you are. They can't be bought, and the Daily Deal and practice matches (where you used undo) don't count.",
   },
   {
     question: "Where does the Daily Deal's target score come from?",
@@ -603,7 +603,7 @@ export const SUPPORT_FAQS: Faq[] = [
   {
     question: "I bought Pinochle before it was free. Do I have to pay again?",
     answer:
-      "No. The app recognises the original purchase from your Apple Account and stays fully unlocked — no trial, nothing to buy, nothing to do. On a new device, sign in with the same Apple Account.",
+      "No. The app recognizes the original purchase from your Apple Account and stays fully unlocked — no trial, nothing to buy, nothing to do. On a new device, sign in with the same Apple Account.",
   },
   {
     question: "I want a refund, or I was charged incorrectly.",
