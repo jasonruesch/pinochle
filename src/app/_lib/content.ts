@@ -12,7 +12,7 @@ export const STORE = {
   appId: "6759009060",
   slug: "pinochle-two-handed",
   /** Marketing version live on the store. */
-  version: "1.0",
+  version: "1.1",
 } as const;
 
 /** Canonical App Store listing URL. Every store link on the site uses this. */
@@ -28,7 +28,7 @@ export const APP = {
   // Deliberately no dollar amount — the App Store listing is the source of
   // truth for price, and hardcoding it here would go stale on any sale or
   // price change.
-  price: "No in-app purchases",
+  price: "Free to try for 14 days",
   age: "Rated 4+",
   copyright: "© 2026 Jason Ruesch",
   tagline: "One deck, two players, two hundred fifty points a deal.",
@@ -37,7 +37,17 @@ export const APP = {
 
 export const DESCRIPTION: string[] = [
   "Pinochle brings the classic two-handed card duel to your table — the classic rules, a beautiful minimal deck, and opponents that put up a real fight.",
+  "Try the whole game free for 14 days. After that, one purchase unlocks it for good — on your iPhone, iPad, Mac, and Apple TV. No subscription. Bought Pinochle before it went free? It's still yours.",
   "Play a quick single deal or the full race to 1,000 with declare-out. Draw from the stock, time your melds, and squeeze every counter out of phase two, where following suit is the law and every trick matters.",
+];
+
+/* -- What's new ----------------------------------------------------------- */
+// The listing's "What's New (version 1.1.0)" notes, lightly condensed.
+export const WHATS_NEW: string[] = [
+  "Free to try: play everything for 14 days, then unlock the full game once for all your devices. Bought it before? It stays yours — nothing to do.",
+  "VoiceOver throughout: every card, meld, and trick is spoken.",
+  "Race to 1,000 online, against a friend or a quick-match opponent — and rejoin a match after a dropped connection.",
+  "A controls guide for whatever you're playing on, six card backs, and a Settings menu.",
 ];
 
 /* -- Platforms ------------------------------------------------------------ */
@@ -89,7 +99,7 @@ export const FEATURES: Feature[] = [
   },
   {
     title: "Online over Game Center",
-    body: "Quick match against a stranger or invite a friend, with leaderboards and achievements built in.",
+    body: "Quick match against a stranger or invite a friend — a single deal or the race to 1,000 — and rejoin after a dropped connection.",
     icon: "globe",
     tone: "from-cyan-500 to-teal-400",
   },
@@ -101,7 +111,7 @@ export const FEATURES: Feature[] = [
   },
   {
     title: "Made for the living room",
-    body: "Full game-controller support and a focus-based interface built for Apple TV and the big screen.",
+    body: "Full game-controller support, VoiceOver throughout, and a focus-based interface built for Apple TV and the big screen.",
     icon: "controller",
     tone: "from-indigo-500 to-blue-400",
   },
@@ -119,7 +129,7 @@ export const FEATURES: Feature[] = [
   },
   {
     title: "No ads, no tracking",
-    body: "No in-app purchases, nothing collected — everything stays on your device. Just cards.",
+    body: "No subscription and nothing collected — one purchase unlocks every device. Just cards.",
     icon: "shield",
     tone: "from-lime-500 to-green-400",
   },
@@ -610,6 +620,16 @@ export const SUPPORT_FAQS: Faq[] = [
     question: "Can I play on Apple TV with a controller?",
     answer:
       "Yes — Apple TV uses a focus-based interface, and game controllers are supported there as well as on iPhone, iPad, and Mac.",
+  },
+  {
+    question: "How does the free trial work?",
+    answer:
+      "Everything is free for 14 days from the first time you choose a game — single deals, the race to 1,000, and online play. After that, one purchase unlocks the full game for good on your iPhone, iPad, Mac, and Apple TV. A match you'd already started can always be finished. Bought it on another device? Restore Purchases, on the unlock screen and in Settings, brings it back.",
+  },
+  {
+    question: "I bought Pinochle before it was free. Do I have to pay again?",
+    answer:
+      "No. The app recognises the original purchase from your Apple Account and stays fully unlocked — no trial, nothing to buy, nothing to do. On a new device, sign in with the same Apple Account.",
   },
   {
     question: "I want a refund, or I was charged incorrectly.",

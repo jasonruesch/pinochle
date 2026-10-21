@@ -26,6 +26,7 @@ import {
   RULES_DISCLAIMER,
   SHOTS,
   STORE,
+  WHATS_NEW,
   STORE_URL,
   type Badge,
   type PlatformIcon,
@@ -143,6 +144,16 @@ export default function Home() {
             <p key={p.slice(0, 24)}>{p}</p>
           ))}
         </div>
+        <Card accent="from-brand-500 to-fuchsia-500" className="mt-10">
+          <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">
+            New in {STORE.version}
+          </h2>
+          <ul className="mt-4 list-disc space-y-2 pl-5 text-zinc-600 marker:text-brand-500 dark:text-zinc-400">
+            {WHATS_NEW.map((item) => (
+              <li key={item.slice(0, 24)}>{item}</li>
+            ))}
+          </ul>
+        </Card>
       </section>
 
       {/* Gameplay video — the version 1.1 press-kit clip, straight after the
