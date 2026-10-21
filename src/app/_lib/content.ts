@@ -629,7 +629,7 @@ export const SUPPORT_FAQS: Faq[] = [
   {
     question: "I bought Pinochle before it was free. Do I have to pay again?",
     answer:
-      "No. The app recognises the original purchase from your Apple Account and stays fully unlocked — no trial, nothing to buy, nothing to do. On a new device, sign in with the same Apple Account.",
+      "No. The app recognizes the original purchase from your Apple Account and stays fully unlocked — no trial, nothing to buy, nothing to do. On a new device, sign in with the same Apple Account.",
   },
   {
     question: "I want a refund, or I was charged incorrectly.",
