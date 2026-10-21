@@ -144,7 +144,7 @@ export const FEATURES: Feature[] = [
   },
   {
     title: "Made for the living room",
-    body: "Full game-controller support and a focus-based interface built for Apple TV and the big screen.",
+    body: "Full game-controller support, VoiceOver throughout, and a focus-based interface built for Apple TV and the big screen.",
     icon: "controller",
     tone: "from-indigo-500 to-blue-400",
   },
@@ -611,6 +611,11 @@ export const SUPPORT_FAQS: Faq[] = [
     question: "Where does the Daily Deal's target score come from?",
     answer:
       "It's what the Hard computer scores playing your seat on the same cards, worked out on your device — so everyone gets the same target. Match it for gold; within 85% is silver, within 70% bronze.",
+  },
+  {
+    question: "I bought Pinochle before it was free. Do I have to pay again?",
+    answer:
+      "No. The app recognizes the original purchase from your Apple Account and stays fully unlocked — no trial, nothing to buy, nothing to do. On a new device, sign in with the same Apple Account.",
   },
   {
     question: "I want a refund, or I was charged incorrectly.",
