@@ -47,7 +47,7 @@ export const DESCRIPTION: string[] = [
 
 /* -- What's new ----------------------------------------------------------- */
 // The listing's "What's New" notes, lightly condensed: this version first,
-// then the release before it — most visitors haven't seen that one either.
+// then the release before it when there is one worth repeating (EARLIER_RELEASE).
 // 2.3, the release before, was the first 2.x in the store (straight after 1.1),
 // so its highlights cover all of 2.x.
 export const WHATS_NEW: string[] = [
@@ -57,7 +57,9 @@ export const WHATS_NEW: string[] = [
   "Made for iPhone Duo: the folded screen and the big inner one, upright or sideways, switching as you fold and unfold.",
 ];
 
-export const EARLIER_RELEASE = {
+/** The release before this one, listed under the new one, or null when the
+ * listing has nothing earlier worth repeating. */
+export const EARLIER_RELEASE: { version: string; items: string[] } | null = {
   version: "2.3",
   items: [
     "A whole new look, with cameo court cards: kings, queens, and jacks in gold-framed profile.",

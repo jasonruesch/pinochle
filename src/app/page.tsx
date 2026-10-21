@@ -157,14 +157,18 @@ export default function Home() {
               <li key={item.slice(0, 24)}>{item}</li>
             ))}
           </ul>
-          <h3 className="mt-6 text-sm font-semibold text-zinc-900 dark:text-zinc-50">
-            And in {EARLIER_RELEASE.version}
-          </h3>
-          <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-zinc-600 marker:text-brand-500 dark:text-zinc-400">
-            {EARLIER_RELEASE.items.map((item) => (
-              <li key={item.slice(0, 24)}>{item}</li>
-            ))}
-          </ul>
+          {EARLIER_RELEASE && (
+            <>
+              <h3 className="mt-6 text-sm font-semibold text-zinc-900 dark:text-zinc-50">
+                And in {EARLIER_RELEASE.version}
+              </h3>
+              <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-zinc-600 marker:text-brand-500 dark:text-zinc-400">
+                {EARLIER_RELEASE.items.map((item) => (
+                  <li key={item.slice(0, 24)}>{item}</li>
+                ))}
+              </ul>
+            </>
+          )}
         </Card>
       </section>
 
