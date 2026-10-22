@@ -55,6 +55,7 @@ export const WHATS_NEW: string[] = [
   "Touch a card to lift it and see it up close; let go to play it, or slide to another card first.",
   "Turn the phone any time — mid-deal included — and the table follows.",
   "Made for iPhone Duo: the folded screen and the big inner one, upright or sideways, switching as you fold and unfold.",
+  "Meet your opponents: Dix, Jack, and Ace are the Easy, Medium, and Hard computers — and on the Daily Deal, beat Ace's score for gold.",
 ];
 
 /** The release before this one, listed under the new one, or null when the
@@ -120,13 +121,13 @@ export const FEATURES: Feature[] = [
   },
   {
     title: "The Daily Deal",
-    body: "The same cards for everyone, every day — and free for good. Beat the Hard computer's score for gold, and build a streak, with streak freezes for the days life gets in the way.",
+    body: "The same cards for everyone, every day — and free for good. Beat Ace's score — the Hard computer's — for gold, and build a streak, with streak freezes for the days life gets in the way.",
     icon: "calendar",
     tone: "from-amber-500 to-yellow-400",
   },
   {
     title: "Three AI opponents, and a ladder",
-    body: "From an easygoing teacher to a card-counting shark that tracks the deck. Beat each three times to earn a new card back or table — and a coach after every deal shows you where the points went.",
+    body: "Dix, Jack, and Ace: from an easygoing teacher to a card-counting shark that tracks the deck. Beat each three times to earn a new card back or table — and a coach after every deal shows you where the points went.",
     icon: "cpu",
     tone: "from-fuchsia-500 to-accent-500",
   },
@@ -417,7 +418,7 @@ const SCENES: Record<Scene, { label: string; alt: string }> = {
   },
   daily: {
     label: "Daily Deal",
-    alt: "The home screen with today's Daily Deal and the Hard computer's score to beat, an eight-day streak with one day saved by a streak freeze, and your record",
+    alt: "The home screen with today's Daily Deal and Ace's score to beat, an eight-day streak with one day saved by a streak freeze, and your record",
   },
   tutorial: {
     label: "Guided first game",
@@ -610,7 +611,7 @@ export const SUPPORT_FAQS: Faq[] = [
   {
     question: "Where does the Daily Deal's target score come from?",
     answer:
-      "It's what the Hard computer scores playing your seat on the same cards, worked out on your device — so everyone gets the same target. Match it for gold; within 85% is silver, within 70% bronze.",
+      "It's what Ace, the Hard computer, scores playing your seat on the same cards, worked out on your device — so everyone gets the same target. Match it for gold; within 85% is silver, within 70% bronze.",
   },
   {
     question: "I bought Pinochle before it was free. Do I have to pay again?",
