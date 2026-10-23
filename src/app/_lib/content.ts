@@ -61,8 +61,7 @@ export const DESCRIPTION: string[] = [
 /* -- What's new ----------------------------------------------------------- */
 // The listing's "What's New" notes, lightly condensed: this version first,
 // then the release before it when there is one worth repeating (EARLIER_RELEASE).
-// 2.0 follows 1.1 directly and carries everything built since (drafted as 2.0
-// through 2.3 and as 3.0), so its highlights cover all of it.
+// 2.0 follows 1.1 directly, so its highlights cover everything new since 1.1.
 export const WHATS_NEW: string[] = [
   "Play upright on iPhone: the table stacks top to bottom and your hand sits in one arc under your thumb. Turn the phone any time and the table follows.",
   "Made for iPhone Duo: folded or open, upright or sideways, switching as you fold and unfold.",
