@@ -156,7 +156,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Gameplay video — the 2.3 press clip, straight after the hero so the
+      {/* Gameplay video — the 2.0 press clip, straight after the hero so the
           first thing below the fold is the game moving; What's New folds
           under it for returning players. */}
       <section className="px-safe-lg mx-auto max-w-5xl py-16 sm:py-20">
@@ -169,8 +169,8 @@ export default function Home() {
           back: the deal, the first tricks, and a meld laid down for points.
         </p>
         <VideoFrame
-          src={asset("video/pinochle-2.3-preview.mp4")}
-          poster={asset("video/pinochle-2.3-preview-poster.webp")}
+          src={asset("video/pinochle-2.0-preview.mp4")}
+          poster={asset("video/pinochle-2.0-preview-poster.webp")}
           label="Gameplay video: a title card, then a hand of two-handed pinochle being dealt, played, and melded against the computer"
           className="mt-10"
         />
