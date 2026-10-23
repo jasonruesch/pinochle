@@ -83,6 +83,60 @@ export const EARLIER_RELEASE: { version: string; items: string[] } | null = {
   ],
 };
 
+/* -- Before you download -------------------------------------------------- */
+// The home page's FAQ: the questions that stop someone short of the download
+// button — what it costs, which rules, whether a beginner can keep up, and who
+// they can play with. Kept to what the app actually does.
+export const DOWNLOAD_FAQS: Faq[] = [
+  {
+    question: "What does it cost?",
+    answer:
+      "Nothing to start: every opponent and mode is free for 14 days. After that, one purchase unlocks the full game for good on your iPhone, iPad, Mac, and Apple TV — no subscription and no ads. The Daily Deal and the guided first game stay free either way, and the App Store shows the price in your currency before you buy.",
+  },
+  {
+    question: "Which pinochle rules does it use?",
+    answer:
+      "Classic two-handed pinochle as Bicycle publishes it: a 48-card deck, a meld after each trick you win while the stock lasts, then the playoff, where you must follow suit and try to win. Play a single deal or the race to 1,000 with declare-out.",
+    link: { label: "Read the full rules", href: "/how-to-play" },
+  },
+  {
+    question: "I've never played. Can I learn here?",
+    answer:
+      "Yes. A guided first game teaches you a real deal one short tip at a time, your first games point out a good card when you're stuck, and after every deal a coach names the costliest slip. How to Play shows every meld in real cards.",
+  },
+  {
+    question: "Can I play with family and friends?",
+    answer:
+      "Yes — online through Game Center with a quick match or an invite, or on a FaceTime call with SharePlay on iPhone, iPad, and Mac.",
+  },
+  {
+    question: "Does it work offline?",
+    answer:
+      "Yes. Playing the computer needs no connection and no account; only online matches use the internet.",
+  },
+  {
+    question: "Is it easy to see and use?",
+    answer:
+      "The deck uses four suit colors so spades, hearts, clubs, and diamonds never blur together, VoiceOver reads every card and play, and the Apple TV version is built to be read from the couch with the Siri Remote or a controller.",
+  },
+  {
+    question: "What happens to my data?",
+    answer:
+      "Nothing is collected. Your games and settings stay on your device; your Game Center scores belong to your Apple Account.",
+  },
+];
+
+/* -- Reviews ----------------------------------------------------------------- */
+/** Real App Store reviews, quoted with the reviewer's App Store nickname. The
+ * section stays hidden while this is empty — never fill it with anything that
+ * isn't a genuine review. */
+export interface Review {
+  quote: string;
+  author: string;
+  stars: 1 | 2 | 3 | 4 | 5;
+}
+export const REVIEWS: Review[] = [];
+
 /* -- Platforms ------------------------------------------------------------ */
 export type PlatformIcon = "iphone" | "ipad" | "mac" | "appletv";
 
@@ -124,7 +178,7 @@ export const FEATURES: Feature[] = [
     title: "Classic two-handed rules",
     body: "The full classic ruleset — flushes, marriages, pinochles, the dix, and declare-out. Nothing simplified away.",
     icon: "cards",
-    tone: "from-brand-500 to-fuchsia-500",
+    tone: "from-brand-500 to-accent-500",
   },
   {
     title: "A guided first game",
@@ -142,7 +196,7 @@ export const FEATURES: Feature[] = [
     title: "Three AI opponents, and a ladder",
     body: "Dix, Jack, and Ace: from an easygoing teacher to a card-counting shark that tracks the deck. Beat each three times to earn a new card back or table — and a coach after every deal shows you where the points went.",
     icon: "cpu",
-    tone: "from-fuchsia-500 to-accent-500",
+    tone: "from-accent-500 to-brand-400",
   },
   {
     title: "Online, and on FaceTime",
@@ -154,7 +208,7 @@ export const FEATURES: Feature[] = [
     title: "Make it yours",
     body: "Cameo court cards on five table themes, card backs in three patterns and six colors — plus three more to earn — three game speeds, and haptics on iPhone.",
     icon: "palette",
-    tone: "from-rose-500 to-pink-400",
+    tone: "from-rose-500 to-accent-500",
   },
   {
     title: "Made for the living room",

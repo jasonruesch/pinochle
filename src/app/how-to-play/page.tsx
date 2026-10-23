@@ -105,7 +105,7 @@ export default function HowToPlay() {
     <>
       {/* Intro — brand surface, so the badge is above the fold for a reader who
           arrived from search and is one click from the store. */}
-      <section className="from-brand-600 to-brand-800 relative isolate overflow-hidden bg-linear-to-br via-fuchsia-700 text-white">
+      <section className="from-brand-600 to-brand-950 relative isolate overflow-hidden bg-linear-to-br via-brand-800 text-white">
         <div
           aria-hidden
           className="pointer-events-none absolute -top-32 -right-24 h-96 w-96 rounded-full bg-white/15 blur-3xl"
@@ -165,7 +165,7 @@ export default function HowToPlay() {
 
             <Card
               className="mt-8 hidden lg:block"
-              accent="from-brand-500 to-fuchsia-500"
+              accent="from-brand-500 to-accent-500"
             >
               <img
                 src={asset("img/app-icon.webp")}
@@ -479,7 +479,7 @@ export default function HowToPlay() {
 
       {/* Closing CTA — mirrors the home page's, for readers who scrolled the
           whole ruleset and are the likeliest to install. */}
-      <section className="from-brand-600 to-brand-800 relative isolate overflow-hidden bg-linear-to-br via-fuchsia-700 text-white">
+      <section className="from-brand-600 to-brand-950 relative isolate overflow-hidden bg-linear-to-br via-brand-800 text-white">
         <div
           aria-hidden
           className="pointer-events-none absolute -top-24 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-white/10 blur-3xl"

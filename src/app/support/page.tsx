@@ -166,7 +166,7 @@ export default function Support() {
           >
             <div
               aria-hidden
-              className="from-brand-500 to-accent-500 absolute inset-x-0 top-0 h-1 bg-linear-to-r via-fuchsia-500"
+              className="from-brand-500 to-accent-500 absolute inset-x-0 top-0 h-1 bg-linear-to-r via-brand-300"
             />
             <h2
               id="send-heading"
