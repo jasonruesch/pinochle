@@ -38,6 +38,19 @@ export const APP = {
   closer: "See you at 1,000.",
 } as const;
 
+/** The hero: what a player gets, then the three things that settle "should I
+ * try it" — no cost to start, no subscription trap, no rules to learn first. */
+export const HERO = {
+  headline: "Two-handed pinochle, whenever you want a game",
+  subhead:
+    "A sharp computer opponent, a free Daily Deal, and a guided first game that teaches you as you play — on iPhone, iPad, Mac, and Apple TV.",
+  trust: [
+    "Free to try for 14 days",
+    "One purchase — no subscription, no ads",
+    "Learn it in one deal",
+  ],
+} as const;
+
 export const DESCRIPTION: string[] = [
   "Pinochle brings the classic two-handed card duel to your table — the classic rules, a beautiful minimal deck, and opponents that put up a real fight. Play it upright on iPhone, your hand right under your thumb, or turn it sideways.",
   "Try the whole game free for 14 days. After that, one purchase unlocks it for good — on your iPhone, iPad, Mac, and Apple TV. No subscription. And the Daily Deal stays free, every day, either way.",

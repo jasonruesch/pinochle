@@ -12,6 +12,7 @@ import {
   MacIcon,
 } from "./_components/icons";
 import { ScreenshotGallery } from "./_components/screenshot-gallery";
+import { StickyGetBar } from "./_components/sticky-get-bar";
 import { VideoFrame } from "./_components/video-frame";
 import { asset } from "./_lib/asset";
 import {
@@ -27,6 +28,7 @@ import {
   SHOTS,
   HERO_SHOT,
   STORE,
+  HERO,
   STORE_URL,
   WHATS_NEW,
   EARLIER_RELEASE,
@@ -91,28 +93,40 @@ export default function Home() {
                 alt="Pinochle app icon"
                 className="h-16 w-16 rounded-[1.15rem] shadow-lg ring-1 ring-white/20"
               />
-              <p className="text-xs font-semibold tracking-[0.22em] text-white/90 uppercase">
-                {APP.category}
-              </p>
+              <div>
+                <p className="text-lg font-semibold">{APP.name}</p>
+                <p className="text-xs font-semibold tracking-[0.22em] text-white/80 uppercase">
+                  {APP.category}
+                </p>
+              </div>
             </div>
-            <h1 className="mt-6 text-4xl font-bold tracking-tight sm:text-6xl">
-              {APP.name}
+            <h1 className="mt-6 text-4xl font-bold tracking-tight text-balance sm:text-5xl">
+              {HERO.headline}
             </h1>
             <p className="mt-4 max-w-xl text-lg text-white/90 sm:text-xl">
-              {APP.subtitle}. {APP.promo}
-            </p>
-            <p className="mt-4 max-w-xl text-sm font-medium text-white/90">
-              {APP.whatsNew}
+              {HERO.subhead}
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <AppStoreBadge />
-              <p className="text-sm text-white/80">
-                {APP.price}
-                <br />
-                {APP.age}
-              </p>
+              <p className="text-sm text-white/80">{APP.age}</p>
             </div>
+
+            <ul className="mt-6 flex flex-col gap-2 text-sm font-medium text-white sm:text-base">
+              {HERO.trust.map((t) => (
+                <li key={t} className="flex items-center gap-2">
+                  <svg
+                    aria-hidden
+                    viewBox="0 0 20 20"
+                    className="h-5 w-5 flex-none text-white"
+                    fill="currentColor"
+                  >
+                    <path d="M8.1 13.6 4.5 10l-1.4 1.4 5 5 9-9-1.4-1.4z" />
+                  </svg>
+                  {t}
+                </li>
+              ))}
+            </ul>
 
             <ul className="mt-8 flex flex-wrap gap-2">
               {PLATFORMS.map((p) => {
@@ -149,30 +163,40 @@ export default function Home() {
           ))}
         </div>
         <Card accent="from-brand-500 to-fuchsia-500" className="mt-10">
-          <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">
-            New in {STORE.version}
-          </h2>
-          <ul className="mt-4 list-disc space-y-2 pl-5 text-zinc-600 marker:text-brand-500 dark:text-zinc-400">
-            {WHATS_NEW.map((item) => (
-              <li key={item.slice(0, 24)}>{item}</li>
-            ))}
-          </ul>
-          {EARLIER_RELEASE && (
-            <>
-              <h3 className="mt-6 text-sm font-semibold text-zinc-900 dark:text-zinc-50">
-                And in {EARLIER_RELEASE.version}
-              </h3>
-              <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-zinc-600 marker:text-brand-500 dark:text-zinc-400">
-                {EARLIER_RELEASE.items.map((item) => (
-                  <li key={item.slice(0, 24)}>{item}</li>
-                ))}
-              </ul>
-            </>
-          )}
+          {/* Folded by default: most visitors are new, and a changelog reads as
+              noise before they know the game; returning players open it. */}
+          <details className="group">
+            <summary className="flex cursor-pointer list-none items-center justify-between text-lg font-semibold text-zinc-900 dark:text-zinc-50">
+              <h2>What's new in {STORE.version}</h2>
+              <span
+                aria-hidden
+                className="text-brand-500 transition-transform group-open:rotate-45"
+              >
+                +
+              </span>
+            </summary>
+            <ul className="mt-4 list-disc space-y-2 pl-5 text-zinc-600 marker:text-brand-500 dark:text-zinc-400">
+              {WHATS_NEW.map((item) => (
+                <li key={item.slice(0, 24)}>{item}</li>
+              ))}
+            </ul>
+            {EARLIER_RELEASE && (
+              <>
+                <h3 className="mt-6 text-sm font-semibold text-zinc-900 dark:text-zinc-50">
+                  And in {EARLIER_RELEASE.version}
+                </h3>
+                <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-zinc-600 marker:text-brand-500 dark:text-zinc-400">
+                  {EARLIER_RELEASE.items.map((item) => (
+                    <li key={item.slice(0, 24)}>{item}</li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </details>
         </Card>
       </section>
 
-      {/* Gameplay video — the 2.1 press clip, straight after the pitch so the
+      {/* Gameplay video — the 2.3 press clip, straight after the pitch so the
           first thing below the fold is the game moving. Shares the intro's
           surface, so it drops its own top padding. */}
       <section className="px-safe-lg mx-auto max-w-5xl pb-16 sm:pb-20">
@@ -185,8 +209,8 @@ export default function Home() {
           back: the deal, the first tricks, and a meld laid down for points.
         </p>
         <VideoFrame
-          src={asset("video/deal-and-meld.mp4")}
-          poster={asset("video/deal-and-meld-poster.webp")}
+          src={asset("video/pinochle-2.3-preview.mp4")}
+          poster={asset("video/pinochle-2.3-preview-poster.webp")}
           label="Gameplay video: a title card, then a hand of two-handed pinochle being dealt, played, and melded against the computer"
           className="mt-10"
         />
@@ -360,6 +384,9 @@ export default function Home() {
           </ul>
         </div>
       </section>
+      {/* Room for the phone bar, so it never covers the page's last lines. */}
+      <div aria-hidden className="h-20 md:hidden" />
+      <StickyGetBar watchId="top" />
     </>
   );
 }
