@@ -17,7 +17,7 @@ interface SectionProps {
 const OUTER: Record<Tone, string> = {
   default: "bg-transparent",
   brand:
-    "from-brand-600 to-brand-800 relative isolate overflow-hidden bg-linear-to-br via-fuchsia-700 text-white",
+    "from-brand-600 to-brand-950 relative isolate overflow-hidden bg-linear-to-br via-brand-800 text-white",
   alt: "border-t border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900/40",
 };
 

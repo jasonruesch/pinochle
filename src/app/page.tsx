@@ -18,7 +18,8 @@ import { asset } from "./_lib/asset";
 import {
   ACHIEVEMENTS,
   APP,
-  DESCRIPTION,
+  DOWNLOAD_FAQS,
+  REVIEWS,
   FEATURES,
   LEADERBOARDS,
   MELDS,
@@ -75,7 +76,7 @@ export default function Home() {
           on purpose, as on the portfolio home page). */}
       <section
         id="top"
-        className="from-brand-600 to-brand-800 relative isolate overflow-hidden bg-linear-to-br via-fuchsia-700 text-white"
+        className="from-brand-600 to-brand-950 relative isolate overflow-hidden bg-linear-to-br via-brand-800 text-white"
       >
         <div
           aria-hidden
@@ -155,14 +156,25 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Intro / description */}
-      <section className="px-safe-lg mx-auto max-w-3xl py-16 sm:py-20">
-        <div className="space-y-4 text-lg text-zinc-600 dark:text-zinc-400">
-          {DESCRIPTION.map((p) => (
-            <p key={p.slice(0, 24)}>{p}</p>
-          ))}
-        </div>
-        <Card accent="from-brand-500 to-fuchsia-500" className="mt-10">
+      {/* Gameplay video — the 2.3 press clip, straight after the hero so the
+          first thing below the fold is the game moving; What's New folds
+          under it for returning players. */}
+      <section className="px-safe-lg mx-auto max-w-5xl py-16 sm:py-20">
+        <Eyebrow className="mb-3">See it in action</Eyebrow>
+        <h2 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-zinc-50">
+          Deal, meld, play
+        </h2>
+        <p className="mt-4 max-w-2xl text-lg text-zinc-600 dark:text-zinc-400">
+          A real hand with the cameo court cards and the new Medallion card
+          back: the deal, the first tricks, and a meld laid down for points.
+        </p>
+        <VideoFrame
+          src={asset("video/pinochle-2.3-preview.mp4")}
+          poster={asset("video/pinochle-2.3-preview-poster.webp")}
+          label="Gameplay video: a title card, then a hand of two-handed pinochle being dealt, played, and melded against the computer"
+          className="mt-10"
+        />
+        <Card accent="from-brand-500 to-accent-500" className="mt-10">
           {/* Folded by default: most visitors are new, and a changelog reads as
               noise before they know the game; returning players open it. */}
           <details className="group">
@@ -196,24 +208,23 @@ export default function Home() {
         </Card>
       </section>
 
-      {/* Gameplay video — the 2.3 press clip, straight after the pitch so the
-          first thing below the fold is the game moving. Shares the intro's
-          surface, so it drops its own top padding. */}
-      <section className="px-safe-lg mx-auto max-w-5xl pb-16 sm:pb-20">
-        <Eyebrow className="mb-3">See it in action</Eyebrow>
-        <h2 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-zinc-50">
-          Deal, meld, play
-        </h2>
-        <p className="mt-4 max-w-2xl text-lg text-zinc-600 dark:text-zinc-400">
-          A real hand with the cameo court cards and the new Medallion card
-          back: the deal, the first tricks, and a meld laid down for points.
-        </p>
-        <VideoFrame
-          src={asset("video/pinochle-2.3-preview.mp4")}
-          poster={asset("video/pinochle-2.3-preview-poster.webp")}
-          label="Gameplay video: a title card, then a hand of two-handed pinochle being dealt, played, and melded against the computer"
-          className="mt-10"
-        />
+      {/* Features */}
+      <section className="px-safe-lg mx-auto max-w-6xl py-16 sm:py-20">
+        <div id="features" className="scroll-mt-24">
+          <Eyebrow className="mb-3">Features</Eyebrow>
+          <h2 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-zinc-50">
+            Everything a pinochle player wants
+          </h2>
+          <p className="mt-4 max-w-2xl text-lg text-zinc-600 dark:text-zinc-400">
+            A real opponent, real rules, and the polish to make every deal a
+            pleasure.
+          </p>
+        </div>
+        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {FEATURES.map((feature) => (
+            <FeatureCard key={feature.title} feature={feature} />
+          ))}
+        </div>
       </section>
 
       {/* Screenshots */}
@@ -236,22 +247,80 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features */}
-      <section className="px-safe-lg mx-auto max-w-6xl py-16 sm:py-20">
-        <div id="features" className="scroll-mt-24">
-          <Eyebrow className="mb-3">Features</Eyebrow>
+      {/* Reviews — only once there are real ones to show (REVIEWS). */}
+      {REVIEWS.length > 0 && (
+        <section className="px-safe-lg mx-auto max-w-6xl py-16 sm:py-20">
+          <Eyebrow className="mb-3">Reviews</Eyebrow>
           <h2 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-zinc-50">
-            Everything a pinochle player wants
+            What players say
           </h2>
-          <p className="mt-4 max-w-2xl text-lg text-zinc-600 dark:text-zinc-400">
-            A real opponent, real rules, and the polish to make every deal a
-            pleasure.
-          </p>
-        </div>
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {FEATURES.map((feature) => (
-            <FeatureCard key={feature.title} feature={feature} />
-          ))}
+          <ul className="mt-10 grid gap-4 md:grid-cols-3">
+            {REVIEWS.map((r) => (
+              <li key={r.author + r.quote.slice(0, 16)}>
+                <Card>
+                  <p
+                    className="text-accent-500"
+                    aria-label={`${r.stars} out of 5 stars`}
+                  >
+                    {"★".repeat(r.stars)}
+                    <span className="text-zinc-300 dark:text-zinc-700">
+                      {"★".repeat(5 - r.stars)}
+                    </span>
+                  </p>
+                  <blockquote className="mt-3 text-zinc-700 dark:text-zinc-300">
+                    “{r.quote}”
+                  </blockquote>
+                  <p className="mt-3 text-sm font-medium text-zinc-500">
+                    {r.author}, App Store review
+                  </p>
+                </Card>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {/* Before you download — the questions that stop a visitor short of the
+          badge, answered where they'd ask them. */}
+      <section
+        id="faq"
+        className="scroll-mt-24 border-t border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-brand-900/30"
+      >
+        <div className="px-safe-lg mx-auto max-w-6xl py-16 sm:py-20">
+          <Eyebrow className="mb-3">Before you download</Eyebrow>
+          <h2 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-zinc-50">
+            Good questions
+          </h2>
+          <div className="mt-10 grid gap-4 md:grid-cols-2">
+            {DOWNLOAD_FAQS.map((faq) => (
+              <Card key={faq.question}>
+                <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-50">
+                  {faq.question}
+                </h3>
+                <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+                  {faq.answer}
+                  {faq.link && (
+                    <>
+                      {" "}
+                      {faq.link.href.startsWith("/") ? (
+                        <AppLink to={faq.link.href}>{faq.link.label}</AppLink>
+                      ) : (
+                        <AppLink href={faq.link.href} variant="external">
+                          {faq.link.label}
+                        </AppLink>
+                      )}
+                    </>
+                  )}
+                </p>
+              </Card>
+            ))}
+          </div>
+          <div className="mt-10 flex flex-wrap items-center gap-4">
+            <AppStoreBadge />
+            <p className="text-sm text-zinc-600 dark:text-zinc-400">
+              {HERO.trust[0]} · {HERO.trust[1]}
+            </p>
+          </div>
         </div>
       </section>
 
@@ -355,7 +424,7 @@ export default function Home() {
       </section>
 
       {/* Final CTA */}
-      <section className="from-brand-600 to-brand-800 relative isolate overflow-hidden bg-linear-to-br via-fuchsia-700 text-white">
+      <section className="from-brand-600 to-brand-950 relative isolate overflow-hidden bg-linear-to-br via-brand-800 text-white">
         <div
           aria-hidden
           className="pointer-events-none absolute -top-24 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-white/10 blur-3xl"

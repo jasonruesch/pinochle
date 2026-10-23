@@ -13,8 +13,9 @@ import { ThemeToggle } from "./theme-toggle";
 // Play" carries both — the link goes to the rules route, while the `href` ties
 // it to the home page's rules band so scrolling past that band highlights it too.
 const NAV_ITEMS: { href?: string; to?: string; label: string }[] = [
-  { href: "#screenshots", label: "Screenshots" },
   { href: "#features", label: "Features" },
+  { href: "#screenshots", label: "Screenshots" },
+  { href: "#faq", label: "FAQ" },
   { href: "#how-to-play", to: "/how-to-play", label: "How to Play" },
   { href: "#achievements", label: "Achievements" },
 ];
