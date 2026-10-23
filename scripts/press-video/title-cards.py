@@ -1,7 +1,7 @@
 """Renders the animated opening and closing cards for the press clip (2.1).
 
 python3 title-cards.py SCRATCH ICON [intro|outro|both|preview]  ->  SCRATCH/intro/f_%04d.png, SCRATCH/outro/f_%04d.png
-The opening card's pill reads PINOCHLE_PILL (default "NEW IN 2.1") and the
+The opening card's pill reads PINOCHLE_PILL (default "NEW IN 2.0") and the
 closing card's chips PINOCHLE_CHIPS (comma-separated). PINOCHLE_FORMAT=portrait
 renders natively at 1080x1920 for the vertical cut (2.0): the same cards and
 timings, laid out for 9:16 — larger fan, narrower wordmark, chips on two rows.
@@ -12,7 +12,7 @@ import math, os, random, sys
 from PIL import Image, ImageChops, ImageDraw, ImageFilter, ImageFont, ImageMath
 
 S, ICON = sys.argv[1], sys.argv[2]
-PILL = os.environ.get("PINOCHLE_PILL", "NEW IN 2.1")
+PILL = os.environ.get("PINOCHLE_PILL", "NEW IN 2.0")
 PORTRAIT = os.environ.get("PINOCHLE_FORMAT", "landscape") == "portrait"
 W, H, FPS = (1080, 1920, 30) if PORTRAIT else (1920, 1080, 30)
 
@@ -301,7 +301,7 @@ icon.putalpha(m.resize((300, 300), Image.LANCZOS))
 ICON_IMG = icon
 
 CHIPS = [c.strip() for c in os.environ.get(
-    "PINOCHLE_CHIPS", "Guided first game,Daily Deal,New card backs,Online with Game Center").split(",")]
+    "PINOCHLE_CHIPS", "Guided first game,Daily Deal,Play upright on iPhone,Online with Game Center").split(",")]
 
 FLUSH = ["As", "10s", "Ks", "Qs", "Js"]  # the spade flush — 150, the closing hand
 F_CTA_ROW = font(44, "Bold")
