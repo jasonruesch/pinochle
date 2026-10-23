@@ -2,11 +2,13 @@ import type { Feature, FeatureIcon } from "../_lib/content";
 import { Card } from "./card";
 import {
   BookIcon,
+  CalendarIcon,
   CardsIcon,
   ControllerIcon,
   CpuIcon,
   FaceTimeIcon,
   GlobeIcon,
+  PaletteIcon,
   ShieldIcon,
   TrophyIcon,
 } from "./icons";
@@ -16,6 +18,8 @@ const ICONS: Record<
   (props: { className?: string }) => React.ReactNode
 > = {
   cards: CardsIcon,
+  calendar: CalendarIcon,
+  palette: PaletteIcon,
   cpu: CpuIcon,
   globe: GlobeIcon,
   facetime: FaceTimeIcon,

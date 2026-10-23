@@ -58,6 +58,16 @@ export default function Privacy() {
         </p>
       </Clause>
 
+      <Clause heading="Reminders">
+        <p>
+          If you turn on the optional daily reminder, the app schedules it as a
+          local notification on your device, at the time of day you usually
+          play. It is not a push notification: nothing is sent to the developer
+          or to any server, and you can turn it off in the app&apos;s Settings
+          or in your device&apos;s notification settings at any time.
+        </p>
+      </Clause>
+
       <Clause heading="Children's privacy">
         <p>The app does not collect data from anyone, including children.</p>
       </Clause>

@@ -37,7 +37,7 @@ export const PAGES: Record<string, PageSeo> = {
   "/": {
     title: "Pinochle: Two-Handed — Two-Player Pinochle for Apple Devices",
     description:
-      "The classic two-handed card duel for iPhone, iPad, Mac, and Apple TV. Full pinochle rules, three AI opponents, Game Center online play, and SharePlay.",
+      "The classic two-handed card duel for iPhone, iPad, Mac, and Apple TV. Full pinochle rules, a guided first game, the Daily Deal, three AI opponents, and online play.",
   },
   "/how-to-play": {
     title: "How to Play Two-Handed Pinochle — the Complete Rules",
