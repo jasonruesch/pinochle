@@ -35,7 +35,7 @@ export function ScreenshotGallery() {
         })}
       </div>
 
-      {/* Upright shots (the iPhone tab, 3.0) sit three across — two would make
+      {/* Upright shots (the iPhone tab, 2.0) sit three across — two would make
           each frame a whole screen tall. */}
       <div
         className={

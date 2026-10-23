@@ -12,7 +12,7 @@ export const STORE = {
   appId: "6759009060",
   slug: "pinochle-two-handed",
   /** Marketing version live on the store. */
-  version: "3.0",
+  version: "2.0",
 } as const;
 
 /** Canonical App Store listing URL. Every store link on the site uses this. */
@@ -26,7 +26,7 @@ export const APP = {
     "Deal in. Meld your marriages, flush the trump, and race to 1,000 against a sharp AI or a live opponent over Game Center.",
   /** The listing's promotional text, condensed — what's new in this version. */
   whatsNew:
-    "New in 3.0: play upright on iPhone — your whole hand in one easy arc, under your thumb. Turn the phone any time, and it's ready for iPhone Duo.",
+    "All-new Pinochle: play upright on iPhone, a fresh look, a guided first game, and a free Daily Deal every day. Try every opponent free for 14 days.",
   category: "Games · Card & Strategy",
   // Deliberately no dollar amount — the App Store listing is the source of
   // truth for price, and hardcoding it here would go stale on any sale or
@@ -61,27 +61,22 @@ export const DESCRIPTION: string[] = [
 /* -- What's new ----------------------------------------------------------- */
 // The listing's "What's New" notes, lightly condensed: this version first,
 // then the release before it when there is one worth repeating (EARLIER_RELEASE).
-// 2.3, the release before, was the first 2.x in the store (straight after 1.1),
-// so its highlights cover all of 2.x.
+// 2.0 follows 1.1 directly and carries everything built since (drafted as 2.0
+// through 2.3 and as 3.0), so its highlights cover all of it.
 export const WHATS_NEW: string[] = [
-  "Pinochle plays upright on iPhone: the table stacks top to bottom and your hand sits in one arc, right under your thumb.",
-  "Touch a card to lift it and see it up close; let go to play it, or slide to another card first.",
-  "Turn the phone any time — mid-deal included — and the table follows.",
-  "Made for iPhone Duo: the folded screen and the big inner one, upright or sideways, switching as you fold and unfold.",
-  "Meet your opponents: Dix, Jack, and Ace are the Easy, Medium, and Hard computers — and on the Daily Deal, beat Ace's score for gold.",
+  "Play upright on iPhone: the table stacks top to bottom and your hand sits in one arc under your thumb. Turn the phone any time and the table follows.",
+  "Made for iPhone Duo: folded or open, upright or sideways, switching as you fold and unfold.",
+  "A whole new look, with cameo court cards: kings, queens, and jacks in gold-framed profile.",
+  "The Daily Deal, free for good: build a streak, with streak freezes, and beat Ace's score on the same cards for gold.",
+  "Meet your opponents: Dix, Jack, and Ace are the Easy, Medium, and Hard computers.",
+  "A guided first game, and a coach after every deal.",
+  "Your stats, and a ladder: beat each computer three times to earn a new card-back color, the Walnut table, and the Crown card back.",
 ];
 
 /** The release before this one, listed under the new one, or null when the
  * listing has nothing earlier worth repeating. */
-export const EARLIER_RELEASE: { version: string; items: string[] } | null = {
-  version: "2.3",
-  items: [
-    "A whole new look, with cameo court cards: kings, queens, and jacks in gold-framed profile.",
-    "The Daily Deal, free for good: build a streak, with streak freezes, and beat the Hard computer's score for gold.",
-    "A guided first game, and a coach after every deal.",
-    "Your stats, and a ladder: beat each computer three times to earn a new card-back color, the Walnut table, and the Crown card back.",
-  ],
-};
+export const EARLIER_RELEASE: { version: string; items: string[] } | null =
+  null;
 
 /* -- Before you download -------------------------------------------------- */
 // The home page's FAQ: the questions that stop someone short of the download
@@ -532,7 +527,7 @@ function shotsFor(
 }
 
 export const SHOTS: Shot[] = [
-  // iPhone 6.9", upright (3.0 plays upright; the sideways set stays for the hero).
+  // iPhone 6.9", upright (2.0 plays upright; the sideways set stays for the hero).
   ...shotsFor("iPhone", "iphone", "iphone69p", 1320 / 2868),
   ...shotsFor("iPad", "ipad", "ipad13", 2752 / 2064), // iPad 13"
   ...shotsFor("Mac", "mac", "mac", 2880 / 1800),

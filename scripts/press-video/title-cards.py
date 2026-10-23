@@ -3,7 +3,7 @@
 python3 title-cards.py SCRATCH ICON [intro|outro|both|preview]  ->  SCRATCH/intro/f_%04d.png, SCRATCH/outro/f_%04d.png
 The opening card's pill reads PINOCHLE_PILL (default "NEW IN 2.1") and the
 closing card's chips PINOCHLE_CHIPS (comma-separated). PINOCHLE_FORMAT=portrait
-renders natively at 1080x1920 for the vertical cut (3.0): the same cards and
+renders natively at 1080x1920 for the vertical cut (2.0): the same cards and
 timings, laid out for 9:16 — larger fan, narrower wordmark, chips on two rows.
 Card faces are cut from the game's own How to Play screen (cards/*.png).
 Palette is the app's "Midnight" UiKit.
