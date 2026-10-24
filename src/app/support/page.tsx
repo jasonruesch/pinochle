@@ -8,6 +8,8 @@ import { Field, FieldSelect, FieldTextarea } from "../_components/field";
 import {
   APP,
   DEVICES,
+  PLAY,
+  PLAY_URL,
   STORE,
   STORE_URL,
   SUPPORT,
@@ -283,6 +285,21 @@ export default function Support() {
                 </span>
               }
             />
+            {PLAY.live && (
+              <InfoBlock
+                label="Google Play"
+                value={
+                  <span className="flex flex-col items-start gap-1">
+                    <AppLink href={PLAY_URL} variant="external">
+                      Rate or review {APP.shortName}
+                    </AppLink>
+                    <AppLink href={SUPPORT.playRefundUrl} variant="external">
+                      Refunds (Google Play)
+                    </AppLink>
+                  </span>
+                }
+              />
+            )}
             <InfoBlock
               label="Privacy"
               value={

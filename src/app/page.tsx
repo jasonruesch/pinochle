@@ -6,7 +6,10 @@ import { DeviceFrame } from "./_components/device-frame";
 import { Eyebrow } from "./_components/eyebrow";
 import { FeatureCard } from "./_components/feature-card";
 import {
+  AndroidIcon,
+  AndroidTVIcon,
   AppleTVIcon,
+  ChromebookIcon,
   IPadIcon,
   IPhoneIcon,
   MacIcon,
@@ -35,6 +38,8 @@ import {
   EARLIER_RELEASE,
   type Badge,
   type PlatformIcon,
+  OPERATING_SYSTEMS,
+  PLAY,
 } from "./_lib/content";
 import { usePageMeta } from "./_lib/use-page-meta";
 
@@ -46,6 +51,9 @@ const PLATFORM_ICONS: Record<
   ipad: IPadIcon,
   mac: MacIcon,
   appletv: AppleTVIcon,
+  android: AndroidIcon,
+  chromebook: ChromebookIcon,
+  androidtv: AndroidTVIcon,
 };
 
 const HINTS_SHOT = SHOTS.find((s) => s.file === "mac-hints")!;
@@ -61,7 +69,7 @@ const SCHEMA = [
     description: APP.subtitle,
     applicationCategory: "GameApplication",
     applicationSubCategory: "Card Game",
-    operatingSystem: "iOS, iPadOS, macOS, tvOS",
+    operatingSystem: OPERATING_SYSTEMS,
     softwareVersion: STORE.version,
     installUrl: STORE_URL,
     author: { "@type": "Person", name: "Jason Ruesch" },
@@ -238,8 +246,10 @@ export default function Home() {
             One deck, every screen
           </h2>
           <p className="mt-4 max-w-2xl text-lg text-zinc-600 dark:text-zinc-400">
-            The new look and cameo court cards on iPhone, iPad, Mac, and the big
-            screen. Pick a device to take a look.
+            {PLAY.live
+              ? "The new look and cameo court cards on Apple and Android phones, tablets, computers, and the big screen."
+              : "The new look and cameo court cards on iPhone, iPad, Mac, and the big screen."}{" "}
+            Pick a device to take a look.
           </p>
           <div className="mt-10">
             <ScreenshotGallery />
@@ -405,13 +415,16 @@ export default function Home() {
       {/* Achievements & leaderboards */}
       <section className="px-safe-lg mx-auto max-w-6xl py-16 sm:py-20">
         <div id="achievements" className="scroll-mt-24">
-          <Eyebrow className="mb-3">Game Center</Eyebrow>
+          <Eyebrow className="mb-3">
+            {PLAY.live ? "Game Center & Google Play Games" : "Game Center"}
+          </Eyebrow>
           <h2 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-zinc-50">
             Fifteen achievements to chase
           </h2>
           <p className="mt-4 max-w-2xl text-lg text-zinc-600 dark:text-zinc-400">
-            Rack up wins, streaks, and legendary hands — all tracked on Game
-            Center leaderboards.
+            {PLAY.live
+              ? "Rack up wins, streaks, and legendary hands — tracked on Game Center leaderboards, and on Google Play Games on Android."
+              : "Rack up wins, streaks, and legendary hands — all tracked on Game Center leaderboards."}
           </p>
         </div>
 

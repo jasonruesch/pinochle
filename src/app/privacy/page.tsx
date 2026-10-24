@@ -30,7 +30,8 @@ export default function Privacy() {
           The app does not collect, store, or transmit any personal data. There
           are no accounts, no analytics, no advertising, and no tracking of any
           kind. Your match progress and settings are stored only on your device
-          (and in your personal iCloud/Game Center data managed by Apple, where
+          (and in your personal iCloud/Game Center data managed by Apple
+          {PLAY.live && ", or Google Play Games data managed by Google"}, where
           applicable).
         </p>
       </Clause>

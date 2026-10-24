@@ -20,6 +20,7 @@ import {
   RULES_TIPS,
   SHOTS,
   type MeldClass,
+  OPERATING_SYSTEMS,
 } from "../_lib/content";
 import { canonicalUrl, PAGES } from "../_lib/seo";
 import { useActiveSection } from "../_lib/use-active-section";
@@ -85,7 +86,7 @@ const SCHEMA = [
       "@type": "SoftwareApplication",
       name: APP.name,
       applicationCategory: "GameApplication",
-      operatingSystem: "iOS, iPadOS, macOS, tvOS",
+      operatingSystem: OPERATING_SYSTEMS,
     },
   },
   {
@@ -176,7 +177,9 @@ export default function HowToPlay() {
                 className="h-12 w-12 rounded-[0.9rem] ring-1 ring-black/5 dark:ring-white/10"
               />
               <p className="mt-3 text-sm font-semibold text-zinc-900 dark:text-zinc-50">
-                Play it on your Apple devices
+                {PLAY.live
+                  ? "Play it on your phone, tablet, computer, or TV"
+                  : "Play it on your Apple devices"}
               </p>
               <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
                 Legal moves highlighted, melds suggested, scoring handled.

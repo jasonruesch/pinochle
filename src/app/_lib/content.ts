@@ -29,6 +29,11 @@ export const PLAY = {
 
 export const PLAY_URL = `https://play.google.com/store/apps/details?id=${PLAY.packageName}`;
 
+/** The operating systems the app runs on, for search engines' structured data. */
+export const OPERATING_SYSTEMS = PLAY.live
+  ? "iOS, iPadOS, macOS, tvOS, Android, ChromeOS"
+  : "iOS, iPadOS, macOS, tvOS";
+
 /** Every device the game is sold for, as a sentence list. */
 export const PLATFORM_LIST = PLAY.live
   ? "iPhone, iPad, Mac, Apple TV, and Android"
@@ -158,7 +163,14 @@ export interface Review {
 export const REVIEWS: Review[] = [];
 
 /* -- Platforms ------------------------------------------------------------ */
-export type PlatformIcon = "iphone" | "ipad" | "mac" | "appletv";
+export type PlatformIcon =
+  | "iphone"
+  | "ipad"
+  | "mac"
+  | "appletv"
+  | "android"
+  | "chromebook"
+  | "androidtv";
 
 export interface Platform {
   name: string;
@@ -170,6 +182,13 @@ export const PLATFORMS: Platform[] = [
   { name: "iPad", icon: "ipad" },
   { name: "Mac", icon: "mac" },
   { name: "Apple TV", icon: "appletv" },
+  ...(PLAY.live
+    ? ([
+        { name: "Android", icon: "android" },
+        { name: "Chromebook", icon: "chromebook" },
+        { name: "Android TV", icon: "androidtv" },
+      ] as Platform[])
+    : []),
 ];
 
 /* -- Features ------------------------------------------------------------- */
@@ -220,25 +239,31 @@ export const FEATURES: Feature[] = [
   },
   {
     title: "Online, and on FaceTime",
-    body: "Quick match or invite a friend over Game Center, or deal in on a FaceTime call with SharePlay on iPhone, iPad, and Mac.",
+    body:
+      "Quick match or invite a friend over Game Center, or deal in on a FaceTime call with SharePlay on iPhone, iPad, and Mac." +
+      (PLAY.live ? " (Apple devices; not on Android yet.)" : ""),
     icon: "globe",
     tone: "from-cyan-500 to-teal-400",
   },
   {
     title: "Make it yours",
-    body: "Cameo court cards on five table themes, card backs in three patterns and six colors — plus three more to earn — three game speeds, and haptics on iPhone.",
+    body: `Cameo court cards on five table themes, card backs in three patterns and six colors — plus three more to earn — three game speeds, and haptics on ${PLAY.live ? "iPhone and Android" : "iPhone"}.`,
     icon: "palette",
     tone: "from-rose-500 to-accent-500",
   },
   {
     title: "Made for the living room",
-    body: "Full game-controller support, VoiceOver throughout, and a focus-based interface built for Apple TV and the big screen.",
+    body: PLAY.live
+      ? "Full game-controller support, VoiceOver and TalkBack throughout, and a focus-based interface built for Apple TV, Android TV, and the big screen."
+      : "Full game-controller support, VoiceOver throughout, and a focus-based interface built for Apple TV and the big screen.",
     icon: "controller",
     tone: "from-indigo-500 to-blue-400",
   },
   {
     title: "No ads, no tracking",
-    body: "No subscription and nothing collected — one purchase unlocks every device. Just cards.",
+    body: PLAY.live
+      ? "No subscription and nothing collected — one purchase unlocks every device on that store. Just cards."
+      : "No subscription and nothing collected — one purchase unlocks every device. Just cards.",
     icon: "shield",
     tone: "from-lime-500 to-green-400",
   },
@@ -476,7 +501,15 @@ export const RULES_FAQS: Faq[] = [
 ];
 
 /* -- Screenshots ---------------------------------------------------------- */
-export type Device = "iPhone" | "iPad" | "Mac" | "Apple TV";
+export type Device =
+  | "iPhone"
+  | "iPad"
+  | "Mac"
+  | "Apple TV"
+  | "Android"
+  | "Android tablet"
+  | "Chromebook"
+  | "Android TV";
 
 export interface Shot {
   device: Device;
@@ -495,7 +528,8 @@ export interface Shot {
 // headlines, which would double up inside this site's own DeviceFrame.
 //
 // Scenes run in the App Store upload order (Docs/StoreListing.md). Apple TV
-// skips the tutorial — its tips talk about tapping — so it has five.
+// skips the tutorial — its tips talk about tapping — so it has five. Android
+// has no online play, so its devices skip that scene too (TVs, the tutorial).
 type Scene = "classic" | "daily" | "tutorial" | "online" | "tables" | "hints";
 
 const SCENES: Record<Scene, { label: string; alt: string }> = {
@@ -534,6 +568,8 @@ const ALL_SCENES: Scene[] = [
   "hints",
 ];
 
+const ANDROID_SCENES = ALL_SCENES.filter((s) => s !== "online");
+
 function shotsFor(
   device: Device,
   platformIcon: PlatformIcon,
@@ -563,9 +599,50 @@ export const SHOTS: Shot[] = [
     3840 / 2160,
     ALL_SCENES.filter((s) => s !== "tutorial"),
   ),
+  // Google Play's sets (app repo Docs/AndroidPlan.md → "Play store art").
+  ...(PLAY.live
+    ? [
+        ...shotsFor(
+          "Android",
+          "android",
+          "android-phone",
+          1080 / 1920,
+          ANDROID_SCENES,
+        ),
+        ...shotsFor(
+          "Android tablet",
+          "android",
+          "android-tab10",
+          2560 / 1600,
+          ANDROID_SCENES,
+        ),
+        ...shotsFor(
+          "Chromebook",
+          "chromebook",
+          "chromebook",
+          1920 / 1080,
+          ANDROID_SCENES,
+        ),
+        ...shotsFor(
+          "Android TV",
+          "androidtv",
+          "androidtv",
+          1920 / 1080,
+          ANDROID_SCENES.filter((s) => s !== "tutorial"),
+        ),
+      ]
+    : []),
 ];
 
-export const DEVICES: Device[] = ["iPhone", "iPad", "Mac", "Apple TV"];
+export const DEVICES: Device[] = [
+  "iPhone",
+  "iPad",
+  "Mac",
+  "Apple TV",
+  ...(PLAY.live
+    ? (["Android", "Android tablet", "Chromebook", "Android TV"] as Device[])
+    : []),
+];
 
 /** The single hero screenshot (iPhone melding — the most colorful shot). It
  * stays the sideways capture: the hero frame is laid out landscape. */
@@ -624,18 +701,21 @@ export const SUPPORT = {
   responseTime: "within a few days",
   /** Apple owns billing, so refunds and receipts go through them, not us. */
   refundUrl: "https://reportaproblem.apple.com",
+  /** Google owns billing on Android: its refund help. */
+  playRefundUrl: "https://support.google.com/googleplay/answer/2479637",
 } as const;
 
 /** Subject-line categories in the support form's topic picker. */
-export const SUPPORT_TOPICS = [
+export const SUPPORT_TOPICS: string[] = [
   "Bug report",
   "Online play / Game Center",
   "SharePlay",
+  ...(PLAY.live ? ["Google Play / Android"] : []),
   "Rules question",
   "Feature request",
   "Accessibility",
   "Something else",
-] as const;
+];
 
 export interface Faq {
   question: string;
@@ -643,6 +723,37 @@ export interface Faq {
   /** Optional follow-up link rendered after the answer. */
   link?: { label: string; href: string };
 }
+
+/** Android's own answers, added to the support FAQs once Google Play is live. */
+const ANDROID_FAQS: Faq[] = [
+  {
+    question: "Can I play online on Android?",
+    answer:
+      "Not yet — online matches use Apple's Game Center and SharePlay, so they're on iPhone, iPad, Mac, and Apple TV. Everything else, the Daily Deal included, is the same on Android.",
+  },
+  {
+    question: "Where are my achievements on Android?",
+    answer:
+      "In Google Play Games. Open Your Record, then Stats, and tap Achievements or Leaderboards — the first time, sign in to Play Games. They follow your Google Account, separately from Game Center on Apple devices.",
+  },
+  {
+    question:
+      "I bought the unlock on Android. How do I get it on another device?",
+    answer:
+      "On another Android device signed into the same Google Account, tap Restore Purchases on the unlock screen or in Settings. Google Play and the App Store sell separately, so an unlock bought on one doesn't carry to the other.",
+  },
+  {
+    question: "Can I play on Android TV with a remote?",
+    answer:
+      "Yes — Android TV gets the same focus-based interface as Apple TV, built to be read from the couch. Use the remote's arrows and select, or a game controller; Back pauses a match.",
+  },
+  {
+    question: "I want a refund for a Google Play purchase.",
+    answer:
+      "Purchases on Android go through Google Play; the developer never sees a payment. Google's refund help explains how to request one.",
+    link: { label: "Google Play refunds", href: SUPPORT.playRefundUrl },
+  },
+];
 
 export const SUPPORT_FAQS: Faq[] = [
   {
@@ -688,7 +799,8 @@ export const SUPPORT_FAQS: Faq[] = [
   {
     question: "How do I turn the daily reminder on or off?",
     answer:
-      "In Settings, under Play, switch Daily reminder on or off. It comes once a day around the time you usually play and stops by itself if you haven't opened the app for three days. If it won't switch on, notifications for Pinochle are off in your device's Settings › Notifications. It's a local notification — nothing is sent anywhere. (Not on Apple TV.)",
+      "In Settings, under Play, switch Daily reminder on or off. It comes once a day around the time you usually play and stops by itself if you haven't opened the app for three days. If it won't switch on, notifications for Pinochle are off in your device's Settings › Notifications. It's a local notification — nothing is sent anywhere. " +
+      (PLAY.live ? "(Not on Apple TV or Android TV.)" : "(Not on Apple TV.)"),
   },
   {
     question: "How do I get the Plum, Walnut, and Crown designs?",
@@ -711,6 +823,7 @@ export const SUPPORT_FAQS: Faq[] = [
       "Purchases and billing are handled entirely by Apple; the developer never sees a payment. Refunds and receipts go through Apple's own reporting page.",
     link: { label: "reportaproblem.apple.com", href: SUPPORT.refundUrl },
   },
+  ...(PLAY.live ? ANDROID_FAQS : []),
 ];
 
 /* -- Privacy policy ------------------------------------------------------- */
