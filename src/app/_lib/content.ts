@@ -24,7 +24,7 @@ export const STORE_URL = `https://apps.apple.com/app/${STORE.slug}/id${STORE.app
 // it when the Play listing is public (see the app repo's Docs/AndroidPlan.md).
 export const PLAY = {
   packageName: "dev.jasonruesch.Pinochle",
-  live: false,
+  live: true,
 } as const;
 
 export const PLAY_URL = `https://play.google.com/store/apps/details?id=${PLAY.packageName}`;
@@ -832,7 +832,7 @@ export const SUPPORT_FAQS: Faq[] = [
 // App Store listing points at) live here.
 export const PRIVACY = {
   /** Rendered as "Last updated" on /privacy. Bump whenever the prose changes. */
-  updated: "October 20, 2026",
+  updated: "October 24, 2026",
   /** Apple governs Game Center and SharePlay data under its own policy. */
   applePolicyUrl: "https://www.apple.com/legal/privacy/",
   /** Google governs Play Billing, Play Games and Block Store data (Android). */
