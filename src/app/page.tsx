@@ -1,5 +1,5 @@
 import { AppLink } from "./_components/app-link";
-import { AppStoreBadge } from "./_components/app-store-badge";
+import { StoreBadges } from "./_components/store-badges";
 import { Button } from "./_components/button";
 import { Card } from "./_components/card";
 import { DeviceFrame } from "./_components/device-frame";
@@ -109,7 +109,7 @@ export default function Home() {
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <AppStoreBadge />
+              <StoreBadges />
               <p className="text-sm text-white/80">{APP.age}</p>
             </div>
 
@@ -316,7 +316,7 @@ export default function Home() {
             ))}
           </div>
           <div className="mt-10 flex flex-wrap items-center gap-4">
-            <AppStoreBadge />
+            <StoreBadges />
             <p className="text-sm text-zinc-600 dark:text-zinc-400">
               {HERO.trust[0]} · {HERO.trust[1]}
             </p>
@@ -435,7 +435,7 @@ export default function Home() {
           </h2>
           <p className="mt-3 text-lg text-white/90">{APP.closer}</p>
           <div className="mt-8">
-            <AppStoreBadge />
+            <StoreBadges />
           </div>
           <ul className="mt-8 flex flex-wrap justify-center gap-2">
             {PLATFORMS.map((p) => {

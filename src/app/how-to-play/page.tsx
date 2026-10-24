@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { AppLink } from "../_components/app-link";
-import { AppStoreBadge } from "../_components/app-store-badge";
+import { StoreBadges } from "../_components/store-badges";
 import { Card } from "../_components/card";
 import { DeviceFrame } from "../_components/device-frame";
 import { Eyebrow } from "../_components/eyebrow";
@@ -11,6 +11,8 @@ import {
   DEAL_POINTS,
   MELD_CLASSES,
   MELDS,
+  PLATFORM_LIST,
+  PLAY,
   RANK_ORDER,
   RULES_DISCLAIMER,
   RULES_FACTS,
@@ -125,10 +127,10 @@ export default function HowToPlay() {
             playoff after the stock is gone, and the race to 1,000.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-4">
-            <AppStoreBadge />
+            <StoreBadges />
             <p className="max-w-xs text-sm text-white/80">
-              Let {APP.shortName} deal, score, and enforce every rule below on
-              iPhone, iPad, Mac, and Apple&nbsp;TV.
+              Let {APP.shortName} deal, score, and enforce every rule below on{" "}
+              {PLATFORM_LIST}.
             </p>
           </div>
         </div>
@@ -179,7 +181,7 @@ export default function HowToPlay() {
               <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
                 Legal moves highlighted, melds suggested, scoring handled.
               </p>
-              <AppStoreBadge className="mt-4 scale-90 origin-left" />
+              <StoreBadges className="mt-4 scale-90 origin-left" />
             </Card>
           </aside>
 
@@ -489,11 +491,12 @@ export default function HowToPlay() {
             Now find someone to play
           </h2>
           <p className="mt-3 text-lg text-white/90">
-            Three AI opponents, online matches over Game Center, and SharePlay
-            over FaceTime — on iPhone, iPad, Mac, and Apple&nbsp;TV.
+            {PLAY.live
+              ? `Three AI opponents on ${PLATFORM_LIST} — plus online matches over Game Center and SharePlay over FaceTime on Apple devices.`
+              : "Three AI opponents, online matches over Game Center, and SharePlay over FaceTime — on iPhone, iPad, Mac, and Apple TV."}
           </p>
           <div className="mt-8">
-            <AppStoreBadge />
+            <StoreBadges />
           </div>
         </div>
       </section>

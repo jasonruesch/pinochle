@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { AppLink } from "../_components/app-link";
 import { Eyebrow } from "../_components/eyebrow";
-import { PRIVACY } from "../_lib/content";
+import { PLATFORM_LIST, PLAY, PRIVACY } from "../_lib/content";
 import { usePageMeta } from "../_lib/use-page-meta";
 
 /**
@@ -21,8 +21,8 @@ export default function Privacy() {
         Last updated: {PRIVACY.updated}
       </p>
       <p className="mt-8 text-lg text-zinc-600 dark:text-zinc-400">
-        Pinochle (&ldquo;the app&rdquo;) is a card game for iPhone, iPad, Mac,
-        and Apple TV, developed by Jason Ruesch.
+        Pinochle (&ldquo;the app&rdquo;) is a card game for {PLATFORM_LIST},
+        developed by Jason Ruesch.
       </p>
 
       <Clause heading="Data collection">
@@ -48,6 +48,22 @@ export default function Privacy() {
           information.
         </p>
       </Clause>
+
+      {PLAY.live && (
+        <Clause heading="Google Play (Android)">
+          <p>
+            On Android, purchases go through Google Play Billing, and
+            leaderboards and achievements through Google Play Games if you sign
+            in to it. The date your free trial started is kept in Google&apos;s
+            Block Store, tied to your Google Account, so reinstalling
+            doesn&apos;t reset it. All of this is handled by Google under{" "}
+            <AppLink href={PRIVACY.googlePolicyUrl} variant="external">
+              Google&apos;s own privacy policy
+            </AppLink>
+            ; the developer does not receive, collect, or store any of it.
+          </p>
+        </Clause>
+      )}
 
       <Clause heading="SharePlay">
         <p>

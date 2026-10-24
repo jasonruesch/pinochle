@@ -18,6 +18,22 @@ export const STORE = {
 /** Canonical App Store listing URL. Every store link on the site uses this. */
 export const STORE_URL = `https://apps.apple.com/app/${STORE.slug}/id${STORE.appId}`;
 
+/* -- Google Play listing (2.1) --------------------------------------------- */
+// Everything Android on the site — the Google Play badge, "and Android" in the
+// platform list, the Android FAQs and privacy wording — waits on `live`. Flip
+// it when the Play listing is public (see the app repo's Docs/AndroidPlan.md).
+export const PLAY = {
+  packageName: "dev.jasonruesch.Pinochle",
+  live: false,
+} as const;
+
+export const PLAY_URL = `https://play.google.com/store/apps/details?id=${PLAY.packageName}`;
+
+/** Every device the game is sold for, as a sentence list. */
+export const PLATFORM_LIST = PLAY.live
+  ? "iPhone, iPad, Mac, Apple TV, and Android"
+  : "iPhone, iPad, Mac, and Apple TV";
+
 export const APP = {
   name: "Pinochle: Two-Handed",
   shortName: "Pinochle",
@@ -42,8 +58,7 @@ export const APP = {
  * try it" — no cost to start, no subscription trap, no rules to learn first. */
 export const HERO = {
   headline: "Two-handed pinochle, whenever you want a game",
-  subhead:
-    "A sharp computer opponent, a free Daily Deal, and a guided first game that teaches you as you play — on iPhone, iPad, Mac, and Apple TV.",
+  subhead: `A sharp computer opponent, a free Daily Deal, and a guided first game that teaches you as you play — on ${PLATFORM_LIST}.`,
   trust: [
     "Free to try for 14 days",
     "One purchase — no subscription, no ads",
@@ -53,7 +68,7 @@ export const HERO = {
 
 export const DESCRIPTION: string[] = [
   "Pinochle brings the classic two-handed card duel to your table — the classic rules, a beautiful minimal deck, and opponents that put up a real fight. Play it upright on iPhone, your hand right under your thumb, or turn it sideways.",
-  "Try the whole game free for 14 days. After that, one purchase unlocks it for good — on your iPhone, iPad, Mac, and Apple TV. No subscription. And the Daily Deal stays free, every day, either way.",
+  `Try the whole game free for 14 days. After that, one purchase unlocks it for good — on your ${PLATFORM_LIST}. No subscription. And the Daily Deal stays free, every day, either way.`,
   "Play a quick single deal or the full race to 1,000 with declare-out. Draw from the stock, time your melds, and squeeze every counter out of the playoff, where following suit is the law and every trick matters.",
   "New to Pinochle? A guided first game walks you through a real deal — the trump, your first trick, your first meld, the playoff — one short tip at a time.",
 ];
@@ -84,8 +99,7 @@ export const EARLIER_RELEASE: { version: string; items: string[] } | null =
 export const DOWNLOAD_FAQS: Faq[] = [
   {
     question: "What does it cost?",
-    answer:
-      "Nothing to start: every opponent and mode is free for 14 days. After that, one purchase unlocks the full game for good on your iPhone, iPad, Mac, and Apple TV — no subscription and no ads. The Daily Deal and the guided first game stay free either way, and the App Store shows the price in your currency before you buy.",
+    answer: `Nothing to start: every opponent and mode is free for 14 days. After that, one purchase unlocks the full game for good on your ${PLATFORM_LIST} — no subscription and no ads. The Daily Deal and the guided first game stay free either way, and ${PLAY.live ? "the store" : "the App Store"} shows the price in your currency before you buy.`,
   },
   {
     question: "Which pinochle rules does it use?",
@@ -96,12 +110,13 @@ export const DOWNLOAD_FAQS: Faq[] = [
   {
     question: "I've never played. Can I learn here?",
     answer:
-      "Yes. A guided first game teaches you a real deal one short tip at a time, your first games point out a good card when you're stuck, and after every deal a coach names the costliest slip. How to Play shows every meld in real cards.",
+      "Yes. A guided first game teaches you a real deal one short tip at a time, Dix, the Easy computer, points out a good card when you're stuck, and after every deal a coach names the costliest slip. How to Play shows every meld in real cards.",
   },
   {
     question: "Can I play with family and friends?",
     answer:
-      "Yes — online through Game Center with a quick match or an invite, or on a FaceTime call with SharePlay on iPhone, iPad, and Mac.",
+      "Yes — online through Game Center with a quick match or an invite, or on a FaceTime call with SharePlay on iPhone, iPad, and Mac." +
+      (PLAY.live ? " Online play isn't on Android yet." : ""),
   },
   {
     question: "Does it work offline?",
@@ -110,14 +125,25 @@ export const DOWNLOAD_FAQS: Faq[] = [
   },
   {
     question: "Is it easy to see and use?",
-    answer:
-      "The deck uses four suit colors so spades, hearts, clubs, and diamonds never blur together, VoiceOver reads every card and play, and the Apple TV version is built to be read from the couch with the Siri Remote or a controller.",
+    answer: `The deck uses four suit colors so spades, hearts, clubs, and diamonds never blur together, ${PLAY.live ? "VoiceOver and TalkBack read" : "VoiceOver reads"} every card and play, and the ${PLAY.live ? "TV versions are" : "Apple TV version is"} built to be read from the couch with ${PLAY.live ? "a remote" : "the Siri Remote"} or a controller.`,
   },
   {
     question: "What happens to my data?",
     answer:
-      "Nothing is collected. Your games and settings stay on your device; your Game Center scores belong to your Apple Account.",
+      "Nothing is collected. Your games and settings stay on your device; your Game Center scores belong to your Apple Account" +
+      (PLAY.live
+        ? ", and Google Play Games scores to your Google Account."
+        : "."),
   },
+  ...(PLAY.live
+    ? [
+        {
+          question: "Does my purchase work on both iPhone and Android?",
+          answer:
+            "No — the App Store and Google Play sell separately, so an unlock bought on one doesn't carry to the other. Within each, one purchase covers all your devices, and the Daily Deal and the guided first game are free on both.",
+        },
+      ]
+    : []),
 ];
 
 /* -- Reviews ----------------------------------------------------------------- */
@@ -696,6 +722,8 @@ export const PRIVACY = {
   updated: "October 20, 2026",
   /** Apple governs Game Center and SharePlay data under its own policy. */
   applePolicyUrl: "https://www.apple.com/legal/privacy/",
+  /** Google governs Play Billing, Play Games and Block Store data (Android). */
+  googlePolicyUrl: "https://policies.google.com/privacy",
   /** The support address given in the policy and the App Store listing. */
   contactEmail: "privacy@jasonruesch.dev",
 } as const;
