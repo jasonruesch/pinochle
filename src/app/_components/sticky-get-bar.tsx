@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { APP, HERO } from "../_lib/content";
-import { AppStoreBadge } from "./app-store-badge";
+import { StoreBadges } from "./store-badges";
 
 /**
  * Phones only: once the hero's own badge has scrolled away, a slim bar keeps the
@@ -35,7 +35,7 @@ export function StickyGetBar({ watchId }: { watchId: string }) {
           </p>
           <p className="truncate text-xs text-white/70">{HERO.trust[0]}</p>
         </div>
-        <AppStoreBadge className="flex-none scale-90 origin-right" />
+        <StoreBadges single className="flex-none scale-90 origin-right" />
       </div>
     </div>
   );

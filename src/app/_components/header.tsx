@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router";
 import { asset } from "../_lib/asset";
-import { APP, STORE_URL } from "../_lib/content";
 import { useActiveSection } from "../_lib/use-active-section";
 import { useBodyScrollLock } from "../_lib/use-body-scroll-lock";
 import { HashLink, NavLink } from "./nav-link";
@@ -119,16 +118,9 @@ export function Header() {
           ))}
         </nav>
 
+        {/* No store link up here: with two stores, the badges in the hero, the
+            closing call to action and the phone's sticky bar carry the download. */}
         <div className="ml-auto flex items-center gap-2 sm:ml-2">
-          <a
-            href={STORE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`${APP.name} on the App Store`}
-            className="hover:bg-brand-100 dark:hover:bg-brand-900/70 hidden rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700 transition-colors md:inline-block dark:bg-brand-900/40 dark:text-brand-300"
-          >
-            Out now
-          </a>
           <ThemeToggle />
         </div>
       </div>

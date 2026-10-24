@@ -103,6 +103,35 @@ export function AppleTVIcon({ className }: IconProps) {
 }
 
 /* -- Feature icons -------------------------------------------------------- */
+/** Android phones and tablets: a camera dot rather than iPhone's home bar. */
+export function AndroidIcon({ className }: IconProps) {
+  return (
+    <Line className={className}>
+      <rect x="7" y="2" width="10" height="20" rx="2" />
+      <circle cx="12" cy="5" r="0.6" />
+    </Line>
+  );
+}
+
+export function ChromebookIcon({ className }: IconProps) {
+  return (
+    <Line className={className}>
+      <rect x="4" y="5" width="16" height="11" rx="1.5" />
+      <path d="M2 19h20l-1.5-3h-17z" />
+    </Line>
+  );
+}
+
+/** A TV on feet, unlike Apple TV's on a stand. */
+export function AndroidTVIcon({ className }: IconProps) {
+  return (
+    <Line className={className}>
+      <rect x="2.5" y="4" width="19" height="13" rx="2" />
+      <path d="M6 17l-1 3M18 17l1 3" />
+    </Line>
+  );
+}
+
 export function CardsIcon({ className }: IconProps) {
   return (
     <Line className={className}>
