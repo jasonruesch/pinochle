@@ -304,7 +304,7 @@ CHIPS = [c.strip() for c in os.environ.get(
     "PINOCHLE_CHIPS", "Guided first game,Daily Deal,Play upright on iPhone,Online with Game Center").split(",")]
 
 FLUSH = ["As", "10s", "Ks", "Qs", "Js"]  # the spade flush — 150, the closing hand
-F_CTA_ROW = font(44, "Bold")
+F_CTA_ROW = font(38 if PORTRAIT else 44, "Bold")
 ICON_SMALL = ICON_IMG.resize((92, 92), Image.LANCZOS)
 
 def outro_frame(t):
@@ -356,7 +356,7 @@ def outro_frame(t):
     p = prog(t, 2.3, 0.5)
     if p > 0:
         e = out_cubic(p)
-        cta = "Free to try on the App Store"
+        cta = "Free to try on the App Store and Google Play"
         tw = F_CTA_ROW.getlength(cta)
         row = ICON_SMALL.width + 24 + tw
         x0 = W / 2 - row / 2
@@ -370,7 +370,7 @@ def outro_frame(t):
         layer.putalpha(layer.getchannel("A").point(lambda v: int(v * e)))
         im.alpha_composite(layer)
     p = prog(t, 2.55, 0.5)
-    draw_text(im, "iPhone  ·  iPad  ·  Mac  ·  Apple TV", F_PLAT, W / 2, LAY["plat_y"], MUTED,
+    draw_text(im, "iPhone  ·  iPad  ·  Mac  ·  Apple TV  ·  Android", F_PLAT, W / 2, LAY["plat_y"], MUTED,
               alpha=out_cubic(p), dy=20 * (1 - out_cubic(p)))
     p = prog(t, 3.0, 0.6)
     draw_text(im, "SEE YOU AT 1,000", F_CLOSE, W / 2, LAY["close_y"], EYEBROW, alpha=out_cubic(p), tracking=8)
