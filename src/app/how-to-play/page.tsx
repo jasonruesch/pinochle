@@ -128,7 +128,7 @@ export default function HowToPlay() {
             playoff after the stock is gone, and the race to 1,000.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-4">
-            <StoreBadges />
+            <StoreBadges page="learn" />
             <p className="max-w-xs text-sm text-white/80">
               Let {APP.shortName} deal, score, and enforce every rule below on{" "}
               {PLATFORM_LIST}.
@@ -184,7 +184,7 @@ export default function HowToPlay() {
               <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
                 Legal moves highlighted, melds suggested, scoring handled.
               </p>
-              <StoreBadges className="mt-4 scale-90 origin-left" />
+              <StoreBadges page="learn" className="mt-4 scale-90 origin-left" />
             </Card>
           </aside>
 
@@ -499,7 +499,7 @@ export default function HowToPlay() {
               : "Three AI opponents, online matches over Game Center, and SharePlay over FaceTime — on iPhone, iPad, Mac, and Apple TV."}
           </p>
           <div className="mt-8">
-            <StoreBadges />
+            <StoreBadges page="learn" />
           </div>
         </div>
       </section>

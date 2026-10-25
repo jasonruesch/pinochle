@@ -18,6 +18,21 @@ export const STORE = {
 /** Canonical App Store listing URL. Every store link on the site uses this. */
 export const STORE_URL = `https://apps.apple.com/app/${STORE.slug}/id${STORE.appId}`;
 
+/** The App Store's custom product pages (App Store Connect → Custom Product
+ * Pages): the same listing with screenshots and promo text aimed at one kind of
+ * visitor. Learn Pinochle is for newcomers; Daily Deal for daily players. */
+export const STORE_PAGES = {
+  learn: "e016d57f-d47f-40c7-aace-e4a19da28f68",
+  daily: "a501f276-beaa-486f-8f5a-baec5762e33c",
+} as const;
+
+export type StorePage = keyof typeof STORE_PAGES;
+
+/** The listing, or one of its custom product pages. */
+export function storeUrl(page?: StorePage): string {
+  return page ? `${STORE_URL}?ppid=${STORE_PAGES[page]}` : STORE_URL;
+}
+
 /* -- Google Play listing (2.0) --------------------------------------------- */
 // Everything Android on the site — the Google Play badge, "and Android" in the
 // platform list, the Android FAQs and privacy wording — waits on `live`. Flip
@@ -215,6 +230,8 @@ export interface Feature {
   icon: FeatureIcon;
   /** Tailwind gradient classes for the card's accent strip. */
   tone: string;
+  /** The App Store custom product page that tells this feature's story. */
+  storePage?: StorePage;
 }
 
 export const FEATURES: Feature[] = [
@@ -229,12 +246,14 @@ export const FEATURES: Feature[] = [
     body: "New to Pinochle? Play a real deal with a short tip at each step. After that, legal-move highlighting and suggested plays are there when you want them.",
     icon: "book",
     tone: "from-emerald-500 to-teal-400",
+    storePage: "learn",
   },
   {
     title: "The Daily Deal",
     body: "The same cards for everyone, every day — and free for good. Beat Ace's score — the Hard computer's — for gold, and build a streak, with streak freezes for the days life gets in the way.",
     icon: "calendar",
     tone: "from-amber-500 to-yellow-400",
+    storePage: "daily",
   },
   {
     title: "Three AI opponents, and a ladder",

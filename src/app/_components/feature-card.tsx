@@ -1,6 +1,8 @@
-import type { Feature, FeatureIcon } from "../_lib/content";
+import { storeUrl, type Feature, type FeatureIcon } from "../_lib/content";
+import { AppLink } from "./app-link";
 import { Card } from "./card";
 import {
+  AppleIcon,
   BookIcon,
   CalendarIcon,
   CardsIcon,
@@ -42,6 +44,18 @@ export function FeatureCard({ feature }: { feature: Feature }) {
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
         {feature.body}
       </p>
+      {feature.storePage && (
+        // This feature's own App Store page (a custom product page).
+        <AppLink
+          href={storeUrl(feature.storePage)}
+          target="_blank"
+          rel="noopener noreferrer"
+          icon={<AppleIcon className="h-4 w-4" />}
+          className="mt-3 text-sm font-medium"
+        >
+          See it on the App Store
+        </AppLink>
+      )}
     </Card>
   );
 }
