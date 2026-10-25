@@ -301,7 +301,7 @@ icon.putalpha(m.resize((300, 300), Image.LANCZOS))
 ICON_IMG = icon
 
 CHIPS = [c.strip() for c in os.environ.get(
-    "PINOCHLE_CHIPS", "Guided first game,Daily Deal,Play upright on iPhone,Online with Game Center").split(",")]
+    "PINOCHLE_CHIPS", "Guided first game,Daily Deal,Play upright on your phone,Online with Game Center").split(",")]
 
 FLUSH = ["As", "10s", "Ks", "Qs", "Js"]  # the spade flush — 150, the closing hand
 F_CTA_ROW = font(38 if PORTRAIT else 44, "Bold")
