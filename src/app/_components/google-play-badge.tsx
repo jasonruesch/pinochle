@@ -13,6 +13,9 @@ interface GooglePlayBadgeProps {
  * middle 168px of that height, so at 86px tall it stands as tall as the App
  * Store badge (58px); the negative margins take back Google's transparent
  * clear space so the badges line up and the gap between them reads true.
+ * The image takes no pointer events, so the whole badge is the link's hand
+ * cursor: otherwise Safari's Live Text finds the words in the artwork and
+ * shows a text cursor over them.
  */
 export function GooglePlayBadge({ className }: GooglePlayBadgeProps) {
   return (
@@ -33,7 +36,8 @@ export function GooglePlayBadge({ className }: GooglePlayBadgeProps) {
         alt=""
         width={222}
         height={86}
-        className="-mx-[13px] -my-[14px] h-[86px] w-auto max-w-none"
+        draggable={false}
+        className="pointer-events-none -mx-[13px] -my-[14px] h-[86px] w-auto max-w-none select-none"
       />
     </a>
   );
