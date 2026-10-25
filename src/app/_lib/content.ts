@@ -18,7 +18,7 @@ export const STORE = {
 /** Canonical App Store listing URL. Every store link on the site uses this. */
 export const STORE_URL = `https://apps.apple.com/app/${STORE.slug}/id${STORE.appId}`;
 
-/* -- Google Play listing (2.1) --------------------------------------------- */
+/* -- Google Play listing (2.0) --------------------------------------------- */
 // Everything Android on the site — the Google Play badge, "and Android" in the
 // platform list, the Android FAQs and privacy wording — waits on `live`. Flip
 // it when the Play listing is public (see the app repo's Docs/AndroidPlan.md).
@@ -83,6 +83,11 @@ export const DESCRIPTION: string[] = [
 // then the release before it when there is one worth repeating (EARLIER_RELEASE).
 // 2.0 follows 1.1 directly, so its highlights cover everything new since 1.1.
 export const WHATS_NEW: string[] = [
+  ...(PLAY.live
+    ? [
+        "Now on Google Play: Android phones, tablets, and foldables, Chromebooks, and Android TV.",
+      ]
+    : []),
   "Play upright on iPhone: the table stacks top to bottom and your hand sits in one arc under your thumb. Turn the phone any time and the table follows.",
   "Made for iPhone Duo: folded or open, upright or sideways, switching as you fold and unfold.",
   "A whole new look, with cameo court cards: kings, queens, and jacks in gold-framed profile.",

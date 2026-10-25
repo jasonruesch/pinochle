@@ -1,4 +1,4 @@
-"""Renders the animated opening and closing cards for the press clip (2.1).
+"""Renders the animated opening and closing cards for the press clip (2.0).
 
 python3 title-cards.py SCRATCH ICON [intro|outro|both|preview]  ->  SCRATCH/intro/f_%04d.png, SCRATCH/outro/f_%04d.png
 The opening card's pill reads PINOCHLE_PILL (default "NEW IN 2.0") and the
