@@ -65,10 +65,14 @@ To rebuild it (frames are ~1 GB — keep them in a scratch dir, `$T` below):
 The app repo's `Docs/press/` keeps each version's clip; this file is
 `pinochle-2.0-deal-and-meld.mp4` there, byte for byte. The featuring nomination
 links to the hosted copy, so it must reach `main` before the nomination is
-reviewed. 2.0's vertical cut for social posts, `pinochle-2.0-vertical.mp4`
-(1080x1920), lives only in the app repo's `Docs/press/` — render its title
-cards with `PINOCHLE_FORMAT=portrait python3 scripts/press-video/title-cards.py …`
-(the pill and chips default to 2.0's).
+reviewed. That cut is Apple-only. `pinochle-2.0-preview-play.mp4` is the
+same clip with an end card that adds Google Play and Android
+(`pinochle-2.0-deal-and-meld-play.mp4` in the app repo); the home page plays it
+once `PLAY.live` is on. 2.0's vertical cuts for social posts,
+`pinochle-2.0-vertical.mp4` and `-vertical-play.mp4` (1080x1920), live only in
+the app repo's `Docs/press/`. `title-cards.py` takes `PINOCHLE_FORMAT=portrait`
+for the vertical layout and `PINOCHLE_STORES=apple+google` for the Google Play
+end card; the app repo's `tools/media.zsh press` renders all four.
 
 The gallery's iPhone tab shows the upright (2.0) captures, `iphone69p-*`, three
 across; the hero keeps the sideways `iphone69-classic`.

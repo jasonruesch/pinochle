@@ -166,7 +166,8 @@ export default function Home() {
 
       {/* Gameplay video — the 2.0 press clip, straight after the hero so the
           first thing below the fold is the game moving; What's New folds
-          under it for returning players. */}
+          under it for returning players. Its end card names the stores, so
+          the Google Play cut plays once Play is live (PLAY.live). */}
       <section className="px-safe-lg mx-auto max-w-5xl py-16 sm:py-20">
         <Eyebrow className="mb-3">See it in action</Eyebrow>
         <h2 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-zinc-50">
@@ -177,7 +178,11 @@ export default function Home() {
           back: the deal, the first tricks, and a meld laid down for points.
         </p>
         <VideoFrame
-          src={asset("video/pinochle-2.0-preview.mp4")}
+          src={asset(
+            PLAY.live
+              ? "video/pinochle-2.0-preview-play.mp4"
+              : "video/pinochle-2.0-preview.mp4",
+          )}
           poster={asset("video/pinochle-2.0-preview-poster.webp")}
           label="Gameplay video: a title card, then a hand of two-handed pinochle being dealt, played, and melded against the computer"
           className="mt-10"

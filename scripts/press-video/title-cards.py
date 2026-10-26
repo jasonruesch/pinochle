@@ -5,6 +5,9 @@ The opening card's pill reads PINOCHLE_PILL (default "NEW IN 2.0") and the
 closing card's chips PINOCHLE_CHIPS (comma-separated). PINOCHLE_FORMAT=portrait
 renders natively at 1080x1920 for the vertical cut (2.0): the same cards and
 timings, laid out for 9:16 — larger fan, narrower wordmark, chips on two rows.
+PINOCHLE_STORES picks the closing card's stores: "apple" (the default — the
+App Store and Apple's devices; the cut the featuring nomination links) or
+"apple+google" (adds Google Play and Android, for once the Play listing is live).
 Card faces are cut from the game's own How to Play screen (cards/*.png).
 Palette is the app's "Midnight" UiKit.
 """
@@ -14,6 +17,7 @@ from PIL import Image, ImageChops, ImageDraw, ImageFilter, ImageFont, ImageMath
 S, ICON = sys.argv[1], sys.argv[2]
 PILL = os.environ.get("PINOCHLE_PILL", "NEW IN 2.0")
 PORTRAIT = os.environ.get("PINOCHLE_FORMAT", "landscape") == "portrait"
+GOOGLE = os.environ.get("PINOCHLE_STORES", "apple") == "apple+google"
 W, H, FPS = (1080, 1920, 30) if PORTRAIT else (1920, 1080, 30)
 
 # Every hand-placed position, per format. Landscape is the original 2.1 layout,
@@ -301,7 +305,9 @@ icon.putalpha(m.resize((300, 300), Image.LANCZOS))
 ICON_IMG = icon
 
 CHIPS = [c.strip() for c in os.environ.get(
-    "PINOCHLE_CHIPS", "Guided first game,Daily Deal,Play upright on your phone,Online with Game Center").split(",")]
+    "PINOCHLE_CHIPS", "Guided first game,Daily Deal,"
+    + ("Play upright on your phone" if GOOGLE else "Play upright on iPhone")
+    + ",Online with Game Center").split(",")]
 
 FLUSH = ["As", "10s", "Ks", "Qs", "Js"]  # the spade flush — 150, the closing hand
 F_CTA_ROW = font(38 if PORTRAIT else 44, "Bold")
@@ -356,7 +362,7 @@ def outro_frame(t):
     p = prog(t, 2.3, 0.5)
     if p > 0:
         e = out_cubic(p)
-        cta = "Free to try on the App Store and Google Play"
+        cta = "Free to try on the App Store" + (" and Google Play" if GOOGLE else "")
         tw = F_CTA_ROW.getlength(cta)
         row = ICON_SMALL.width + 24 + tw
         x0 = W / 2 - row / 2
@@ -370,7 +376,7 @@ def outro_frame(t):
         layer.putalpha(layer.getchannel("A").point(lambda v: int(v * e)))
         im.alpha_composite(layer)
     p = prog(t, 2.55, 0.5)
-    draw_text(im, "iPhone  ·  iPad  ·  Mac  ·  Apple TV  ·  Android", F_PLAT, W / 2, LAY["plat_y"], MUTED,
+    draw_text(im, "iPhone  ·  iPad  ·  Mac  ·  Apple TV" + ("  ·  Android" if GOOGLE else ""), F_PLAT, W / 2, LAY["plat_y"], MUTED,
               alpha=out_cubic(p), dy=20 * (1 - out_cubic(p)))
     p = prog(t, 3.0, 0.6)
     draw_text(im, "SEE YOU AT 1,000", F_CLOSE, W / 2, LAY["close_y"], EYEBROW, alpha=out_cubic(p), tracking=8)
