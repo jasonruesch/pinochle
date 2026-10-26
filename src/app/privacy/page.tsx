@@ -1,4 +1,5 @@
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
+import { useLocation } from "react-router";
 import { AppLink } from "../_components/app-link";
 import { Eyebrow } from "../_components/eyebrow";
 import { PLATFORM_LIST, PLAY, PRIVACY } from "../_lib/content";
@@ -11,6 +12,13 @@ import { usePageMeta } from "../_lib/use-page-meta";
  */
 export default function Privacy() {
   usePageMeta("/privacy");
+  // A link straight to a section (Google Play's data-deletion link is
+  // /privacy#delete-your-data) arrives before the page has rendered, so the
+  // browser can't find the anchor itself: scroll to it once it exists.
+  const { hash } = useLocation();
+  useEffect(() => {
+    if (hash) document.getElementById(hash.slice(1))?.scrollIntoView();
+  }, [hash]);
   return (
     <div className="px-safe-lg mx-auto max-w-3xl py-16 sm:py-20">
       <Eyebrow className="mb-3">Legal</Eyebrow>
