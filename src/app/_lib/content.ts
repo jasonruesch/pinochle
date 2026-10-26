@@ -35,11 +35,13 @@ export function storeUrl(page?: StorePage): string {
 
 /* -- Google Play listing (2.0) --------------------------------------------- */
 // Everything Android on the site — the Google Play badge, "and Android" in the
-// platform list, the Android FAQs and privacy wording — waits on `live`. Flip
-// it when the Play listing is public (see the app repo's Docs/AndroidPlan.md).
+// platform list, the Android FAQs and privacy wording — waits on `live`. 2.0
+// launches on the App Store first; Google Play follows once its closed test
+// clears, and that day this flips to true (see the app repo's
+// Docs/AndroidPlan.md, "Launch day").
 export const PLAY = {
   packageName: "dev.jasonruesch.Pinochle",
-  live: true,
+  live: false,
 } as const;
 
 export const PLAY_URL = `https://play.google.com/store/apps/details?id=${PLAY.packageName}`;
