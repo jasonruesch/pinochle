@@ -2,7 +2,7 @@ import { useEffect, type ReactNode } from "react";
 import { useLocation } from "react-router";
 import { AppLink } from "../_components/app-link";
 import { Eyebrow } from "../_components/eyebrow";
-import { PRIVACY } from "../_lib/content";
+import { PLATFORM_LIST, PLAY, PRIVACY } from "../_lib/content";
 import { usePageMeta } from "../_lib/use-page-meta";
 
 /**
@@ -29,8 +29,8 @@ export default function Privacy() {
         Last updated: {PRIVACY.updated}
       </p>
       <p className="mt-8 text-lg text-zinc-600 dark:text-zinc-400">
-        Pinochle (&ldquo;the app&rdquo;) is a card game for iPhone, iPad, Mac,
-        and Apple TV, developed by Jason Ruesch.
+        Pinochle (&ldquo;the app&rdquo;) is a card game for {PLATFORM_LIST},
+        developed by Jason Ruesch.
       </p>
 
       <Clause heading="Data collection">
@@ -38,7 +38,8 @@ export default function Privacy() {
           The app does not collect, store, or transmit any personal data. There
           are no accounts, no analytics, no advertising, and no tracking of any
           kind. Your match progress and settings are stored only on your device
-          (and in your personal iCloud/Game Center data managed by Apple, where
+          (and in your personal iCloud/Game Center data managed by Apple
+          {PLAY.live && ", or Google Play Games data managed by Google"}, where
           applicable).
         </p>
       </Clause>
@@ -57,12 +58,38 @@ export default function Privacy() {
         </p>
       </Clause>
 
+      {PLAY.live && (
+        <Clause heading="Google Play (Android)">
+          <p>
+            On Android, purchases go through Google Play Billing, and
+            leaderboards and achievements through Google Play Games if you sign
+            in to it. The date your free trial started is kept in Google&apos;s
+            Block Store, tied to your Google Account, so reinstalling
+            doesn&apos;t reset it. All of this is handled by Google under{" "}
+            <AppLink href={PRIVACY.googlePolicyUrl} variant="external">
+              Google&apos;s own privacy policy
+            </AppLink>
+            ; the developer does not receive, collect, or store any of it.
+          </p>
+        </Clause>
+      )}
+
       <Clause heading="SharePlay">
         <p>
           Joining a match over FaceTime uses Apple&apos;s SharePlay. Session
           data is exchanged directly between participants&apos; devices through
           Apple&apos;s Group Activities service; the developer does not receive
           or store any of it.
+        </p>
+      </Clause>
+
+      <Clause heading="Reminders">
+        <p>
+          If you turn on the optional daily reminder, the app schedules it as a
+          local notification on your device, at the time of day you usually
+          play. It is not a push notification: nothing is sent to the developer
+          or to any server, and you can turn it off in the app&apos;s Settings
+          or in your device&apos;s notification settings at any time.
         </p>
       </Clause>
 

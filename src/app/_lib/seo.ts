@@ -1,3 +1,4 @@
+import { PLATFORM_LIST, PLAY } from "./content.ts";
 // Per-route search metadata, in one table because it has to be applied twice:
 //
 //   * at runtime by usePageMeta(), for people arriving through the SPA, and
@@ -35,9 +36,10 @@ export interface PageSeo {
  */
 export const PAGES: Record<string, PageSeo> = {
   "/": {
-    title: "Pinochle: Two-Handed — Two-Player Pinochle for Apple Devices",
-    description:
-      "The classic two-handed card duel for iPhone, iPad, Mac, and Apple TV. Full pinochle rules, three AI opponents, Game Center online play, and SharePlay.",
+    title: PLAY.live
+      ? "Pinochle: Two-Handed — Two-Player Pinochle for iPhone and Android"
+      : "Pinochle: Two-Handed — Two-Player Pinochle for Apple Devices",
+    description: `The classic two-handed card duel for ${PLATFORM_LIST}. Full pinochle rules, a guided first game, the Daily Deal, three AI opponents, and online play${PLAY.live ? " on Apple devices" : ""}.`,
   },
   "/how-to-play": {
     title: "How to Play Two-Handed Pinochle — the Complete Rules",

@@ -103,12 +103,60 @@ export function AppleTVIcon({ className }: IconProps) {
 }
 
 /* -- Feature icons -------------------------------------------------------- */
+/** Android phones and tablets: a camera dot rather than iPhone's home bar. */
+export function AndroidIcon({ className }: IconProps) {
+  return (
+    <Line className={className}>
+      <rect x="7" y="2" width="10" height="20" rx="2" />
+      <circle cx="12" cy="5" r="0.6" />
+    </Line>
+  );
+}
+
+export function ChromebookIcon({ className }: IconProps) {
+  return (
+    <Line className={className}>
+      <rect x="4" y="5" width="16" height="11" rx="1.5" />
+      <path d="M2 19h20l-1.5-3h-17z" />
+    </Line>
+  );
+}
+
+/** A TV on feet, unlike Apple TV's on a stand. */
+export function AndroidTVIcon({ className }: IconProps) {
+  return (
+    <Line className={className}>
+      <rect x="2.5" y="4" width="19" height="13" rx="2" />
+      <path d="M6 17l-1 3M18 17l1 3" />
+    </Line>
+  );
+}
+
 export function CardsIcon({ className }: IconProps) {
   return (
     <Line className={className}>
       <rect x="3" y="6" width="11" height="15" rx="2" />
       <path d="M8.5 11.5 6 14l2.5 2.5" opacity="0" />
       <path d="m9.8 3.2 8.4 2.9a2 2 0 0 1 1.25 2.54l-3.2 9.3" />
+    </Line>
+  );
+}
+
+export function CalendarIcon({ className }: IconProps) {
+  return (
+    <Line className={className}>
+      <rect x="3" y="5" width="18" height="16" rx="2" />
+      <path d="M3 10h18M8 3v4M16 3v4" />
+      <path d="m9.5 15 2 2 3.5-3.5" />
+    </Line>
+  );
+}
+
+export function PaletteIcon({ className }: IconProps) {
+  return (
+    <Line className={className}>
+      <path d="M12 3a9 9 0 0 0 0 18c1.1 0 1.8-.9 1.8-1.8 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-1 .8-1.8 1.8-1.8H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8Z" />
+      <path d="M7.5 11.5h.01M10 7.5h.01M14.5 7.5h.01M17 11h.01" />
     </Line>
   );
 }

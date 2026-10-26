@@ -12,11 +12,49 @@ export const STORE = {
   appId: "6759009060",
   slug: "pinochle-two-handed",
   /** Marketing version live on the store. */
-  version: "1.1",
+  version: "2.0",
 } as const;
 
 /** Canonical App Store listing URL. Every store link on the site uses this. */
 export const STORE_URL = `https://apps.apple.com/app/${STORE.slug}/id${STORE.appId}`;
+
+/** The App Store's custom product pages (App Store Connect → Custom Product
+ * Pages): the same listing with screenshots and promo text aimed at one kind of
+ * visitor. Learn Pinochle is for newcomers; Daily Deal for daily players. */
+export const STORE_PAGES = {
+  learn: "e016d57f-d47f-40c7-aace-e4a19da28f68",
+  daily: "a501f276-beaa-486f-8f5a-baec5762e33c",
+} as const;
+
+export type StorePage = keyof typeof STORE_PAGES;
+
+/** The listing, or one of its custom product pages. */
+export function storeUrl(page?: StorePage): string {
+  return page ? `${STORE_URL}?ppid=${STORE_PAGES[page]}` : STORE_URL;
+}
+
+/* -- Google Play listing (2.0) --------------------------------------------- */
+// Everything Android on the site — the Google Play badge, "and Android" in the
+// platform list, the Android FAQs and privacy wording — waits on `live`. 2.0
+// launches on the App Store first; Google Play follows once its closed test
+// clears, and that day this flips to true (see the app repo's
+// Docs/AndroidPlan.md, "Launch day").
+export const PLAY = {
+  packageName: "dev.jasonruesch.Pinochle",
+  live: false,
+} as const;
+
+export const PLAY_URL = `https://play.google.com/store/apps/details?id=${PLAY.packageName}`;
+
+/** The operating systems the app runs on, for search engines' structured data. */
+export const OPERATING_SYSTEMS = PLAY.live
+  ? "iOS, iPadOS, macOS, tvOS, Android, ChromeOS"
+  : "iOS, iPadOS, macOS, tvOS";
+
+/** Every device the game is sold for, as a sentence list. */
+export const PLATFORM_LIST = PLAY.live
+  ? "iPhone, iPad, Mac, Apple TV, and Android"
+  : "iPhone, iPad, Mac, and Apple TV";
 
 export const APP = {
   name: "Pinochle: Two-Handed",
@@ -24,6 +62,9 @@ export const APP = {
   subtitle: "The classic two-handed duel",
   promo:
     "Deal in. Meld your marriages, flush the trump, and race to 1,000 against a sharp AI or a live opponent over Game Center.",
+  /** The listing's promotional text, condensed — what's new in this version. */
+  whatsNew:
+    "All-new Pinochle: play upright on iPhone, a fresh look, a guided first game, and a free Daily Deal every day. Try every opponent free for 14 days.",
   category: "Games · Card & Strategy",
   // Deliberately no dollar amount — the App Store listing is the source of
   // truth for price, and hardcoding it here would go stale on any sale or
@@ -35,23 +76,123 @@ export const APP = {
   closer: "See you at 1,000.",
 } as const;
 
+/** The hero: what a player gets, then the three things that settle "should I
+ * try it" — no cost to start, no subscription trap, no rules to learn first. */
+export const HERO = {
+  headline: "Two-handed pinochle, whenever you want a game",
+  subhead: `A sharp computer opponent, a free Daily Deal, and a guided first game that teaches you as you play — on ${PLATFORM_LIST}.`,
+  trust: [
+    "Free to try for 14 days",
+    "One purchase — no subscription, no ads",
+    "Learn it in one deal",
+  ],
+} as const;
+
 export const DESCRIPTION: string[] = [
-  "Pinochle brings the classic two-handed card duel to your table — the classic rules, a beautiful minimal deck, and opponents that put up a real fight.",
-  "Try the whole game free for 14 days. After that, one purchase unlocks it for good — on your iPhone, iPad, Mac, and Apple TV. No subscription. Bought Pinochle before it went free? It's still yours.",
-  "Play a quick single deal or the full race to 1,000 with declare-out. Draw from the stock, time your melds, and squeeze every counter out of phase two, where following suit is the law and every trick matters.",
+  "Pinochle brings the classic two-handed card duel to your table — the classic rules, a beautiful minimal deck, and opponents that put up a real fight. Play it upright on iPhone, your hand right under your thumb, or turn it sideways.",
+  `Try the whole game free for 14 days. After that, one purchase unlocks it for good — on your ${PLATFORM_LIST}. No subscription. And the Daily Deal stays free, every day, either way.`,
+  "Play a quick single deal or the full race to 1,000 with declare-out. Draw from the stock, time your melds, and squeeze every counter out of the playoff, where following suit is the law and every trick matters.",
+  "New to Pinochle? A guided first game walks you through a real deal — the trump, your first trick, your first meld, the playoff — one short tip at a time.",
 ];
 
 /* -- What's new ----------------------------------------------------------- */
-// The listing's "What's New (version 1.1.0)" notes, lightly condensed.
+// The listing's "What's New" notes, lightly condensed: this version first,
+// then the release before it when there is one worth repeating (EARLIER_RELEASE).
+// 2.0 follows 1.1 directly, so its highlights cover everything new since 1.1.
 export const WHATS_NEW: string[] = [
-  "Free to try: play everything for 14 days, then unlock the full game once for all your devices. Bought it before? It stays yours — nothing to do.",
-  "VoiceOver throughout: every card, meld, and trick is spoken.",
-  "Race to 1,000 online, against a friend or a quick-match opponent — and rejoin a match after a dropped connection.",
-  "A controls guide for whatever you're playing on, six card backs, and a Settings menu.",
+  ...(PLAY.live
+    ? [
+        "Now on Google Play: Android phones, tablets, and foldables, Chromebooks, and Android TV.",
+      ]
+    : []),
+  "Play upright on iPhone: the table stacks top to bottom and your hand sits in one arc under your thumb. Turn the phone any time and the table follows.",
+  "Made for iPhone Duo: folded or open, upright or sideways, switching as you fold and unfold.",
+  "A whole new look, with cameo court cards: kings, queens, and jacks in gold-framed profile.",
+  "The Daily Deal, free for good: build a streak, with streak freezes, and beat Ace's score on the same cards for gold.",
+  "Meet your opponents: Dix, Jack, and Ace are the Easy, Medium, and Hard computers.",
+  "A guided first game, and a coach after every deal.",
+  "Your stats, and a ladder: beat each computer three times to earn a new card-back color, the Walnut table, and the Crown card back.",
 ];
 
+/** The release before this one, listed under the new one, or null when the
+ * listing has nothing earlier worth repeating. */
+export const EARLIER_RELEASE: { version: string; items: string[] } | null =
+  null;
+
+/* -- Before you download -------------------------------------------------- */
+// The home page's FAQ: the questions that stop someone short of the download
+// button — what it costs, which rules, whether a beginner can keep up, and who
+// they can play with. Kept to what the app actually does.
+export const DOWNLOAD_FAQS: Faq[] = [
+  {
+    question: "What does it cost?",
+    answer: `Nothing to start: every opponent and mode is free for 14 days. After that, one purchase unlocks the full game for good on your ${PLATFORM_LIST} — no subscription and no ads. The Daily Deal and the guided first game stay free either way, and ${PLAY.live ? "the store" : "the App Store"} shows the price in your currency before you buy.`,
+  },
+  {
+    question: "Which pinochle rules does it use?",
+    answer:
+      "Classic two-handed pinochle as Bicycle publishes it: a 48-card deck, a meld after each trick you win while the stock lasts, then the playoff, where you must follow suit and try to win. Play a single deal or the race to 1,000 with declare-out.",
+    link: { label: "Read the full rules", href: "/how-to-play" },
+  },
+  {
+    question: "I've never played. Can I learn here?",
+    answer:
+      "Yes. A guided first game teaches you a real deal one short tip at a time, Dix, the Easy computer, points out a good card when you're stuck, and after every deal a coach names the costliest slip. How to Play shows every meld in real cards.",
+  },
+  {
+    question: "Can I play with family and friends?",
+    answer:
+      "Yes — online through Game Center with a quick match or an invite, or on a FaceTime call with SharePlay on iPhone, iPad, and Mac." +
+      (PLAY.live ? " Online play isn't on Android yet." : ""),
+  },
+  {
+    question: "Does it work offline?",
+    answer:
+      "Yes. Playing the computer needs no connection and no account; only online matches use the internet.",
+  },
+  {
+    question: "Is it easy to see and use?",
+    answer: `The deck uses four suit colors so spades, hearts, clubs, and diamonds never blur together, ${PLAY.live ? "VoiceOver and TalkBack read" : "VoiceOver reads"} every card and play, and the ${PLAY.live ? "TV versions are" : "Apple TV version is"} built to be read from the couch with ${PLAY.live ? "a remote" : "the Siri Remote"} or a controller.`,
+  },
+  {
+    question: "What happens to my data?",
+    answer:
+      "Nothing is collected. Your games and settings stay on your device; your Game Center scores belong to your Apple Account" +
+      (PLAY.live
+        ? ", and Google Play Games scores to your Google Account."
+        : "."),
+  },
+  ...(PLAY.live
+    ? [
+        {
+          question: "Does my purchase work on both iPhone and Android?",
+          answer:
+            "No — the App Store and Google Play sell separately, so an unlock bought on one doesn't carry to the other. Within each, one purchase covers all your devices, and the Daily Deal and the guided first game are free on both.",
+        },
+      ]
+    : []),
+];
+
+/* -- Reviews ----------------------------------------------------------------- */
+/** Real App Store reviews, quoted with the reviewer's App Store nickname. The
+ * section stays hidden while this is empty — never fill it with anything that
+ * isn't a genuine review. */
+export interface Review {
+  quote: string;
+  author: string;
+  stars: 1 | 2 | 3 | 4 | 5;
+}
+export const REVIEWS: Review[] = [];
+
 /* -- Platforms ------------------------------------------------------------ */
-export type PlatformIcon = "iphone" | "ipad" | "mac" | "appletv";
+export type PlatformIcon =
+  | "iphone"
+  | "ipad"
+  | "mac"
+  | "appletv"
+  | "android"
+  | "chromebook"
+  | "androidtv";
 
 export interface Platform {
   name: string;
@@ -63,11 +204,20 @@ export const PLATFORMS: Platform[] = [
   { name: "iPad", icon: "ipad" },
   { name: "Mac", icon: "mac" },
   { name: "Apple TV", icon: "appletv" },
+  ...(PLAY.live
+    ? ([
+        { name: "Android", icon: "android" },
+        { name: "Chromebook", icon: "chromebook" },
+        { name: "Android TV", icon: "androidtv" },
+      ] as Platform[])
+    : []),
 ];
 
 /* -- Features ------------------------------------------------------------- */
 export type FeatureIcon =
   | "cards"
+  | "calendar"
+  | "palette"
   | "cpu"
   | "globe"
   | "facetime"
@@ -82,6 +232,8 @@ export interface Feature {
   icon: FeatureIcon;
   /** Tailwind gradient classes for the card's accent strip. */
   tone: string;
+  /** The App Store custom product page that tells this feature's story. */
+  storePage?: StorePage;
 }
 
 export const FEATURES: Feature[] = [
@@ -89,47 +241,55 @@ export const FEATURES: Feature[] = [
     title: "Classic two-handed rules",
     body: "The full classic ruleset — flushes, marriages, pinochles, the dix, and declare-out. Nothing simplified away.",
     icon: "cards",
-    tone: "from-brand-500 to-fuchsia-500",
+    tone: "from-brand-500 to-accent-500",
   },
   {
-    title: "Three AI opponents",
-    body: "From an easygoing teacher to a card-counting shark that tracks the deck, weighs meld potential, and manages its trump.",
+    title: "A guided first game",
+    body: "New to Pinochle? Play a real deal with a short tip at each step. After that, legal-move highlighting and suggested plays are there when you want them.",
+    icon: "book",
+    tone: "from-emerald-500 to-teal-400",
+    storePage: "learn",
+  },
+  {
+    title: "The Daily Deal",
+    body: "The same cards for everyone, every day — and free for good. Beat Ace's score — the Hard computer's — for gold, and build a streak, with streak freezes for the days life gets in the way.",
+    icon: "calendar",
+    tone: "from-amber-500 to-yellow-400",
+    storePage: "daily",
+  },
+  {
+    title: "Three AI opponents, and a ladder",
+    body: "Dix, Jack, and Ace: from an easygoing teacher to a card-counting shark that tracks the deck. Beat each three times to earn a new card back or table — and a coach after every deal shows you where the points went.",
     icon: "cpu",
-    tone: "from-fuchsia-500 to-accent-500",
+    tone: "from-accent-500 to-brand-400",
   },
   {
-    title: "Online over Game Center",
-    body: "Quick match against a stranger or invite a friend — a single deal or the race to 1,000 — and rejoin after a dropped connection.",
+    title: "Online, and on FaceTime",
+    body:
+      "Quick match or invite a friend over Game Center, or deal in on a FaceTime call with SharePlay on iPhone, iPad, and Mac." +
+      (PLAY.live ? " (Apple devices; not on Android yet.)" : ""),
     icon: "globe",
     tone: "from-cyan-500 to-teal-400",
   },
   {
-    title: "SharePlay on FaceTime",
-    body: "Deal in over a FaceTime call and play the same match together — on iPhone, iPad, and Mac.",
-    icon: "facetime",
-    tone: "from-sky-500 to-blue-400",
+    title: "Make it yours",
+    body: `Cameo court cards on five table themes, card backs in three patterns and six colors — plus three more to earn — three game speeds, and haptics on ${PLAY.live ? "iPhone and Android" : "iPhone"}.`,
+    icon: "palette",
+    tone: "from-rose-500 to-accent-500",
   },
   {
     title: "Made for the living room",
-    body: "Full game-controller support, VoiceOver throughout, and a focus-based interface built for Apple TV and the big screen.",
+    body: PLAY.live
+      ? "Full game-controller support, VoiceOver and TalkBack throughout, and a focus-based interface built for Apple TV, Android TV, and the big screen."
+      : "Full game-controller support, VoiceOver throughout, and a focus-based interface built for Apple TV and the big screen.",
     icon: "controller",
     tone: "from-indigo-500 to-blue-400",
   },
   {
-    title: "Leaderboards & achievements",
-    body: "Fifteen achievements and Game Center leaderboards for wins, streaks, and your best deal and meld.",
-    icon: "trophy",
-    tone: "from-amber-500 to-orange-400",
-  },
-  {
-    title: "Learn as you play",
-    body: "Built-in illustrated rules, legal-move highlighting, and meld suggestions help the game teach itself.",
-    icon: "book",
-    tone: "from-emerald-500 to-teal-400",
-  },
-  {
     title: "No ads, no tracking",
-    body: "No subscription and nothing collected — one purchase unlocks every device. Just cards.",
+    body: PLAY.live
+      ? "No subscription and nothing collected — one purchase unlocks every device on that store. Just cards."
+      : "No subscription and nothing collected — one purchase unlocks every device. Just cards.",
     icon: "shield",
     tone: "from-lime-500 to-green-400",
   },
@@ -367,7 +527,15 @@ export const RULES_FAQS: Faq[] = [
 ];
 
 /* -- Screenshots ---------------------------------------------------------- */
-export type Device = "iPhone" | "iPad" | "Mac" | "Apple TV";
+export type Device =
+  | "iPhone"
+  | "iPad"
+  | "Mac"
+  | "Apple TV"
+  | "Android"
+  | "Android tablet"
+  | "Chromebook"
+  | "Android TV";
 
 export interface Shot {
   device: Device;
@@ -384,145 +552,134 @@ export interface Shot {
 // scripts/optimize-assets.mjs into public/img/shots/*.webp. Those are the bare
 // device captures; the App Store panels in Docs/store-shots bake in marketing
 // headlines, which would double up inside this site's own DeviceFrame.
-export const SHOTS: Shot[] = [
-  // iPhone 6.9" — 2868×1320
-  {
-    device: "iPhone",
-    platformIcon: "iphone",
-    label: "Title",
-    file: "iphone69-title",
-    alt: "Pinochle title screen on iPhone",
-    ratio: 2868 / 1320,
-  },
-  {
-    device: "iPhone",
-    platformIcon: "iphone",
+//
+// Scenes run in the App Store upload order (Docs/StoreListing.md). Apple TV
+// skips the tutorial — its tips talk about tapping — so it has five. Android
+// has no online play, so its devices skip that scene too (TVs, the tutorial).
+type Scene = "classic" | "daily" | "tutorial" | "online" | "tables" | "hints";
+
+const SCENES: Record<Scene, { label: string; alt: string }> = {
+  classic: {
     label: "Classic play",
-    file: "iphone69-classic",
-    alt: "A deal against the computer with melds on the table, on iPhone",
-    ratio: 2868 / 1320,
+    alt: "A deal against the computer with cameo court cards in hand",
   },
-  {
-    device: "iPhone",
-    platformIcon: "iphone",
+  daily: {
+    label: "Daily Deal",
+    alt: "The home screen with today's Daily Deal and Ace's score to beat, an eight-day streak with one day saved by a streak freeze, and your record",
+  },
+  tutorial: {
+    label: "Guided first game",
+    alt: "A guided-first-game tip explaining how to answer the lead",
+  },
+  online: {
     label: "Online play",
-    file: "iphone69-online",
-    alt: "An online Game Center match in progress on iPhone",
-    ratio: 2868 / 1320,
+    alt: "An online Game Center match in progress",
   },
-  {
-    device: "iPhone",
-    platformIcon: "iphone",
+  tables: {
+    label: "Table themes",
+    alt: "The pause menu with game speed, card back, and table theme choices",
+  },
+  hints: {
     label: "Hints",
-    file: "iphone69-hints",
-    alt: "Easy mode highlighting a suggested card on iPhone",
-    ratio: 2868 / 1320,
+    alt: "Easy mode highlighting a suggested card",
   },
-  // iPad 13" — 2752×2064
-  {
-    device: "iPad",
-    platformIcon: "ipad",
-    label: "Title",
-    file: "ipad13-title",
-    alt: "Pinochle title screen on iPad",
-    ratio: 2752 / 2064,
-  },
-  {
-    device: "iPad",
-    platformIcon: "ipad",
-    label: "Classic play",
-    file: "ipad13-classic",
-    alt: "A deal against the computer with melds on the table, on iPad",
-    ratio: 2752 / 2064,
-  },
-  {
-    device: "iPad",
-    platformIcon: "ipad",
-    label: "Online play",
-    file: "ipad13-online",
-    alt: "An online Game Center match in progress on iPad",
-    ratio: 2752 / 2064,
-  },
-  {
-    device: "iPad",
-    platformIcon: "ipad",
-    label: "Hints",
-    file: "ipad13-hints",
-    alt: "Easy mode highlighting a suggested card on iPad",
-    ratio: 2752 / 2064,
-  },
-  // Mac — 2880×1800
-  {
-    device: "Mac",
-    platformIcon: "mac",
-    label: "Title",
-    file: "mac-title",
-    alt: "Pinochle title screen on Mac",
-    ratio: 2880 / 1800,
-  },
-  {
-    device: "Mac",
-    platformIcon: "mac",
-    label: "Classic play",
-    file: "mac-classic",
-    alt: "A deal against the computer with melds on the table, on Mac",
-    ratio: 2880 / 1800,
-  },
-  {
-    device: "Mac",
-    platformIcon: "mac",
-    label: "Online play",
-    file: "mac-online",
-    alt: "An online Game Center match in progress on Mac",
-    ratio: 2880 / 1800,
-  },
-  {
-    device: "Mac",
-    platformIcon: "mac",
-    label: "Hints",
-    file: "mac-hints",
-    alt: "Easy mode highlighting a suggested card on Mac",
-    ratio: 2880 / 1800,
-  },
-  // Apple TV — 3840×2160
-  {
-    device: "Apple TV",
-    platformIcon: "appletv",
-    label: "Title",
-    file: "appletv-title",
-    alt: "Pinochle title screen on Apple TV",
-    ratio: 3840 / 2160,
-  },
-  {
-    device: "Apple TV",
-    platformIcon: "appletv",
-    label: "Classic play",
-    file: "appletv-classic",
-    alt: "A deal against the computer with melds on the table, on Apple TV",
-    ratio: 3840 / 2160,
-  },
-  {
-    device: "Apple TV",
-    platformIcon: "appletv",
-    label: "Online play",
-    file: "appletv-online",
-    alt: "An online Game Center match in progress on Apple TV",
-    ratio: 3840 / 2160,
-  },
-  {
-    device: "Apple TV",
-    platformIcon: "appletv",
-    label: "Hints",
-    file: "appletv-hints",
-    alt: "Easy mode highlighting a suggested card on Apple TV",
-    ratio: 3840 / 2160,
-  },
+};
+
+const ALL_SCENES: Scene[] = [
+  "classic",
+  "daily",
+  "tutorial",
+  "online",
+  "tables",
+  "hints",
 ];
 
-export const DEVICES: Device[] = ["iPhone", "iPad", "Mac", "Apple TV"];
+const ANDROID_SCENES = ALL_SCENES.filter((s) => s !== "online");
 
-/** The single hero screenshot (iPhone melding — the most colorful shot). */
-export const HERO_SHOT = "iphone69-classic";
+function shotsFor(
+  device: Device,
+  platformIcon: PlatformIcon,
+  prefix: string,
+  ratio: number,
+  scenes: Scene[] = ALL_SCENES,
+): Shot[] {
+  return scenes.map((scene) => ({
+    device,
+    platformIcon,
+    label: SCENES[scene].label,
+    file: `${prefix}-${scene}`,
+    alt: `${SCENES[scene].alt}, on ${device}`,
+    ratio,
+  }));
+}
+
+export const SHOTS: Shot[] = [
+  // iPhone 6.9", upright (2.0 plays upright; the sideways set stays for the hero).
+  ...shotsFor("iPhone", "iphone", "iphone69p", 1320 / 2868),
+  ...shotsFor("iPad", "ipad", "ipad13", 2752 / 2064), // iPad 13"
+  ...shotsFor("Mac", "mac", "mac", 2880 / 1800),
+  ...shotsFor(
+    "Apple TV",
+    "appletv",
+    "appletv",
+    3840 / 2160,
+    ALL_SCENES.filter((s) => s !== "tutorial"),
+  ),
+  // Google Play's sets (app repo Docs/AndroidPlan.md → "Play store art").
+  ...(PLAY.live
+    ? [
+        ...shotsFor(
+          "Android",
+          "android",
+          "android-phone",
+          1080 / 1920,
+          ANDROID_SCENES,
+        ),
+        ...shotsFor(
+          "Android tablet",
+          "android",
+          "android-tab10",
+          2560 / 1600,
+          ANDROID_SCENES,
+        ),
+        ...shotsFor(
+          "Chromebook",
+          "chromebook",
+          "chromebook",
+          1920 / 1080,
+          ANDROID_SCENES,
+        ),
+        ...shotsFor(
+          "Android TV",
+          "androidtv",
+          "androidtv",
+          1920 / 1080,
+          ANDROID_SCENES.filter((s) => s !== "tutorial"),
+        ),
+      ]
+    : []),
+];
+
+export const DEVICES: Device[] = [
+  "iPhone",
+  "iPad",
+  "Mac",
+  "Apple TV",
+  ...(PLAY.live
+    ? (["Android", "Android tablet", "Chromebook", "Android TV"] as Device[])
+    : []),
+];
+
+/** The single hero screenshot (iPhone melding — the most colorful shot). It
+ * stays the sideways capture: the hero frame is laid out landscape. */
+export const HERO_SHOT: Shot = {
+  device: "iPhone",
+  platformIcon: "iphone",
+  label: SCENES.classic.label,
+  file: "iphone69-classic",
+  alt: `${SCENES.classic.alt}, on iPhone`,
+  ratio: 2868 / 1320,
+};
 
 /* -- Game Center: achievements & leaderboards ----------------------------- */
 // Card artwork optimized from /Users/jason/code/jasonruesch/pinochle-app/Docs/gc-assets/ into
@@ -570,18 +727,21 @@ export const SUPPORT = {
   responseTime: "within a few days",
   /** Apple owns billing, so refunds and receipts go through them, not us. */
   refundUrl: "https://reportaproblem.apple.com",
+  /** Google owns billing on Android: its refund help. */
+  playRefundUrl: "https://support.google.com/googleplay/answer/2479637",
 } as const;
 
 /** Subject-line categories in the support form's topic picker. */
-export const SUPPORT_TOPICS = [
+export const SUPPORT_TOPICS: string[] = [
   "Bug report",
   "Online play / Game Center",
   "SharePlay",
+  ...(PLAY.live ? ["Google Play / Android"] : []),
   "Rules question",
   "Feature request",
   "Accessibility",
   "Something else",
-] as const;
+];
 
 export interface Faq {
   question: string;
@@ -589,6 +749,37 @@ export interface Faq {
   /** Optional follow-up link rendered after the answer. */
   link?: { label: string; href: string };
 }
+
+/** Android's own answers, added to the support FAQs once Google Play is live. */
+const ANDROID_FAQS: Faq[] = [
+  {
+    question: "Can I play online on Android?",
+    answer:
+      "Not yet — online matches use Apple's Game Center and SharePlay, so they're on iPhone, iPad, Mac, and Apple TV. Everything else, the Daily Deal included, is the same on Android.",
+  },
+  {
+    question: "Where are my achievements on Android?",
+    answer:
+      "In Google Play Games. Open Your Record, then Stats, and tap Achievements or Leaderboards — the first time, sign in to Play Games. They follow your Google Account, separately from Game Center on Apple devices.",
+  },
+  {
+    question:
+      "I bought the unlock on Android. How do I get it on another device?",
+    answer:
+      "On another Android device signed into the same Google Account, tap Restore Purchases on the unlock screen or in Settings. Google Play and the App Store sell separately, so an unlock bought on one doesn't carry to the other.",
+  },
+  {
+    question: "Can I play on Android TV with a remote?",
+    answer:
+      "Yes — Android TV gets the same focus-based interface as Apple TV, built to be read from the couch. Use the remote's arrows and select, or a game controller; Back pauses a match.",
+  },
+  {
+    question: "I want a refund for a Google Play purchase.",
+    answer:
+      "Purchases on Android go through Google Play; the developer never sees a payment. Google's refund help explains how to request one.",
+    link: { label: "Google Play refunds", href: SUPPORT.playRefundUrl },
+  },
+];
 
 export const SUPPORT_FAQS: Faq[] = [
   {
@@ -622,9 +813,30 @@ export const SUPPORT_FAQS: Faq[] = [
       "Yes — Apple TV uses a focus-based interface, and game controllers are supported there as well as on iPhone, iPad, and Mac.",
   },
   {
-    question: "How does the free trial work?",
+    question: "What happens when my free trial ends?",
     answer:
-      "Everything is free for 14 days from the first time you choose a game — single deals, the race to 1,000, and online play. After that, one purchase unlocks the full game for good on your iPhone, iPad, Mac, and Apple TV. A match you'd already started can always be finished. Bought it on another device? Restore Purchases, on the unlock screen and in Settings, brings it back.",
+      "The Daily Deal and the guided first game stay free, every day, for good — and a match you'd already started can always be finished. Single deals and Race to 1,000 against the computer, and online play, need the one-time unlock. Bought it on another device? Restore Purchases, on the unlock screen and in Settings, brings it back.",
+  },
+  {
+    question: "How do streak freezes work?",
+    answer:
+      "Every 7 days in a row of the Daily Deal earns a streak freeze, and you can hold two. Miss a day and a freeze covers it the next time you play, so the streak carries on (the frozen day shows in ice blue on the home screen). Miss more days than you have freezes and the streak starts over — but you keep the freezes.",
+  },
+  {
+    question: "How do I turn the daily reminder on or off?",
+    answer:
+      "In Settings, under Play, switch Daily reminder on or off. It comes once a day around the time you usually play and stops by itself if you haven't opened the app for three days. If it won't switch on, notifications for Pinochle are off in your device's Settings › Notifications. It's a local notification — nothing is sent anywhere. " +
+      (PLAY.live ? "(Not on Apple TV or Android TV.)" : "(Not on Apple TV.)"),
+  },
+  {
+    question: "How do I get the Plum, Walnut, and Crown designs?",
+    answer:
+      "Win. Three wins against the Easy computer earn the Plum card-back color, three against Medium the Walnut table, and three against Hard the Crown card back. Tap Your Record on the home screen to see the ladder and how close you are. They can't be bought, and the Daily Deal and practice matches (where you used undo) don't count.",
+  },
+  {
+    question: "Where does the Daily Deal's target score come from?",
+    answer:
+      "It's what Ace, the Hard computer, scores playing your seat on the same cards, worked out on your device — so everyone gets the same target. Match it for gold; within 85% is silver, within 70% bronze.",
   },
   {
     question: "I bought Pinochle before it was free. Do I have to pay again?",
@@ -637,6 +849,7 @@ export const SUPPORT_FAQS: Faq[] = [
       "Purchases and billing are handled entirely by Apple; the developer never sees a payment. Refunds and receipts go through Apple's own reporting page.",
     link: { label: "reportaproblem.apple.com", href: SUPPORT.refundUrl },
   },
+  ...(PLAY.live ? ANDROID_FAQS : []),
 ];
 
 /* -- Privacy policy ------------------------------------------------------- */
@@ -648,6 +861,8 @@ export const PRIVACY = {
   updated: "October 26, 2026",
   /** Apple governs Game Center and SharePlay data under its own policy. */
   applePolicyUrl: "https://www.apple.com/legal/privacy/",
+  /** Google governs Play Billing, Play Games and Block Store data (Android). */
+  googlePolicyUrl: "https://policies.google.com/privacy",
   /** The support address given in the policy and the App Store listing. */
   contactEmail: "privacy@jasonruesch.dev",
 } as const;
