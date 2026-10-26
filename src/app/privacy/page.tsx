@@ -85,6 +85,51 @@ export default function Privacy() {
         </p>
       </Clause>
 
+      <Clause heading="Deleting your data" id="delete-your-data">
+        <p>
+          Pinochle: Two-Handed has no servers, so the developer holds no data
+          about you to delete. What the app saves lives in these places, and you
+          can remove each one yourself:
+        </p>
+        <ul className="list-disc space-y-2 pl-6">
+          <li>
+            <strong>On your device:</strong> your matches, stats, streaks, and
+            settings. Deleting the app removes them for good (on Android you can
+            also clear its storage in Settings › Apps › Pinochle › Storage).
+          </li>
+          <li>
+            <strong>Game Center (Apple devices):</strong> your scores and
+            achievements are kept by Apple with your Apple Account. To have them
+            deleted, use{" "}
+            <AppLink href="https://privacy.apple.com/" variant="external">
+              Apple&apos;s Data and Privacy page
+            </AppLink>
+            .
+          </li>
+          <li>
+            <strong>Google Play Games (Android):</strong> if you signed in to
+            Google Play Games, your achievements, scores, and player profile for
+            this game are kept by Google. To delete them, open the Google Play
+            Games app, tap your profile, then Settings › Delete Play Games
+            account &amp; data, and under &ldquo;Delete individual game
+            data&rdquo; choose Pinochle: Two-Handed and Delete. Deleting your
+            whole Play Games profile removes this game&apos;s data along with
+            the rest.
+          </li>
+        </ul>
+        <p>
+          On Android, the date your free trial started is kept by Google with
+          your Google Account so that reinstalling the app doesn&apos;t restart
+          the trial; it contains no other information. Anonymous diagnostics
+          gathered by Google Play Games and the Unity game engine aren&apos;t
+          linked to you. Questions about deleting your data? Email{" "}
+          <AppLink href={`mailto:${PRIVACY.contactEmail}`}>
+            {PRIVACY.contactEmail}
+          </AppLink>
+          .
+        </p>
+      </Clause>
+
       <Clause heading="Children's privacy">
         <p>The app does not collect data from anyone, including children.</p>
       </Clause>
@@ -113,13 +158,16 @@ export default function Privacy() {
 /** One policy section: a heading plus its paragraph(s). */
 function Clause({
   heading,
+  id,
   children,
 }: {
   heading: string;
+  /** An anchor for links straight to this section. */
+  id?: string;
   children: ReactNode;
 }) {
   return (
-    <section className="mt-10">
+    <section id={id} className="mt-10 scroll-mt-24">
       <h2 className="text-xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
         {heading}
       </h2>
