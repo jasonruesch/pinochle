@@ -645,7 +645,7 @@ export const SUPPORT_FAQS: Faq[] = [
 // App Store listing points at) live here.
 export const PRIVACY = {
   /** Rendered as "Last updated" on /privacy. Bump whenever the prose changes. */
-  updated: "July 28, 2026",
+  updated: "October 26, 2026",
   /** Apple governs Game Center and SharePlay data under its own policy. */
   applePolicyUrl: "https://www.apple.com/legal/privacy/",
   /** The support address given in the policy and the App Store listing. */
