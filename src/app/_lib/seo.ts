@@ -51,6 +51,11 @@ export const PAGES: Record<string, PageSeo> = {
     description:
       "Pinochle: Two-Handed collects nothing at all — no accounts, no analytics, no advertising, no tracking. Read the full privacy policy.",
   },
+  "/terms": {
+    title: "Terms of Use — Pinochle: Two-Handed",
+    description:
+      "The terms for Pinochle: Two-Handed — your license, the 14-day free trial and one-time unlock, online play, and the usual fine print, in plain words.",
+  },
   "/support": {
     title: "Support — Pinochle: Two-Handed",
     description:

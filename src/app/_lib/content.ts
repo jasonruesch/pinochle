@@ -866,3 +866,15 @@ export const PRIVACY = {
   /** The support address given in the policy and the App Store listing. */
   contactEmail: "privacy@jasonruesch.dev",
 } as const;
+
+/* -- Terms of use --------------------------------------------------------- */
+// The terms prose lives in src/app/terms/page.tsx, like the privacy policy's.
+export const TERMS = {
+  /** Rendered as "Last updated" on /terms. Bump whenever the prose changes. */
+  updated: "November 4, 2026",
+  /** Apple's standard EULA governs App Store downloads. */
+  appleEulaUrl:
+    "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/",
+  /** Google Play's terms govern Play downloads. */
+  googlePlayTermsUrl: "https://play.google.com/about/play-terms/",
+} as const;
