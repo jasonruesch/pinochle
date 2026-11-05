@@ -19,6 +19,7 @@ export function Footer() {
           <AppLink to="/how-to-play">How to Play</AppLink>
           <AppLink to="/support">Support</AppLink>
           <AppLink to="/privacy">Privacy</AppLink>
+          <AppLink to="/terms">Terms</AppLink>
           <AppLink href="https://jasonruesch.dev" variant="external">
             jasonruesch.dev
           </AppLink>
