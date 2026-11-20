@@ -44,6 +44,32 @@
   padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
 }
 
+/* A soft pool of light in the element's text color, as in
+   `glow text-ember/15`. It is a gradient, not a blurred disc: Safari draws a
+   large blur in tiles and leaves a hard seam where two of them meet. The
+   falloff is that of a 4rem blur on a disc the size of the element, which is
+   why the gradient reaches 10rem past the box on every side. */
+@utility glow {
+  &::before {
+    content: "";
+    position: absolute;
+    inset: -10rem;
+    background-image: radial-gradient(
+      circle closest-side,
+      currentColor,
+      color-mix(in oklab, currentColor 93%, transparent) calc(100% - 16rem),
+      color-mix(in oklab, currentColor 84%, transparent) calc(100% - 14rem),
+      color-mix(in oklab, currentColor 69%, transparent) calc(100% - 12rem),
+      color-mix(in oklab, currentColor 47%, transparent) calc(100% - 10rem),
+      color-mix(in oklab, currentColor 31%, transparent) calc(100% - 8rem),
+      color-mix(in oklab, currentColor 16%, transparent) calc(100% - 6rem),
+      color-mix(in oklab, currentColor 7%, transparent) calc(100% - 4rem),
+      color-mix(in oklab, currentColor 2%, transparent) calc(100% - 2rem),
+      transparent
+    );
+  }
+}
+
 html,
 body,
 #root {
