@@ -1,5 +1,11 @@
 # Pinochle: Two-Handed — marketing site
 
+> **Moved.** The game's pages now live at https://jinxwood.com/games/pinochle/
+> (the `evolonix/jinxwood` repo). This site stays published so old links keep
+> working: while `MOVED_TO` in `src/app/_lib/seo.ts` is set, the build publishes
+> each route as a page that forwards to the same route there, and the images and
+> videos under `public/` keep their addresses.
+
 Marketing site for **Pinochle: Two-Handed**, the classic two-handed card duel
 for iPhone, iPad, Mac, and Apple TV, out now on the App Store. Built to match
 [jasonruesch.dev](https://jasonruesch.dev) and hosted as a GitHub Pages project

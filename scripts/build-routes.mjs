@@ -13,12 +13,24 @@
 // React Router takes over from there and renders the same page. Also emits
 // sitemap.xml from the same table so the URL list can't drift either.
 //
+// Once the site has moved (MOVED_TO in seo.ts), the same route files are
+// written as forwarding pages instead: each one sends the visitor to the same
+// route at the new address and names it as canonical, 404.html sends anything
+// else to the new home page, and no sitemap is published. GitHub Pages cannot
+// answer with a 301, so an instant refresh is the closest it gets; search
+// engines treat one as a permanent move.
+//
 // Runs as part of `npm run build`.
 
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { canonicalUrl, PAGES } from "../src/app/_lib/seo.ts";
+import {
+  canonicalUrl,
+  MOVED_TO,
+  movedUrl,
+  PAGES,
+} from "../src/app/_lib/seo.ts";
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 const dist = join(repoRoot, "dist");
@@ -73,9 +85,39 @@ function escape(value) {
     .replace(/"/g, "&quot;");
 }
 
+/**
+ * A page whose only job is to send the visitor to `target`. The script runs
+ * first so a link to a section (/privacy#delete-your-data) keeps its fragment;
+ * the refresh covers browsers and crawlers that don't run scripts.
+ */
+function forwardingPage(title, target, { canonical }) {
+  return `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>${escape(title)}</title>
+${canonical ? `    <link rel="canonical" href="${target}" />\n` : ""}    <script>
+      location.replace(${JSON.stringify(target)} + location.hash);
+    </script>
+    <meta http-equiv="refresh" content="0; url=${target}" />
+  </head>
+  <body>
+    <p>
+      Pinochle: Two-Handed has moved to
+      <a href="${target}">${target}</a>.
+    </p>
+  </body>
+</html>
+`;
+}
+
 const written = [];
 for (const [path, seo] of Object.entries(PAGES)) {
-  const html = withMeta(shell, path, seo);
+  const html = MOVED_TO
+    ? forwardingPage(seo.title, movedUrl(path), { canonical: true })
+    : withMeta(shell, path, seo);
   // "/" is dist/index.html itself; every other route gets its own directory,
   // which is the form GitHub Pages redirects the bare path to.
   const file =
@@ -87,17 +129,29 @@ for (const [path, seo] of Object.entries(PAGES)) {
   written.push(path);
 }
 
-const urls = Object.entries(PAGES)
-  .filter(([, seo]) => !seo.noindex)
-  .map(([path]) => `  <url><loc>${canonicalUrl(path)}</loc></url>`)
-  .join("\n");
+if (MOVED_TO) {
+  // Any other address under this site answers with 404.html, which would
+  // otherwise start the app. Send it to the new home page.
+  await writeFile(
+    join(dist, "404.html"),
+    forwardingPage("Pinochle: Two-Handed", movedUrl("/"), { canonical: false }),
+  );
+  console.log(
+    `build-routes: wrote ${written.length} forwarding pages (${written.join(", ")}) + 404.html, all to ${MOVED_TO}`,
+  );
+} else {
+  const urls = Object.entries(PAGES)
+    .filter(([, seo]) => !seo.noindex)
+    .map(([path]) => `  <url><loc>${canonicalUrl(path)}</loc></url>`)
+    .join("\n");
 
-await writeFile(
-  join(dist, "sitemap.xml"),
-  `<?xml version="1.0" encoding="UTF-8"?>\n` +
-    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`,
-);
+  await writeFile(
+    join(dist, "sitemap.xml"),
+    `<?xml version="1.0" encoding="UTF-8"?>\n` +
+      `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`,
+  );
 
-console.log(
-  `build-routes: wrote ${written.length} route pages (${written.join(", ")}) + sitemap.xml`,
-);
+  console.log(
+    `build-routes: wrote ${written.length} route pages (${written.join(", ")}) + sitemap.xml`,
+  );
+}

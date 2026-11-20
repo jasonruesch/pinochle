@@ -16,6 +16,19 @@
 /** Canonical origin + base path, no trailing slash. */
 export const SITE_URL = "https://jasonruesch.dev/pinochle";
 
+/**
+ * Where these pages live now, no trailing slash. While this is set, the build
+ * publishes every route as a small page that forwards to the same route under
+ * this address, in place of the app (scripts/build-routes.mjs). Set it to null
+ * to publish the app here again.
+ */
+export const MOVED_TO: string | null = "https://jinxwood.com/games/pinochle";
+
+/** A route's new address: the same path under MOVED_TO, with a trailing slash. */
+export function movedUrl(path: string): string {
+  return path === "/" ? `${MOVED_TO}/` : `${MOVED_TO}${path}/`;
+}
+
 export interface PageSeo {
   /**
    * The whole <title>, written out — no site suffix is appended. Front-load the
