@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { AppLink } from "../_components/app-link";
-import { AppStoreBadge } from "../_components/app-store-badge";
+import { StoreBadges } from "../_components/store-badges";
 import { Card } from "../_components/card";
 import { DeviceFrame } from "../_components/device-frame";
 import { Eyebrow } from "../_components/eyebrow";
@@ -11,6 +11,8 @@ import {
   DEAL_POINTS,
   MELD_CLASSES,
   MELDS,
+  PLATFORM_LIST,
+  PLAY,
   RANK_ORDER,
   RULES_DISCLAIMER,
   RULES_FACTS,
@@ -18,6 +20,7 @@ import {
   RULES_TIPS,
   SHOTS,
   type MeldClass,
+  OPERATING_SYSTEMS,
 } from "../_lib/content";
 import { canonicalUrl, PAGES } from "../_lib/seo";
 import { useActiveSection } from "../_lib/use-active-section";
@@ -83,7 +86,7 @@ const SCHEMA = [
       "@type": "SoftwareApplication",
       name: APP.name,
       applicationCategory: "GameApplication",
-      operatingSystem: "iOS, iPadOS, macOS, tvOS",
+      operatingSystem: OPERATING_SYSTEMS,
     },
   },
   {
@@ -105,7 +108,7 @@ export default function HowToPlay() {
     <>
       {/* Intro — brand surface, so the badge is above the fold for a reader who
           arrived from search and is one click from the store. */}
-      <section className="from-brand-600 to-brand-800 relative isolate overflow-hidden bg-linear-to-br via-fuchsia-700 text-white">
+      <section className="from-brand-600 to-brand-950 relative isolate overflow-hidden bg-linear-to-br via-brand-800 text-white">
         <div
           aria-hidden
           className="pointer-events-none absolute -top-32 -right-24 h-96 w-96 rounded-full bg-white/15 blur-3xl"
@@ -125,10 +128,10 @@ export default function HowToPlay() {
             playoff after the stock is gone, and the race to 1,000.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-4">
-            <AppStoreBadge />
+            <StoreBadges page="learn" />
             <p className="max-w-xs text-sm text-white/80">
-              Let {APP.shortName} deal, score, and enforce every rule below on
-              iPhone, iPad, Mac, and Apple&nbsp;TV.
+              Let {APP.shortName} deal, score, and enforce every rule below on{" "}
+              {PLATFORM_LIST}.
             </p>
           </div>
         </div>
@@ -165,7 +168,7 @@ export default function HowToPlay() {
 
             <Card
               className="mt-8 hidden lg:block"
-              accent="from-brand-500 to-fuchsia-500"
+              accent="from-brand-500 to-accent-500"
             >
               <img
                 src={asset("img/app-icon.webp")}
@@ -174,12 +177,14 @@ export default function HowToPlay() {
                 className="h-12 w-12 rounded-[0.9rem] ring-1 ring-black/5 dark:ring-white/10"
               />
               <p className="mt-3 text-sm font-semibold text-zinc-900 dark:text-zinc-50">
-                Play it on your Apple devices
+                {PLAY.live
+                  ? "Play it on your phone, tablet, computer, or TV"
+                  : "Play it on your Apple devices"}
               </p>
               <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
                 Legal moves highlighted, melds suggested, scoring handled.
               </p>
-              <AppStoreBadge className="mt-4 scale-90 origin-left" />
+              <StoreBadges page="learn" className="mt-4 scale-90 origin-left" />
             </Card>
           </aside>
 
@@ -479,7 +484,7 @@ export default function HowToPlay() {
 
       {/* Closing CTA — mirrors the home page's, for readers who scrolled the
           whole ruleset and are the likeliest to install. */}
-      <section className="from-brand-600 to-brand-800 relative isolate overflow-hidden bg-linear-to-br via-fuchsia-700 text-white">
+      <section className="from-brand-600 to-brand-950 relative isolate overflow-hidden bg-linear-to-br via-brand-800 text-white">
         <div
           aria-hidden
           className="pointer-events-none absolute -top-24 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-white/10 blur-3xl"
@@ -489,11 +494,12 @@ export default function HowToPlay() {
             Now find someone to play
           </h2>
           <p className="mt-3 text-lg text-white/90">
-            Three AI opponents, online matches over Game Center, and SharePlay
-            over FaceTime — on iPhone, iPad, Mac, and Apple&nbsp;TV.
+            {PLAY.live
+              ? `Three AI opponents on ${PLATFORM_LIST} — plus online matches over Game Center and SharePlay over FaceTime on Apple devices.`
+              : "Three AI opponents, online matches over Game Center, and SharePlay over FaceTime — on iPhone, iPad, Mac, and Apple TV."}
           </p>
           <div className="mt-8">
-            <AppStoreBadge />
+            <StoreBadges page="learn" />
           </div>
         </div>
       </section>

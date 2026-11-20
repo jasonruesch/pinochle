@@ -1,19 +1,21 @@
-import { APP, STORE_URL } from "../_lib/content";
+import { APP, storeUrl, type StorePage } from "../_lib/content";
 import { AppleIcon } from "./icons";
 
 interface AppStoreBadgeProps {
   className?: string;
+  /** A custom product page instead of the main listing. */
+  page?: StorePage;
 }
 
 /**
  * Apple-style "Download on the App Store" badge linking to the live listing.
- * The URL comes from STORE_URL so the app id lives in exactly one place
- * (src/app/_lib/content.ts).
+ * The URL comes from storeUrl() so the app id lives in exactly one place
+ * (src/app/_lib/content.ts); `page` picks a custom product page.
  */
-export function AppStoreBadge({ className }: AppStoreBadgeProps) {
+export function AppStoreBadge({ className, page }: AppStoreBadgeProps) {
   return (
     <a
-      href={STORE_URL}
+      href={storeUrl(page)}
       target="_blank"
       rel="noopener noreferrer"
       aria-label={`Download ${APP.name} on the App Store`}

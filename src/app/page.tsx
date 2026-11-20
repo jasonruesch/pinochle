@@ -1,23 +1,28 @@
 import { AppLink } from "./_components/app-link";
-import { AppStoreBadge } from "./_components/app-store-badge";
+import { StoreBadges } from "./_components/store-badges";
 import { Button } from "./_components/button";
 import { Card } from "./_components/card";
 import { DeviceFrame } from "./_components/device-frame";
 import { Eyebrow } from "./_components/eyebrow";
 import { FeatureCard } from "./_components/feature-card";
 import {
+  AndroidIcon,
+  AndroidTVIcon,
   AppleTVIcon,
+  ChromebookIcon,
   IPadIcon,
   IPhoneIcon,
   MacIcon,
 } from "./_components/icons";
 import { ScreenshotGallery } from "./_components/screenshot-gallery";
+import { StickyGetBar } from "./_components/sticky-get-bar";
 import { VideoFrame } from "./_components/video-frame";
 import { asset } from "./_lib/asset";
 import {
   ACHIEVEMENTS,
   APP,
-  DESCRIPTION,
+  DOWNLOAD_FAQS,
+  REVIEWS,
   FEATURES,
   LEADERBOARDS,
   MELDS,
@@ -25,11 +30,16 @@ import {
   RULES,
   RULES_DISCLAIMER,
   SHOTS,
+  HERO_SHOT,
   STORE,
-  WHATS_NEW,
+  HERO,
   STORE_URL,
+  WHATS_NEW,
+  EARLIER_RELEASE,
   type Badge,
   type PlatformIcon,
+  OPERATING_SYSTEMS,
+  PLAY,
 } from "./_lib/content";
 import { usePageMeta } from "./_lib/use-page-meta";
 
@@ -41,9 +51,11 @@ const PLATFORM_ICONS: Record<
   ipad: IPadIcon,
   mac: MacIcon,
   appletv: AppleTVIcon,
+  android: AndroidIcon,
+  chromebook: ChromebookIcon,
+  androidtv: AndroidTVIcon,
 };
 
-const HERO_SHOT = SHOTS.find((s) => s.file === "iphone69-classic")!;
 const HINTS_SHOT = SHOTS.find((s) => s.file === "mac-hints")!;
 
 // Tells a crawler what the site is about in its own vocabulary: an app, on
@@ -57,7 +69,7 @@ const SCHEMA = [
     description: APP.subtitle,
     applicationCategory: "GameApplication",
     applicationSubCategory: "Card Game",
-    operatingSystem: "iOS, iPadOS, macOS, tvOS",
+    operatingSystem: OPERATING_SYSTEMS,
     softwareVersion: STORE.version,
     installUrl: STORE_URL,
     author: { "@type": "Person", name: "Jason Ruesch" },
@@ -72,7 +84,7 @@ export default function Home() {
           on purpose, as on the portfolio home page). */}
       <section
         id="top"
-        className="from-brand-600 to-brand-800 relative isolate overflow-hidden bg-linear-to-br via-fuchsia-700 text-white"
+        className="from-brand-600 to-brand-950 relative isolate overflow-hidden bg-linear-to-br via-brand-800 text-white"
       >
         <div
           aria-hidden
@@ -90,25 +102,40 @@ export default function Home() {
                 alt="Pinochle app icon"
                 className="h-16 w-16 rounded-[1.15rem] shadow-lg ring-1 ring-white/20"
               />
-              <p className="text-xs font-semibold tracking-[0.22em] text-white/90 uppercase">
-                {APP.category}
-              </p>
+              <div>
+                <p className="text-lg font-semibold">{APP.name}</p>
+                <p className="text-xs font-semibold tracking-[0.22em] text-white/80 uppercase">
+                  {APP.category}
+                </p>
+              </div>
             </div>
-            <h1 className="mt-6 text-4xl font-bold tracking-tight sm:text-6xl">
-              {APP.name}
+            <h1 className="mt-6 text-4xl font-bold tracking-tight text-balance sm:text-5xl">
+              {HERO.headline}
             </h1>
             <p className="mt-4 max-w-xl text-lg text-white/90 sm:text-xl">
-              {APP.subtitle}. {APP.promo}
+              {HERO.subhead}
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <AppStoreBadge />
-              <p className="text-sm text-white/80">
-                {APP.price}
-                <br />
-                {APP.age}
-              </p>
+              <StoreBadges />
+              <p className="text-sm text-white/80">{APP.age}</p>
             </div>
+
+            <ul className="mt-6 flex flex-col gap-2 text-sm font-medium text-white sm:text-base">
+              {HERO.trust.map((t) => (
+                <li key={t} className="flex items-center gap-2">
+                  <svg
+                    aria-hidden
+                    viewBox="0 0 20 20"
+                    className="h-5 w-5 flex-none text-white"
+                    fill="currentColor"
+                  >
+                    <path d="M8.1 13.6 4.5 10l-1.4 1.4 5 5 9-9-1.4-1.4z" />
+                  </svg>
+                  {t}
+                </li>
+              ))}
+            </ul>
 
             <ul className="mt-8 flex flex-wrap gap-2">
               {PLATFORMS.map((p) => {
@@ -137,63 +164,61 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Intro / description */}
-      <section className="px-safe-lg mx-auto max-w-3xl py-16 sm:py-20">
-        <div className="space-y-4 text-lg text-zinc-600 dark:text-zinc-400">
-          {DESCRIPTION.map((p) => (
-            <p key={p.slice(0, 24)}>{p}</p>
-          ))}
-        </div>
-        <Card accent="from-brand-500 to-fuchsia-500" className="mt-10">
-          <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">
-            New in {STORE.version}
-          </h2>
-          <ul className="mt-4 list-disc space-y-2 pl-5 text-zinc-600 marker:text-brand-500 dark:text-zinc-400">
-            {WHATS_NEW.map((item) => (
-              <li key={item.slice(0, 24)}>{item}</li>
-            ))}
-          </ul>
-        </Card>
-      </section>
-
-      {/* Gameplay video — the version 1.1 press-kit clip, straight after the
-          pitch so the first thing below the fold is the game moving. Shares
-          the intro's surface, so it drops its own top padding. */}
-      <section className="px-safe-lg mx-auto max-w-5xl pb-16 sm:pb-20">
+      {/* Gameplay video — the 2.0 press clip, straight after the hero so the
+          first thing below the fold is the game moving; What's New folds
+          under it for returning players. Its end card names the stores, so
+          the Google Play cut plays once Play is live (PLAY.live). */}
+      <section className="px-safe-lg mx-auto max-w-5xl py-16 sm:py-20">
         <Eyebrow className="mb-3">See it in action</Eyebrow>
         <h2 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-zinc-50">
           Deal, meld, play
         </h2>
         <p className="mt-4 max-w-2xl text-lg text-zinc-600 dark:text-zinc-400">
-          Twenty seconds of a real hand: the deal, the first tricks, and a meld
-          laid down for points.
+          A real hand with the cameo court cards and the new Medallion card
+          back: the deal, the first tricks, and a meld laid down for points.
         </p>
         <VideoFrame
-          src={asset("video/deal-and-meld.mp4")}
-          poster={asset("video/deal-and-meld-poster.webp")}
-          label="Gameplay video: a hand of two-handed pinochle being dealt, played, and melded against the computer"
+          src={asset(
+            PLAY.live
+              ? "video/pinochle-2.0-preview-play.mp4"
+              : "video/pinochle-2.0-preview.mp4",
+          )}
+          poster={asset("video/pinochle-2.0-preview-poster.webp")}
+          label="Gameplay video: a title card, then a hand of two-handed pinochle being dealt, played, and melded against the computer"
           className="mt-10"
         />
-      </section>
-
-      {/* Screenshots */}
-      <section
-        id="screenshots"
-        className="border-t border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900/40"
-      >
-        <div className="px-safe-lg mx-auto max-w-6xl py-16 sm:py-20">
-          <Eyebrow className="mb-3">Screenshots</Eyebrow>
-          <h2 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-zinc-50">
-            One deck, every screen
-          </h2>
-          <p className="mt-4 max-w-2xl text-lg text-zinc-600 dark:text-zinc-400">
-            The same beautiful minimal deck on iPhone, iPad, Mac, and the big
-            screen. Pick a device to take a look.
-          </p>
-          <div className="mt-10">
-            <ScreenshotGallery />
-          </div>
-        </div>
+        <Card accent="from-brand-500 to-accent-500" className="mt-10">
+          {/* Folded by default: most visitors are new, and a changelog reads as
+              noise before they know the game; returning players open it. */}
+          <details className="group">
+            <summary className="flex cursor-pointer list-none items-center justify-between text-lg font-semibold text-zinc-900 dark:text-zinc-50">
+              <h2>What's new in {STORE.version}</h2>
+              <span
+                aria-hidden
+                className="text-brand-500 transition-transform group-open:rotate-45"
+              >
+                +
+              </span>
+            </summary>
+            <ul className="mt-4 list-disc space-y-2 pl-5 text-zinc-600 marker:text-brand-500 dark:text-zinc-400">
+              {WHATS_NEW.map((item) => (
+                <li key={item.slice(0, 24)}>{item}</li>
+              ))}
+            </ul>
+            {EARLIER_RELEASE && (
+              <>
+                <h3 className="mt-6 text-sm font-semibold text-zinc-900 dark:text-zinc-50">
+                  And in {EARLIER_RELEASE.version}
+                </h3>
+                <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-zinc-600 marker:text-brand-500 dark:text-zinc-400">
+                  {EARLIER_RELEASE.items.map((item) => (
+                    <li key={item.slice(0, 24)}>{item}</li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </details>
+        </Card>
       </section>
 
       {/* Features */}
@@ -212,6 +237,105 @@ export default function Home() {
           {FEATURES.map((feature) => (
             <FeatureCard key={feature.title} feature={feature} />
           ))}
+        </div>
+      </section>
+
+      {/* Screenshots */}
+      <section
+        id="screenshots"
+        className="border-t border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900/40"
+      >
+        <div className="px-safe-lg mx-auto max-w-6xl py-16 sm:py-20">
+          <Eyebrow className="mb-3">Screenshots</Eyebrow>
+          <h2 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-zinc-50">
+            One deck, every screen
+          </h2>
+          <p className="mt-4 max-w-2xl text-lg text-zinc-600 dark:text-zinc-400">
+            {PLAY.live
+              ? "The new look and cameo court cards on Apple and Android phones, tablets, computers, and the big screen."
+              : "The new look and cameo court cards on iPhone, iPad, Mac, and the big screen."}{" "}
+            Pick a device to take a look.
+          </p>
+          <div className="mt-10">
+            <ScreenshotGallery />
+          </div>
+        </div>
+      </section>
+
+      {/* Reviews — only once there are real ones to show (REVIEWS). */}
+      {REVIEWS.length > 0 && (
+        <section className="px-safe-lg mx-auto max-w-6xl py-16 sm:py-20">
+          <Eyebrow className="mb-3">Reviews</Eyebrow>
+          <h2 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-zinc-50">
+            What players say
+          </h2>
+          <ul className="mt-10 grid gap-4 md:grid-cols-3">
+            {REVIEWS.map((r) => (
+              <li key={r.author + r.quote.slice(0, 16)}>
+                <Card>
+                  <p
+                    className="text-accent-500"
+                    aria-label={`${r.stars} out of 5 stars`}
+                  >
+                    {"★".repeat(r.stars)}
+                    <span className="text-zinc-300 dark:text-zinc-700">
+                      {"★".repeat(5 - r.stars)}
+                    </span>
+                  </p>
+                  <blockquote className="mt-3 text-zinc-700 dark:text-zinc-300">
+                    “{r.quote}”
+                  </blockquote>
+                  <p className="mt-3 text-sm font-medium text-zinc-500">
+                    {r.author}, App Store review
+                  </p>
+                </Card>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {/* Before you download — the questions that stop a visitor short of the
+          badge, answered where they'd ask them. */}
+      <section
+        id="faq"
+        className="scroll-mt-24 border-t border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-brand-900/30"
+      >
+        <div className="px-safe-lg mx-auto max-w-6xl py-16 sm:py-20">
+          <Eyebrow className="mb-3">Before you download</Eyebrow>
+          <h2 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-zinc-50">
+            Good questions
+          </h2>
+          <div className="mt-10 grid gap-4 md:grid-cols-2">
+            {DOWNLOAD_FAQS.map((faq) => (
+              <Card key={faq.question}>
+                <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-50">
+                  {faq.question}
+                </h3>
+                <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+                  {faq.answer}
+                  {faq.link && (
+                    <>
+                      {" "}
+                      {faq.link.href.startsWith("/") ? (
+                        <AppLink to={faq.link.href}>{faq.link.label}</AppLink>
+                      ) : (
+                        <AppLink href={faq.link.href} variant="external">
+                          {faq.link.label}
+                        </AppLink>
+                      )}
+                    </>
+                  )}
+                </p>
+              </Card>
+            ))}
+          </div>
+          <div className="mt-10 flex flex-wrap items-center gap-4">
+            <StoreBadges />
+            <p className="text-sm text-zinc-600 dark:text-zinc-400">
+              {HERO.trust[0]} · {HERO.trust[1]}
+            </p>
+          </div>
         </div>
       </section>
 
@@ -296,13 +420,16 @@ export default function Home() {
       {/* Achievements & leaderboards */}
       <section className="px-safe-lg mx-auto max-w-6xl py-16 sm:py-20">
         <div id="achievements" className="scroll-mt-24">
-          <Eyebrow className="mb-3">Game Center</Eyebrow>
+          <Eyebrow className="mb-3">
+            {PLAY.live ? "Game Center & Google Play Games" : "Game Center"}
+          </Eyebrow>
           <h2 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-zinc-50">
             Fifteen achievements to chase
           </h2>
           <p className="mt-4 max-w-2xl text-lg text-zinc-600 dark:text-zinc-400">
-            Rack up wins, streaks, and legendary hands — all tracked on Game
-            Center leaderboards.
+            {PLAY.live
+              ? "Rack up wins, streaks, and legendary hands — tracked on Game Center leaderboards, and on Google Play Games on Android."
+              : "Rack up wins, streaks, and legendary hands — all tracked on Game Center leaderboards."}
           </p>
         </div>
 
@@ -315,7 +442,7 @@ export default function Home() {
       </section>
 
       {/* Final CTA */}
-      <section className="from-brand-600 to-brand-800 relative isolate overflow-hidden bg-linear-to-br via-fuchsia-700 text-white">
+      <section className="from-brand-600 to-brand-950 relative isolate overflow-hidden bg-linear-to-br via-brand-800 text-white">
         <div
           aria-hidden
           className="pointer-events-none absolute -top-24 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-white/10 blur-3xl"
@@ -326,7 +453,7 @@ export default function Home() {
           </h2>
           <p className="mt-3 text-lg text-white/90">{APP.closer}</p>
           <div className="mt-8">
-            <AppStoreBadge />
+            <StoreBadges />
           </div>
           <ul className="mt-8 flex flex-wrap justify-center gap-2">
             {PLATFORMS.map((p) => {
@@ -344,6 +471,9 @@ export default function Home() {
           </ul>
         </div>
       </section>
+      {/* Room for the phone bar, so it never covers the page's last lines. */}
+      <div aria-hidden className="h-20 md:hidden" />
+      <StickyGetBar watchId="top" />
     </>
   );
 }

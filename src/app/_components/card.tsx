@@ -3,7 +3,7 @@ import { Link, type LinkProps } from "react-router";
 
 interface CommonProps {
   interactive?: boolean;
-  /** Tailwind gradient classes for the optional top accent strip, e.g. "from-brand-500 to-fuchsia-500". */
+  /** Tailwind gradient classes for the optional top accent strip, e.g. "from-brand-500 to-accent-500". */
   accent?: string;
   className?: string;
   children: ReactNode;

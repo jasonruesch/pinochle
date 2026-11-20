@@ -48,21 +48,52 @@ await mkdir(join(pub, "img"), { recursive: true });
 
 let count = 0;
 
-// Screenshots: cap the long edge at 1600px, webp quality 78. Landscape shots,
-// so this keeps them crisp on retina while cutting 0.5–1.5 MB PNGs to ~100 KB.
+// Screenshots: cap the long edge at 1200px — the gallery shows them at most
+// ~560 CSS px wide, so that is still crisp on a 2x screen.
+//
+// The felt is a shallow gradient the game dithers to keep it from banding into
+// concentric rings. Two things would undo that: an 8-bit resize (it averages
+// the noise away and rounds the gradient back into steps) and lossy WebP (it
+// flattens smooth areas, whatever the quality). So: resize in 16 bits, dither
+// back down to 8 with the game's own noise, and save near-lossless.
+// ~200–500 KB a shot instead of ~40 KB, but no rings.
+async function ditheredShot(input, output) {
+  const { data, info } = await sharp(input)
+    .removeAlpha()
+    .pipelineColourspace("rgb16")
+    .toColourspace("rgb16")
+    .resize({
+      width: 1200,
+      height: 1200,
+      fit: "inside",
+      withoutEnlargement: true,
+    })
+    .raw({ depth: "ushort" })
+    .toBuffer({ resolveWithObject: true });
+  const px = new Uint16Array(data.buffer, data.byteOffset, data.length / 2);
+  const out = Buffer.alloc(info.width * info.height * 3);
+  for (let y = 0, i = 0; y < info.height; y++)
+    for (let x = 0; x < info.width; x++) {
+      // Interleaved gradient noise (Jimenez), as in the app's FeltGlow shader.
+      const f = 52.9829189 * ((0.06711056 * x + 0.00583715 * y) % 1);
+      const n = f - Math.floor(f) - 0.5;
+      for (let c = 0; c < 3; c++, i++)
+        out[i] = Math.max(0, Math.min(255, Math.round(px[i] / 257 + n)));
+    }
+  await sharp(out, {
+    raw: { width: info.width, height: info.height, channels: 3 },
+  })
+    .webp({ nearLossless: true, quality: 60, effort: 6 })
+    .toFile(output);
+}
+
 if (existsSync(shotsSrc)) {
   const files = (await readdir(shotsSrc)).filter((f) => f.endsWith(".png"));
   for (const file of files) {
-    const out = join(shotsOut, file.replace(/\.png$/, ".webp"));
-    await sharp(join(shotsSrc, file))
-      .resize({
-        width: 1600,
-        height: 1600,
-        fit: "inside",
-        withoutEnlargement: true,
-      })
-      .webp({ quality: 78 })
-      .toFile(out);
+    await ditheredShot(
+      join(shotsSrc, file),
+      join(shotsOut, file.replace(/\.png$/, ".webp")),
+    );
     count++;
   }
   console.log(`  shots:  ${files.length} -> img/shots/*.webp`);

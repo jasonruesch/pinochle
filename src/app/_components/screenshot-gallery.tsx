@@ -35,7 +35,15 @@ export function ScreenshotGallery() {
         })}
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2">
+      {/* Upright shots (the iPhone tab, 2.0) sit three across — two would make
+          each frame a whole screen tall. */}
+      <div
+        className={
+          shots[0] && shots[0].ratio < 1
+            ? "grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3"
+            : "grid gap-6 sm:grid-cols-2"
+        }
+      >
         {shots.map((shot) => (
           <DeviceFrame key={shot.file} shot={shot} />
         ))}
