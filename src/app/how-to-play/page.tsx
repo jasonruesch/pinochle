@@ -111,7 +111,7 @@ export default function HowToPlay() {
       <section className="from-brand-600 to-brand-950 relative isolate overflow-hidden bg-linear-to-br via-brand-800 text-white">
         <div
           aria-hidden
-          className="pointer-events-none absolute -top-32 -right-24 h-96 w-96 rounded-full bg-white/15 blur-3xl"
+          className="glow text-white/15 pointer-events-none absolute -top-32 -right-24 h-96 w-96"
         />
         <div className="px-safe-lg relative mx-auto max-w-6xl py-16 sm:py-20">
           <p className="text-xs font-semibold tracking-[0.18em] text-white/90 uppercase">
@@ -487,7 +487,7 @@ export default function HowToPlay() {
       <section className="from-brand-600 to-brand-950 relative isolate overflow-hidden bg-linear-to-br via-brand-800 text-white">
         <div
           aria-hidden
-          className="pointer-events-none absolute -top-24 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-white/10 blur-3xl"
+          className="glow text-white/10 pointer-events-none absolute -top-24 left-1/2 h-80 w-80 -translate-x-1/2"
         />
         <div className="px-safe-lg relative mx-auto flex max-w-3xl flex-col items-center py-16 text-center sm:py-20">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">

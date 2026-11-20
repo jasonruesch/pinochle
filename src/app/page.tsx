@@ -88,11 +88,11 @@ export default function Home() {
       >
         <div
           aria-hidden
-          className="pointer-events-none absolute -top-32 -right-24 h-96 w-96 rounded-full bg-white/15 blur-3xl"
+          className="glow text-white/15 pointer-events-none absolute -top-32 -right-24 h-96 w-96"
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute -bottom-40 -left-24 h-96 w-96 rounded-full bg-black/10 blur-3xl"
+          className="glow text-black/10 pointer-events-none absolute -bottom-40 -left-24 h-96 w-96"
         />
         <div className="px-safe-lg relative mx-auto grid max-w-6xl items-center gap-12 py-20 sm:py-28 lg:grid-cols-2">
           <div>
@@ -445,7 +445,7 @@ export default function Home() {
       <section className="from-brand-600 to-brand-950 relative isolate overflow-hidden bg-linear-to-br via-brand-800 text-white">
         <div
           aria-hidden
-          className="pointer-events-none absolute -top-24 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-white/10 blur-3xl"
+          className="glow text-white/10 pointer-events-none absolute -top-24 left-1/2 h-80 w-80 -translate-x-1/2"
         />
         <div className="px-safe-lg relative mx-auto flex max-w-3xl flex-col items-center py-20 text-center sm:py-24">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
